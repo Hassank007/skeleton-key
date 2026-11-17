@@ -1,0 +1,3 @@
+﻿Implement every unchecked task in .kiro/specs/new-app-script/tasks.md in order.
+Follow every file in .kiro/steering/ exactly. Mark each task "- [x]" in the spec's tasks.md as you finish it.
+When done (or if you stop early), run the relevant checks (npm run lint, npx tsc --noEmit, npm test, and the Playwright tests where they exist) in every folder you changed, fix every failure, and reply with: tasks completed, test counts, command results, and anything unfinished and why.

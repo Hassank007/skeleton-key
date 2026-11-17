@@ -1,0 +1,8 @@
+﻿Create a Kiro spec named "a11y-mcp" (requirements.md in EARS notation, design.md, tasks.md; do not implement) for a custom Model Context Protocol server in mcp/a11y-mcp/ (Node + TypeScript, official @modelcontextprotocol/sdk, stdio transport) that Kiro can call to check a running app. Tools:
+- audit_page(url, wcagLevel="AA"): loads the page in headless Chromium (Playwright) and runs axe-core with WCAG 2.2 AA tags; returns violations grouped by WCAG criterion with selectors.
+- keyboard_walk(url, maxSteps=50): presses Tab repeatedly and returns the ordered list of focused elements (role, accessible name, visible focus yes/no), detecting keyboard traps and elements with no visible focus.
+- check_contrast(foreground, background, fontSizePx, bold): returns the ratio and pass/fail for AA normal/large text and non-text.
+- page_outline(url): returns title, lang, landmarks and heading outline.
+Register the server for this project in Kiro's MCP config (official location/format), document it in mcp/a11y-mcp/README.md, and include unit tests for each tool against a tiny local fixture page with known violations.
+Follow every file in .kiro/steering/ exactly. Mark each task "- [x]" in the spec's tasks.md as you finish it.
+When done (or if you stop early), run the relevant checks (npm run lint, npx tsc --noEmit, npm test, and the Playwright tests where they exist) in every folder you changed, fix every failure, and reply with: tasks completed, test counts, command results, and anything unfinished and why.

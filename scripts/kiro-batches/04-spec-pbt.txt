@@ -1,0 +1,8 @@
+﻿Create a Kiro spec named "a11y-pbt" (requirements.md in EARS notation, design.md, tasks.md; do not implement) for property-based accessibility tests in skeleton/ using fast-check with Vitest. Properties to prove:
+1. Contrast: for every text/background token pair the theme system can produce (both themes, all text tokens on all surface tokens they are allowed on), contrast >= 4.5:1; UI and focus-ring tokens >= 3:1. Include a small WCAG relative-luminance utility with its own example-based tests.
+2. Field: for any generated combination of label text, hint, error, required flag and input type, the rendered control has an accessible name equal to its visible label, aria-describedby references exactly the existing hint/error ids, aria-invalid is "true" only when an error exists, and axe reports zero violations.
+3. Dialog: for any generated number (1–10) and mix of focusable children, Tab and Shift+Tab never move focus outside the dialog, and closing returns focus to the trigger.
+4. Tabs: for any generated tab count (1–12) and any sequence of ArrowLeft/ArrowRight/Home/End presses, exactly one tab is selected, it is the only one with tabindex 0, and its panel is the only visible one.
+Each property runs at least 100 cases (contrast: exhaustive). Explain in design.md what each property protects that example tests cannot.
+Follow every file in .kiro/steering/ exactly. Mark each task "- [x]" in the spec's tasks.md as you finish it.
+When done (or if you stop early), run the relevant checks (npm run lint, npx tsc --noEmit, npm test, and the Playwright tests where they exist) in every folder you changed, fix every failure, and reply with: tasks completed, test counts, command results, and anything unfinished and why.

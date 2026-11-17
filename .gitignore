@@ -9,3 +9,7 @@ test-results/
 .DS_Store
 *.log
 # NOTE: never ignore .kiro/ — the hackathon requires it in the repo
+
+# Kiro batch runner output (local only)
+scripts/kiro-batches/logs/
+scripts/kiro-batches/.done/
