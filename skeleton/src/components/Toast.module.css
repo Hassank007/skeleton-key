@@ -1,0 +1,77 @@
+/* Toast — visual notification stack */
+
+.region {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: min(90vw, 24rem);
+  pointer-events: none; /* let clicks through the gap */
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  pointer-events: all;
+  /* Slide up entrance */
+  animation: toastIn var(--duration-normal) var(--easing-default);
+}
+
+.noMotion {
+  animation: none;
+}
+
+@keyframes toastIn {
+  from {
+    transform: translateY(0.5rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.message {
+  flex: 1;
+}
+
+.dismiss {
+  /* Reset */
+  appearance: none;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  min-width: 28px;
+  min-height: 28px;
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) var(--easing-default),
+              color var(--duration-fast) var(--easing-default);
+}
+
+.dismiss:hover {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.dismiss:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

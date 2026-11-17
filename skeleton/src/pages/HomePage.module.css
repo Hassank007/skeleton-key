@@ -1,0 +1,22 @@
+/* HomePage decorative art */
+.decorativeGhost {
+  display: block;
+  width: 4rem;
+  height: 5rem;
+  color: var(--color-accent);
+  margin: var(--space-4) 0;
+  /* Stop animation entirely when reduced motion is on */
+  animation: ghost-float var(--duration-normal, 3s) ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes ghost-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* When reduced-motion is active the token override kills the animation */
+[data-reduced-motion='true'] .decorativeGhost {
+  animation: none;
+}

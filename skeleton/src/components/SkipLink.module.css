@@ -1,0 +1,30 @@
+/* SkipLink — visually hidden until focused; snaps to top of viewport on focus */
+.skipLink {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 9999;
+
+  /* Visually hidden by default */
+  transform: translateY(-200%);
+  opacity: 0;
+
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-surface-raised);
+  color: var(--color-link);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-decoration: underline;
+  transition:
+    transform var(--duration-fast) var(--easing-default),
+    opacity var(--duration-fast) var(--easing-default);
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+  opacity: 1;
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

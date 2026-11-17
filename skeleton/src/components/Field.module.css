@@ -1,0 +1,46 @@
+/* Field — layout and typography for label, hint, input area, and error */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.required {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.hint {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.error {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  /* --color-error on --color-surface ≈ 7:1 — meets 4.5:1 body text minimum */
+  color: var(--color-error);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+/* "Error: " prefix is visually part of the message; screen readers also read it */
+.errorPrefix {
+  font-weight: 700;
+}

@@ -1,0 +1,64 @@
+/*
+ * Design tokens — dark theme overrides (Kiroween dark palette)
+ * Active when: OS is in dark mode OR [data-theme="dark"] is set on <html>.
+ * All text/background pairs maintain the same WCAG contrast ratios as the light theme.
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ── Colour: surface ──────────────────────────────────────────── */
+    --color-surface: #0f0a1a;          /* deep near-black purple      */
+    --color-surface-raised: #1e1030;   /* slightly elevated surface   */
+
+    /* ── Colour: content ──────────────────────────────────────────── */
+    /* #f0e6ff on #0f0a1a ≈ 15:1 */
+    --color-text: #f0e6ff;
+    /* #c4b0e8 on #0f0a1a ≈ 7:1 */
+    --color-text-muted: #c4b0e8;
+    /* #ffffff on #9333ea ≈ 5.5:1 */
+    --color-text-on-accent: #ffffff;
+
+    /* ── Colour: link ─────────────────────────────────────────────── */
+    /* #c084fc on #0f0a1a ≈ 7.43:1 — meets 4.5:1 body text minimum (WCAG 1.4.3).
+       --color-accent (#9333ea) is only 3.62:1 on this surface and MUST NOT be
+       used for link text in dark mode. Use --color-link instead. */
+    --color-link: #c084fc;
+    --color-link-hover: #d8b4fe;
+
+    /* ── Colour: accent ───────────────────────────────────────────── */
+    --color-accent: #9333ea;           /* for UI components only (3.62:1) — NOT for text */
+    --color-accent-hover: #a855f7;
+
+    /* ── Colour: feedback ─────────────────────────────────────────── */
+    /* #fca5a5 on #0f0a1a ≈ 7:1 */
+    --color-error: #fca5a5;
+    /* #86efac on #0f0a1a ≈ 10:1 */
+    --color-success: #86efac;
+    /* #fcd34d on #0f0a1a ≈ 10:1 */
+    --color-warning: #fcd34d;
+
+    /* ── Colour: UI chrome ────────────────────────────────────────── */
+    /* #a78bfa on #0f0a1a ≈ 7:1 — meets 3:1 UI minimum */
+    --color-border: #a78bfa;
+    /* #818cf8 on #0f0a1a ≈ 7:1 — meets 3:1 focus ring minimum */
+    --color-focus-ring: #818cf8;
+  }
+}
+
+/* Manual dark-theme toggle — overrides the media query */
+[data-theme='dark'] {
+  --color-surface: #0f0a1a;
+  --color-surface-raised: #1e1030;
+  --color-text: #f0e6ff;
+  --color-text-muted: #c4b0e8;
+  --color-text-on-accent: #ffffff;
+  --color-link: #c084fc;
+  --color-link-hover: #d8b4fe;
+  --color-accent: #9333ea;
+  --color-accent-hover: #a855f7;
+  --color-error: #fca5a5;
+  --color-success: #86efac;
+  --color-warning: #fcd34d;
+  --color-border: #a78bfa;
+  --color-focus-ring: #818cf8;
+}
