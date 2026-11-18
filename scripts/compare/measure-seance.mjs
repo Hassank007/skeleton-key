@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(new URL('../../apps/seance/package.json', import.meta.url));
 const { chromium } = require('@playwright/test');
 const { AxeBuilder } = require('@axe-core/playwright');
+import * as X from './extra-checks.mjs';
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const BASE = process.argv[2] ?? 'https://hassank007.github.io/skeleton-key/seance/';
@@ -27,7 +28,9 @@ const focused = () => page.evaluate(() => {
   const name = el.getAttribute('aria-label') || el.labels?.[0]?.textContent?.trim() || el.textContent?.trim().slice(0, 40) || '';
   return `${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''} "${name}"`;
 });
-const check = (name, pass, detail) => report.checks.push({ name, pass, detail });
+const check = (name, pass, detail, group = 'Keyboard and focus') => report.checks.push({ group, name, pass, detail });
+const x = (name, group, r) => check(name, r.pass, r.detail, group);
+const contrast = [];
 
 await page.goto(BASE);
 await page.waitForTimeout(800);
@@ -38,6 +41,7 @@ check('First Tab stop is a skip link', /skip/i.test(first), first);
 await page.getByRole('link', { name: /start booking/i }).click();
 await page.waitForTimeout(800);
 await scan('Step 1: choose a spirit');
+x('Decorative emoji hidden from screen readers', 'Screen reader', await X.emojiHidden(page));
 
 
 // Submit step 1 empty: where does focus go, how are errors announced?
@@ -45,24 +49,34 @@ await page.getByRole('button', { name: /^next$/i }).click();
 await page.waitForTimeout(300);
 const alerts = await page.locator('[role=alert]').count();
 check('Empty submit: focus moves to the error or error summary', !/button/.test(await focused()), await focused());
-check('Errors announced once (not several competing alerts)', alerts <= 1, `${alerts} role=alert element(s)`);
+check('Errors announced once (not several competing alerts)', alerts <= 1, `${alerts} role=alert element(s)`, 'Screen reader');
 await scan('Step 1: after empty submit (errors shown)');
+x('Spirit group is linked to its error message', 'Screen reader', await X.groupErrorLinked(page, 'spirit'));
 
 // Choose a spirit with the keyboard and continue
 await page.locator('input[name=spirit]').first().focus();
 await page.keyboard.press('Space');
+x('Chosen spirit shown by more than colour', 'Vision', await X.selectionNotColourOnly(page, 'spirit'));
+contrast.push(await X.textContrast(page));
 await page.getByRole('button', { name: /^next$/i }).click();
 await page.waitForTimeout(700);
 const afterStep = await focused();
 check('Step change moves focus to the new step heading', /^h[1-6]|legend|fieldset/.test(afterStep), afterStep);
 const title2 = await page.title();
-check('Page title says which step you are on', /step|2|date|time/i.test(title2), title2);
+check('Page title says which step you are on', /step|2|date|time/i.test(title2), title2, 'Screen reader');
 await scan('Step 2: date and time');
+x('Each step has its own heading', 'Screen reader', await X.stepHeading(page, /date|time|when/i));
+const yday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+await page.getByLabel(/^date/i).fill(yday);
+await page.getByRole('button', { name: /^next$/i }).click();
+await page.waitForTimeout(400);
+x('Past-date error says how to fix it', 'Wording', await X.errorSuggestsFix(page, /today|tomorrow|later|onwards|future|after/i));
 
 // Step 2
 const d = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
 await page.getByLabel(/^date/i).fill(d);
 await page.getByLabel(/^time/i).fill('21:00');
+contrast.push(await X.textContrast(page));
 await page.getByRole('button', { name: /^next$/i }).click();
 await page.waitForTimeout(700);
 await scan('Step 3: your details');
@@ -71,6 +85,9 @@ await scan('Step 3: your details');
 await page.getByLabel(/full name/i).fill('Ada Lovelace');
 await page.getByLabel(/email address/i).fill('ada@example.com');
 await page.getByLabel(/phone number/i).fill('+44 20 7946 0000');
+x('Input borders visible (3:1)', 'Vision', await X.inputBoundaries(page));
+x('Text fields show an outline on focus', 'Vision', await X.inputFocusOutline(page.getByLabel(/full name/i)));
+contrast.push(await X.textContrast(page));
 const reviewBtn = page.getByRole('button', { name: /review/i });
 await reviewBtn.click();
 await page.waitForTimeout(500);
@@ -93,6 +110,17 @@ if (open === 0) {
   check('Dialog: focus returns to the button that opened it', /review/i.test(back), back);
 }
 
+// Book it: is success announced, does the title change?
+if (!(await page.locator('dialog[open], [role=dialog]').count())) { await reviewBtn.click(); await page.waitForTimeout(500); }
+const live = await X.liveRegionIds(page);
+await page.locator('dialog[open], [role=dialog]').getByRole('button', { name: /book my s/i }).click();
+await page.waitForTimeout(2500);
+x('Booking success is announced', 'Screen reader', await X.successAnnounced(page, live, /booked/i));
+const doneTitle = await page.title();
+check('Page title changes on success', /booked|confirm|success/i.test(doneTitle), doneTitle, 'Screen reader');
+const bad = contrast.filter((c) => !c.pass);
+check('All text meets contrast (4.5:1, 3:1 large), incl. gradients and selected states', bad.length === 0, bad.length ? bad.map((c) => c.detail).join(' | ') : 'all text passes on steps 1-3', 'Vision');
+
 // Motion
 const motionCtx = await browser.newContext({ reducedMotion: 'reduce' });
 const mp = await motionCtx.newPage();
@@ -100,9 +128,12 @@ await mp.goto(BASE);
 
 await mp.waitForTimeout(500);
 const running = await mp.evaluate(() => document.getAnimations().filter((a) => a.playState === 'running').length);
-check('Reduced motion respected (no running animations)', running === 0, `${running} animation(s) running with prefers-reduced-motion: reduce`);
+check('Reduced motion respected (no running animations)', running === 0, `${running} animation(s) running with prefers-reduced-motion: reduce`, 'Motion');
 const toggle = await mp.getByRole('button', { name: /motion|animation/i }).count();
-check('On-page control to stop motion (WCAG 2.2.2)', toggle > 0, toggle ? 'present' : 'none');
+check('On-page control to stop motion (WCAG 2.2.2)', toggle > 0, toggle ? 'present' : 'none', 'Motion');
 
 await browser.close();
+report.summary = {};
+for (const c of report.checks) { const g = (report.summary[c.group] ??= { passed: 0, total: 0 }); g.total++; if (c.pass) g.passed++; }
+report.summary.ALL = { passed: report.checks.filter((c) => c.pass).length, total: report.checks.length };
 console.log(JSON.stringify(report, null, 2));
