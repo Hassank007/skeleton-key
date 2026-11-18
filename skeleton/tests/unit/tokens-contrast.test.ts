@@ -13,7 +13,7 @@ describe('primary button text contrast', () => {
     ['dark', darkCss],
   ]) {
     for (const name of ['color-accent', 'color-accent-hover']) {
-      it(`${label} ${name} gives white text at least 4.5:1`, () => {
+      it(`${label} ${name} gives white text at least 4.5:1 [SC 1.4.3]`, () => {
         const values = tokens(file, name);
         expect(values.length).toBeGreaterThan(0);
         for (const v of values) expect(contrastRatio('#ffffff', v)).toBeGreaterThanOrEqual(4.5);

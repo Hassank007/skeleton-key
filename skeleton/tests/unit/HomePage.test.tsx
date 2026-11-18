@@ -24,7 +24,7 @@ describe('HomePage', () => {
     expect(screen.getByRole('heading', { level: 1 })).toBeDefined()
   })
 
-  it('decorative ghost SVG has aria-hidden="true" and is not in the accessibility tree', () => {
+  it('decorative ghost SVG has aria-hidden="true" and is not in the accessibility tree [SC 1.1.1]', () => {
     const { container } = renderHomePage()
     // All SVG elements on the page must be aria-hidden (they are decorative)
     const svgs = container.querySelectorAll('svg')
@@ -33,7 +33,7 @@ describe('HomePage', () => {
     })
   })
 
-  it('decorative SVG carries no meaningful alt text or title', () => {
+  it('decorative SVG carries no meaningful alt text or title [SC 1.1.1]', () => {
     const { container } = renderHomePage()
     const titles = container.querySelectorAll('svg title')
     expect(titles.length).toBe(0)

@@ -1,0 +1,15 @@
+{
+  "numTotalTests": 3,
+  "testResults": [
+    {
+      "name": "tests/unit/Button.test.tsx",
+      "status": "passed",
+      "assertionResults": [
+        { "fullName": "Button has an accessible name [SC 4.1.2]", "status": "passed" },
+        { "fullName": "Field shows an error [SC 3.3.1]", "status": "failed" },
+        { "fullName": "Field hint todo [SC 3.3.2]", "status": "pending" },
+        { "fullName": "Button renders", "status": "passed" }
+      ]
+    }
+  ]
+}

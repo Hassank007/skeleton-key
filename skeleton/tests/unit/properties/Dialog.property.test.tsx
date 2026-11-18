@@ -103,7 +103,7 @@ function Harness({ items, dialogTitle }: { items: Array<{ kind: FocusableKind | 
 
 describe('Dialog property', () => {
   it(
-    'keeps focus inside while open and returns it to the trigger on close',
+    'keeps focus inside while open and returns it to the trigger on close [SC 2.4.3, 4.1.2]',
     async () => {
       await checkProperty(scenario, async (c) => {
         // The app root is what Dialog makes inert; mimic index.html.

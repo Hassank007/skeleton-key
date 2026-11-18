@@ -1,0 +1,30 @@
+﻿/* Candle: a slow, gentle flicker (about 0.4 per second, never a flash) */
+.candle {
+  display: block;
+  width: 2rem;
+  height: 4rem;
+  color: var(--color-accent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.flame {
+  transform-origin: 50% 90%;
+  animation: flicker 2.4s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1, 1); opacity: 1; }
+  35%      { transform: scale(0.94, 1.05); opacity: 0.85; }
+  70%      { transform: scale(1.04, 0.96); opacity: 0.95; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame {
+    animation: none;
+  }
+}
+
+[data-reduced-motion='true'] .flame {
+  animation: none;
+}

@@ -28,13 +28,13 @@ describe('Tabs', () => {
     expect(results).toHaveNoViolations()
   })
 
-  it('the first tab is selected by default', () => {
+  it('the first tab is selected by default [SC 4.1.2]', () => {
     render(<ThreeTabs />)
     const spellsTab = screen.getByRole('tab', { name: 'Spells' })
     expect(spellsTab.getAttribute('aria-selected')).toBe('true')
   })
 
-  it('non-selected tabs have aria-selected="false"', () => {
+  it('non-selected tabs have aria-selected="false" [SC 4.1.2]', () => {
     render(<ThreeTabs />)
     expect(screen.getByRole('tab', { name: 'Potions' }).getAttribute('aria-selected')).toBe('false')
     expect(screen.getByRole('tab', { name: 'Tomes' }).getAttribute('aria-selected')).toBe('false')
@@ -53,7 +53,7 @@ describe('Tabs', () => {
     expect(tomesPanel?.hasAttribute('hidden')).toBe(true)
   })
 
-  it('ArrowRight moves focus to the next tab and activates it', async () => {
+  it('ArrowRight moves focus to the next tab and activates it [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const spellsTab = screen.getByRole('tab', { name: 'Spells' })
@@ -64,7 +64,7 @@ describe('Tabs', () => {
     expect(potionsTab.getAttribute('aria-selected')).toBe('true')
   })
 
-  it('ArrowLeft moves focus to the previous tab and activates it', async () => {
+  it('ArrowLeft moves focus to the previous tab and activates it [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const potionsTab = screen.getByRole('tab', { name: 'Potions' })
@@ -75,7 +75,7 @@ describe('Tabs', () => {
     expect(spellsTab.getAttribute('aria-selected')).toBe('true')
   })
 
-  it('ArrowRight wraps from last to first tab', async () => {
+  it('ArrowRight wraps from last to first tab [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const tomesTab = screen.getByRole('tab', { name: 'Tomes' })
@@ -85,7 +85,7 @@ describe('Tabs', () => {
     expect(document.activeElement).toBe(spellsTab)
   })
 
-  it('ArrowLeft wraps from first to last tab', async () => {
+  it('ArrowLeft wraps from first to last tab [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const spellsTab = screen.getByRole('tab', { name: 'Spells' })
@@ -95,7 +95,7 @@ describe('Tabs', () => {
     expect(document.activeElement).toBe(tomesTab)
   })
 
-  it('Home moves focus to the first tab', async () => {
+  it('Home moves focus to the first tab [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const tomesTab = screen.getByRole('tab', { name: 'Tomes' })
@@ -105,7 +105,7 @@ describe('Tabs', () => {
     expect(document.activeElement).toBe(spellsTab)
   })
 
-  it('End moves focus to the last tab', async () => {
+  it('End moves focus to the last tab [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(<ThreeTabs />)
     const spellsTab = screen.getByRole('tab', { name: 'Spells' })
@@ -123,7 +123,7 @@ describe('Tabs', () => {
     expect(screen.getByRole('tabpanel', { name: 'Potions' }).hasAttribute('hidden')).toBe(false)
   })
 
-  it('tab has aria-controls pointing to its panel id', () => {
+  it('tab has aria-controls pointing to its panel id [SC 4.1.2]', () => {
     render(<ThreeTabs />)
     const spellsTab = screen.getByRole('tab', { name: 'Spells' })
     const controlsId = spellsTab.getAttribute('aria-controls')
@@ -132,7 +132,7 @@ describe('Tabs', () => {
     expect(panel?.getAttribute('role')).toBe('tabpanel')
   })
 
-  it('panel has aria-labelledby pointing to its tab id', () => {
+  it('panel has aria-labelledby pointing to its tab id [SC 4.1.2]', () => {
     render(<ThreeTabs />)
     const spellsPanel = screen.getByRole('tabpanel', { name: 'Spells' })
     const labelledById = spellsPanel.getAttribute('aria-labelledby')
@@ -141,7 +141,7 @@ describe('Tabs', () => {
     expect(tab?.getAttribute('role')).toBe('tab')
   })
 
-  it('selected tab has tabindex 0, others have tabindex -1 (roving)', () => {
+  it('selected tab has tabindex 0, others have tabindex -1 (roving) [SC 2.1.1]', () => {
     render(<ThreeTabs />)
     expect(screen.getByRole('tab', { name: 'Spells' }).getAttribute('tabindex')).toBe('0')
     expect(screen.getByRole('tab', { name: 'Potions' }).getAttribute('tabindex')).toBe('-1')

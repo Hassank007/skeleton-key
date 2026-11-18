@@ -1,0 +1,52 @@
+/* Global styles — tokens are imported first, then the reset and base rules. */
+@import './tokens/tokens.css';
+@import './tokens/dark.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%; /* respect browser default (usually 16px) */
+  /* Native date and time pickers follow the theme (tokens switch on the same media query). */
+  color-scheme: light dark;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  min-height: 100dvh;
+}
+
+/* Visible focus ring for keyboard users (WCAG 2.4.7) */
+:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Prevent focused elements inside <main> from hiding under a sticky header (WCAG 2.4.11) */
+main *:focus-visible {
+  scroll-margin-top: var(--header-height, 4rem);
+}
+
+/* Reduced-motion: zero out all token-driven animation durations */
+[data-reduced-motion='true'] {
+  --duration-fast: 0ms;
+  --duration-normal: 0ms;
+}

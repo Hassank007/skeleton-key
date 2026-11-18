@@ -1,0 +1,52 @@
+/*
+ * Design tokens: dark theme overrides, "Spectral Slate" palette (midnight teal).
+ * Active when the OS is in dark mode OR [data-theme="dark"] is set on <html>.
+ * The two blocks below must hold identical values; the contrast tests check both.
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #0a1418;          /* midnight teal, hue 197 degrees */
+    --color-surface-raised: #14242b;   /* hue 198 degrees */
+    /* #e3f2f5: 16.24:1 on surface, 13.88:1 on raised */
+    --color-text: #e3f2f5;
+    /* #a9c4cc: 10.17:1 on surface, 8.70:1 on raised */
+    --color-text-muted: #a9c4cc;
+    /* #ffffff: 4.79:1 on accent, above 6:1 on accent-hover */
+    --color-text-on-accent: #ffffff;
+    /* #6ee7e0: 12.58:1 on surface, 10.76:1 on raised; spectral cyan. Never use --color-accent for text. */
+    --color-link: #6ee7e0;
+    --color-link-hover: #a5f3ee;
+    /* accent: 3.89:1 on surface, 3.33:1 on raised (UI minimum 3:1); fill only, never text */
+    --color-accent: #108078;
+    --color-accent-hover: #0d6962;
+    /* #ff9fb4: 9.65:1 on surface, 8.25:1 on raised */
+    --color-error: #ff9fb4;
+    /* #7fe3b5: 12.04:1 on surface, 10.29:1 on raised */
+    --color-success: #7fe3b5;
+    /* #f2d06b: 12.44:1 on surface, 10.64:1 on raised */
+    --color-warning: #f2d06b;
+    /* #5fa3b3: 6.55:1 on surface, 5.60:1 on raised */
+    --color-border: #5fa3b3;
+    /* #a5b4fc: 9.35:1 on surface, 8.00:1 on raised; periwinkle */
+    --color-focus-ring: #a5b4fc;
+  }
+}
+
+/* Manual dark-theme toggle: overrides the media query */
+[data-theme='dark'] {
+  --color-surface: #0a1418;
+  --color-surface-raised: #14242b;
+  --color-text: #e3f2f5;
+  --color-text-muted: #a9c4cc;
+  --color-text-on-accent: #ffffff;
+  --color-link: #6ee7e0;
+  --color-link-hover: #a5f3ee;
+  --color-accent: #108078;
+  --color-accent-hover: #0d6962;
+  --color-error: #ff9fb4;
+  --color-success: #7fe3b5;
+  --color-warning: #f2d06b;
+  --color-border: #5fa3b3;
+  --color-focus-ring: #a5b4fc;
+}

@@ -12,11 +12,11 @@ import { contrastRatio } from '../support/contrast'
 
 const themeNames = Object.keys(THEMES) as ThemeName[]
 const cases = themeNames.flatMap((theme) =>
-  MATRIX.flatMap((entry) => entry.on.map((bg) => ({ theme, entry, bg }))),
+  MATRIX.flatMap((entry) => entry.on.map((bg) => ({ theme, entry, bg, sc: entry.min >= 4.5 ? '1.4.3' : '1.4.11' }))),
 )
 
 describe('contrast property: every theme pair', () => {
-  it.each(cases)('$theme: $entry.fg on $bg', ({ theme, entry, bg }) => {
+  it.each(cases.map((c) => [`${c.theme}: ${c.entry.fg} on ${c.bg} [SC ${c.sc}]`, c] as const))('%s', (_title, { theme, entry, bg }) => {
     const colors = THEMES[theme]
     const ratio = contrastRatio(colors[entry.fg], colors[bg])
     const message = describeFailure({

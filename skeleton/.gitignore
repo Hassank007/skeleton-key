@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Test evidence read by the ACR generator (npm run acr)
+evidence/

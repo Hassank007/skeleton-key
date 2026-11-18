@@ -1,0 +1,45 @@
+.ticket {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5);
+  background-color: var(--color-surface-raised);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-2xl);
+  line-height: 1.2;
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}
+
+.steps {
+  padding-left: var(--space-5);
+}
+
+.notice {
+  color: var(--color-text-muted);
+}
+
+/* The link is a primary button in looks only; it navigates, so it stays an <a href>. */
+a.start {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-5);
+  background-color: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+a.start:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-text-on-accent);
+}

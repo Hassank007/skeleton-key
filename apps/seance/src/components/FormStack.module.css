@@ -1,0 +1,38 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* The ring shows on :focus-within too, because Chromium focuses the date and time picker buttons without matching :focus-visible on the input (WCAG 2.4.7). */
+/* Native controls keep their own picker buttons; only size, border and colours are set here. */
+.stack input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}
+
+.stack input:focus-within,
+.stack input:focus,
+.stack input:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.stack input[aria-invalid='true'] {
+  border-color: var(--color-error);
+  border-width: 3px;
+}
+
+.stack > div {
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}

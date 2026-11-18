@@ -17,3 +17,6 @@ scripts/kiro-batches/.done/
 # Kiro scratch files
 *.bak
 mcp/scratch-*.json
+
+# Interrupted new-app runs
+apps/.*.tmp-*

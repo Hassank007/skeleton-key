@@ -13,8 +13,21 @@ Don't copy this folder by hand. Create apps from the repo root with `npm run new
 | `npm run lint` | ESLint with `eslint-plugin-jsx-a11y` strict, zero warnings allowed. |
 | `npm test` | Vitest unit tests; every component has a `vitest-axe` check. |
 | `npm run test:e2e` | Playwright page tests with `@axe-core/playwright` (Chromium only; starts `npm run dev`). |
+| `npm run acr -- <app-dir>` | Run from the **repo root**, not here. Writes `<app-dir>/ACR.md` from the evidence the two test commands leave in `evidence/`. |
 
 First-time E2E setup: `npx playwright install chromium`.
+
+## Accessibility Conformance Report
+
+`npm test` and `npm run test:e2e` write `evidence/vitest.json`, `evidence/playwright.json` and `evidence/axe/*.json` (gitignored). From the repo root, `npm run acr -- skeleton` turns them into `ACR.md`, a WCAG 2.2 A and AA report in the style of the VPAT 2.5 WCAG edition.
+
+1. `npm test`
+2. `npm run test:e2e`
+3. `npm run acr -- skeleton` (from the repo root)
+
+A test is evidence for a criterion only when its title ends with an SC tag, for example `[SC 2.4.1]` or `[SC 3.3.1, 3.3.3]`. Tag a test only when its assertions verify that criterion, and never tag a test that only checks "no axe violations". Page axe scans go through `scanPage()` in `tests/e2e/support/axe.ts`, which records each scan.
+
+The report is generated from automated test results and a static code review. It is not a legal certification. See `docs/acr-report.md` in the repo root.
 
 ## What you get
 

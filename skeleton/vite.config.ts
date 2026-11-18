@@ -13,5 +13,8 @@ export default defineConfig({
     passWithNoTests: true,
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     exclude: ['tests/e2e/**'],
+    // Machine-readable results for the ACR generator (npm run acr). evidence/ is gitignored.
+    reporters: ['default', 'json'],
+    outputFile: { json: 'evidence/vitest.json' },
   },
 })

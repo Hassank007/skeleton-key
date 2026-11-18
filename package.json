@@ -1,0 +1,10 @@
+{
+  "name": "skeleton-key",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "acr": "node scripts/acr.mjs",
+    "new-app": "node scripts/new-app.mjs",
+    "test:scripts": "node --test \"scripts/acr/tests/*.test.mjs\" \"scripts/new-app/tests/*.test.mjs\""
+  }
+}

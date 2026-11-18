@@ -1,0 +1,25 @@
+{
+  "config": {},
+  "suites": [
+    {
+      "title": "home.spec.ts",
+      "file": "tests/e2e/home.spec.ts",
+      "specs": [
+        { "title": "first Tab focuses the skip link [SC 2.4.1]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "expected", "results": [{ "status": "passed" }] }] },
+        { "title": "reflow at 320px [SC 1.4.10]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "unexpected", "results": [{ "status": "failed" }] }] },
+        { "title": "skipped idea [SC 2.4.5]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "skipped", "results": [{ "status": "skipped" }] }] },
+        { "title": "flaky focus ring [SC 2.4.7]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "flaky", "results": [{ "status": "failed" }, { "status": "passed" }] }] },
+        { "title": "zero axe violations", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "expected", "results": [{ "status": "passed" }] }] }
+      ],
+      "suites": [
+        {
+          "title": "Dialog",
+          "specs": [
+            { "title": "Escape closes [SC 2.1.1, 2.1.2]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "expected", "results": [{ "status": "passed" }] }] },
+            { "title": "bad tag [SC 9.9.9, 2.4.3]", "file": "tests/e2e/home.spec.ts", "tests": [{ "status": "expected", "results": [{ "status": "passed" }] }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

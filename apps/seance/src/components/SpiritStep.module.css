@@ -1,0 +1,98 @@
+.group {
+  border: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}
+
+.legend {
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  padding: 0;
+}
+
+.error {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+.errorPrefix {
+  font-weight: 700;
+}
+
+/* A radio "card". The label fills the card, so the whole card is the click target (WCAG 2.5.8). */
+.option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-3);
+  align-items: start;
+  padding: 0;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}
+
+/* Selected state is a thicker border plus a drawn dot, so it is not shown by colour alone (WCAG 1.4.1). */
+.selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent); /* 1px border + 2px ring = 3px, with no layout shift */
+}
+
+.radio {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: var(--space-3) 0 var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-surface);
+  cursor: pointer;
+}
+
+.radio:checked {
+  border-color: var(--color-accent);
+  background-image: radial-gradient(circle, var(--color-accent) 0 45%, transparent 50%);
+}
+
+.radio:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) var(--space-3) 0;
+  cursor: pointer;
+}
+
+.name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.blurb {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+@media (forced-colors: active) {
+  .radio:checked {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background-image: radial-gradient(circle, Highlight 0 45%, transparent 50%);
+  }
+}

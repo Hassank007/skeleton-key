@@ -4,7 +4,7 @@ import { axe } from 'vitest-axe'
 import { Field } from '../../src/components/Field'
 
 describe('Field', () => {
-  it('renders a label associated with the input', () => {
+  it('renders a label associated with the input [SC 1.3.1, 3.3.2]', () => {
     const { getByLabelText } = render(
       <Field id="name" label="Full name">
         <input type="text" />
@@ -58,7 +58,7 @@ describe('Field', () => {
     expect(results).toHaveNoViolations()
   })
 
-  it('with hint: input aria-describedby references the hint id', () => {
+  it('with hint: input aria-describedby references the hint id [SC 1.3.1, 3.3.2]', () => {
     const { getByLabelText } = render(
       <Field id="bio" label="Bio" hint="Tell us about yourself">
         <input type="text" />
@@ -68,7 +68,7 @@ describe('Field', () => {
     expect(input.getAttribute('aria-describedby')).toContain('bio-hint')
   })
 
-  it('with error: input aria-describedby references the error id', () => {
+  it('with error: input aria-describedby references the error id [SC 1.3.1, 3.3.1]', () => {
     const { getByLabelText } = render(
       <Field id="city" label="City" error="City is required">
         <input type="text" />
@@ -90,7 +90,7 @@ describe('Field', () => {
     expect(describedBy).toContain('phone-error')
   })
 
-  it('with error: aria-invalid is true on the input', () => {
+  it('with error: aria-invalid is true on the input [SC 3.3.1, 4.1.2]', () => {
     const { getByLabelText } = render(
       <Field id="dob" label="Date of birth" error="Invalid date">
         <input type="text" />
@@ -110,7 +110,7 @@ describe('Field', () => {
     expect(input.getAttribute('aria-invalid')).toBeNull()
   })
 
-  it('error message contains "Error:" prefix (not colour-only)', () => {
+  it('error message contains "Error:" prefix (not colour-only) [SC 1.4.1, 3.3.1]', () => {
     const { getByText } = render(
       <Field id="card" label="Card number" error="Card number is invalid">
         <input type="text" />
@@ -155,7 +155,7 @@ describe('Field', () => {
     expect(container.querySelector('#a-error')).toBeNull()
   })
 
-  it('required field includes "(required)" text in label', () => {
+  it('required field includes "(required)" text in label [SC 3.3.2]', () => {
     const { getByText } = render(
       <Field id="terms" label="Agree to terms" required>
         <input type="checkbox" />

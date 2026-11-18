@@ -1,0 +1,17 @@
+{
+  "numTotalTests": 3,
+  "testResults": [
+    {
+      "name": "tests/unit/Button.test.tsx",
+      "status": "passed",
+      "assertionResults": [
+        { "fullName": "Button has an accessible name [SC 4.1.2]", "status": "passed" },
+        { "fullName": "Field shows an error [SC 3.3.1]", "status": "failed" },
+        { "fullName": "Field hint todo [SC 3.3.2]", "status": "pending" },
+        { "fullName": "Button renders", "status": "passed" },
+        { "fullName": "Hostile | title `tick` <script>alert(1)</script> [link](http://x.test) [SC 1.3.1]", "status": "passed" },
+        { "fullName": "Skeleton page has a title [SC 2.4.2]", "status": "passed" }
+      ]
+    }
+  ]
+}

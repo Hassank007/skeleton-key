@@ -9,7 +9,7 @@ test.describe('Dialog (About page demo)', () => {
     await page.goto('/about')
   })
 
-  test('opens the dialog and focus moves inside', async ({ page }) => {
+  test('opens the dialog and focus moves inside [SC 2.4.3]', async ({ page }) => {
     await page.getByTestId('open-demo-dialog').click()
     // Dialog must be in the DOM
     await expect(page.getByRole('dialog')).toBeVisible()
@@ -21,7 +21,7 @@ test.describe('Dialog (About page demo)', () => {
     expect(focusedLabel).toMatch(/close dialog/i)
   })
 
-  test('Tab cycles focus inside the dialog and does not escape', async ({ page }) => {
+  test('Tab cycles focus inside the dialog and does not escape [SC 2.4.3]', async ({ page }) => {
     await page.getByTestId('open-demo-dialog').click()
     await expect(page.getByRole('dialog')).toBeVisible()
 
@@ -61,7 +61,7 @@ test.describe('Dialog (About page demo)', () => {
     expect(triggerIsFocusable).toBe(false)
   })
 
-  test('Escape closes the dialog and returns focus to the trigger', async ({ page }) => {
+  test('Escape closes the dialog and returns focus to the trigger [SC 2.1.1, 2.1.2]', async ({ page }) => {
     const triggerBtn = page.getByTestId('open-demo-dialog')
     await triggerBtn.click()
     await expect(page.getByRole('dialog')).toBeVisible()

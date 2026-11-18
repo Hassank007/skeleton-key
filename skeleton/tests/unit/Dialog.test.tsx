@@ -54,7 +54,7 @@ describe('Dialog', () => {
     expect(results).toHaveNoViolations()
   })
 
-  it('moves focus into the dialog on open', async () => {
+  it('moves focus into the dialog on open [SC 2.4.3]', async () => {
     const user = userEvent.setup()
     render(<DialogWrapper />)
     await user.click(screen.getByRole('button', { name: 'Open dialog' }))
@@ -66,7 +66,7 @@ describe('Dialog', () => {
     })
   })
 
-  it('closes on Escape and returns focus to the trigger', async () => {
+  it('closes on Escape and returns focus to the trigger [SC 2.1.1, 2.1.2]', async () => {
     const user = userEvent.setup()
     render(<DialogWrapper />)
     const trigger = screen.getByRole('button', { name: 'Open dialog' })
@@ -77,7 +77,7 @@ describe('Dialog', () => {
     await waitFor(() => expect(document.activeElement).toBe(trigger))
   })
 
-  it('closes via the close button and returns focus to the trigger', async () => {
+  it('closes via the close button and returns focus to the trigger [SC 2.4.3]', async () => {
     const user = userEvent.setup()
     render(<DialogWrapper />)
     const trigger = screen.getByRole('button', { name: 'Open dialog' })
@@ -88,7 +88,7 @@ describe('Dialog', () => {
     await waitFor(() => expect(document.activeElement).toBe(trigger))
   })
 
-  it('traps Tab focus inside the dialog', async () => {
+  it('traps Tab focus inside the dialog [SC 2.4.3]', async () => {
     const user = userEvent.setup()
     render(
       <DialogWrapper>
@@ -118,7 +118,7 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(closeBtn)
   })
 
-  it('keeps Shift+Tab inside the dialog when the panel itself has focus (property-test counterexample)', async () => {
+  it('keeps Shift+Tab inside the dialog when the panel itself has focus (property-test counterexample) [SC 2.4.3]', async () => {
     const user = userEvent.setup()
     render(
       <DialogWrapper>
@@ -141,7 +141,7 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Close dialog' }))
   })
 
-  it('traps Shift+Tab focus inside the dialog', async () => {
+  it('traps Shift+Tab focus inside the dialog [SC 2.4.3]', async () => {
     const user = userEvent.setup()
     render(
       <DialogWrapper>
@@ -159,7 +159,7 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(innerBtn)
   })
 
-  it('has role="dialog", aria-modal, and aria-labelledby pointing to the title', async () => {
+  it('has role="dialog", aria-modal, and aria-labelledby pointing to the title [SC 4.1.2]', async () => {
     const user = userEvent.setup()
     render(<DialogWrapper title="Delete file" />)
     await user.click(screen.getByRole('button', { name: 'Open dialog' }))

@@ -1,0 +1,22 @@
+﻿/* EmptyState */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background-color: var(--color-surface-raised);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.art {
+  width: 4rem;
+  height: 3rem;
+  color: var(--color-border);
+}
+
+.message {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+}

@@ -1,0 +1,35 @@
+.mist {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  height: auto;
+  color: var(--color-accent);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Cuts the crescent out of the moon with the surface colour. */
+.bite {
+  fill: var(--color-surface-raised);
+}
+
+.drift {
+  /* Slow ambient drift. Stopped by the rules below. */
+  animation: mist-drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes mist-drift {
+  from { transform: translateX(-10px); }
+  to   { transform: translateX(14px); }
+}
+
+/* The in-app toggle and the OS setting both set data-reduced-motion on <html> (MotionProvider). */
+[data-reduced-motion='true'] .drift {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift {
+    animation: none;
+  }
+}

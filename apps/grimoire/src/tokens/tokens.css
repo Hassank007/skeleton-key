@@ -1,0 +1,73 @@
+/*
+ * Design tokens — light theme (Parchment and Candle palette)
+ * All text/background pairs meet WCAG 1.4.3 and 1.4.11.
+ */
+
+:root {
+  /* ── Colour: surface ──────────────────────────────────────────── */
+  --color-surface: #f4ead5;          /* parchment, hue 41°, base for every ratio below */
+  --color-surface-raised: #e9dbbd;   /* cards, header: darker parchment */
+
+  /* ── Colour: content ──────────────────────────────────────────── */
+  /* #2b1608 on #f4ead5 ≈ 14.40:1 (12.56:1 on raised) — far exceeds 4.5:1 */
+  --color-text: #2b1608;
+  /* #5a3a22 on #f4ead5 ≈ 8.52:1 (7.43:1 on raised) — meets 4.5:1 */
+  --color-text-muted: #5a3a22;
+  /* #ffffff on #8a1c1c ≈ 9.28:1, on #6b1212 ≈ 12.21:1 — meets 4.5:1 */
+  --color-text-on-accent: #ffffff;
+
+  /* ── Colour: link ─────────────────────────────────────────────── */
+  /* #8a1c1c on #f4ead5 ≈ 7.77:1 (6.77:1 on raised) — meets 4.5:1 (WCAG 1.4.3) */
+  /* Use --color-link for ALL link text; never use --color-accent for text in dark. */
+  --color-link: #8a1c1c;
+  --color-link-hover: #6b1212;
+
+  /* ── Colour: accent ───────────────────────────────────────────── */
+  --color-accent: #8a1c1c;           /* crimson — for UI components (borders, backgrounds), NOT text in dark mode */
+  --color-accent-hover: #6b1212;     /* darker on hover             */
+
+  /* ── Colour: feedback ─────────────────────────────────────────── */
+  /* #9b1c1c on #f4ead5 ≈ 6.82:1 (5.95:1 on raised) */
+  --color-error: #9b1c1c;
+  /* #1f5f2e on #f4ead5 ≈ 6.43:1 (5.61:1 on raised) */
+  --color-success: #1f5f2e;
+  /* #8a4b00 on #f4ead5 ≈ 5.69:1 (4.97:1 on raised) */
+  --color-warning: #8a4b00;
+
+  /* ── Colour: UI chrome ────────────────────────────────────────── */
+  /* #8a5a2b on #f4ead5 ≈ 4.91:1 (4.29:1 on raised) — meets 3:1 UI component minimum */
+  --color-border: #8a5a2b;
+  /* #0b4f6c on #f4ead5 ≈ 7.48:1 (6.53:1 on raised) — teal, meets 3:1 focus ring minimum */
+  --color-focus-ring: #0b4f6c;
+
+  /* ── Spacing (4 px base) ──────────────────────────────────────── */
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+
+  /* ── Typography ───────────────────────────────────────────────── */
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-base: 1rem;    /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.5rem;    /* 24px */
+  --font-size-2xl: 2rem;     /* 32px */
+
+  /* ── Border radius ────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+
+  /* ── Motion ───────────────────────────────────────────────────── */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --easing-default: ease-in-out;
+
+  /* ── Layout ───────────────────────────────────────────────────── */
+  --header-height: 4rem;
+}

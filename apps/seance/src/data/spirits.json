@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mara-the-weeping-widow",
+    "name": "Mara the Weeping Widow",
+    "blurb": "Waits by the old stairs and answers questions about what was left unsaid.",
+    "speciality": "Unfinished conversations"
+  },
+  {
+    "id": "old-tobias-the-lamplighter",
+    "name": "Old Tobias the Lamplighter",
+    "blurb": "Walks the lanes at dusk and knows which doors were once left unlocked.",
+    "speciality": "Lost places and lost things"
+  },
+  {
+    "id": "the-hollow-choir",
+    "name": "The Hollow Choir",
+    "blurb": "Seven quiet voices that hum in answer and never repeat a tune.",
+    "speciality": "Messages in song"
+  },
+  {
+    "id": "captain-ashgrove",
+    "name": "Captain Ashgrove",
+    "blurb": "A ship's master who still counts the tides and will tell you which way to sail.",
+    "speciality": "Journeys and crossings"
+  }
+]

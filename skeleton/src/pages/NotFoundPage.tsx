@@ -1,6 +1,6 @@
-﻿/** Not-found page: sets a unique title and an h1 so unknown URLs still get focus and a page name (WCAG 2.4.2, 2.4.3). */
+/** Not-found page: sets a unique title and an h1 so unknown URLs still get focus and a page name (WCAG 2.4.2, 2.4.3). The way back uses AppLink, so it has the token link colour in both themes (WCAG 1.4.3). */
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { AppLink } from '../components/AppLink'
 
 export function NotFoundPage() {
   useEffect(() => {
@@ -11,7 +11,7 @@ export function NotFoundPage() {
     <article>
       <h1 tabIndex={-1}>Page not found</h1>
       <p>
-        There is no page at this address. <Link to="/">Go to the home page</Link>.
+        There is no page at this address. <AppLink href="/">Go to the home page</AppLink>.
       </p>
     </article>
   )

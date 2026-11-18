@@ -1,0 +1,64 @@
+/*
+ * Design tokens — dark theme overrides (candlelit library palette)
+ * Active when: OS is in dark mode OR [data-theme="dark"] is set on <html>.
+ * All text/background pairs maintain the same WCAG contrast ratios as the light theme.
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ── Colour: surface ──────────────────────────────────────────── */
+    --color-surface: #130d08;          /* near-black brown, hue 27°   */
+    --color-surface-raised: #241810;   /* slightly elevated surface   */
+
+    /* ── Colour: content ──────────────────────────────────────────── */
+    /* #f3e3c3 on #130d08 ≈ 15.23:1 (13.67:1 on raised) */
+    --color-text: #f3e3c3;
+    /* #cdb48c on #130d08 ≈ 9.65:1 (8.66:1 on raised) */
+    --color-text-muted: #cdb48c;
+    /* #ffffff on #b45309 ≈ 5.02:1, on #92400e ≈ 7.09:1 */
+    --color-text-on-accent: #ffffff;
+
+    /* ── Colour: link ─────────────────────────────────────────────── */
+    /* #f0b45a on #130d08 ≈ 10.45:1 (9.38:1 on raised) — amber, meets 4.5:1 (WCAG 1.4.3).
+       --color-accent (#b45309) is only 3.84:1 on this surface and MUST NOT be
+       used for link text in dark mode. Use --color-link instead. */
+    --color-link: #f0b45a;
+    --color-link-hover: #ffd08a;
+
+    /* ── Colour: accent ───────────────────────────────────────────── */
+    --color-accent: #b45309;           /* burnt orange, for UI components only (3.84:1) — NOT for text */
+    --color-accent-hover: #92400e;
+
+    /* ── Colour: feedback ─────────────────────────────────────────── */
+    /* #ff9d8f on #130d08 ≈ 9.62:1 */
+    --color-error: #ff9d8f;
+    /* #9be39b on #130d08 ≈ 12.73:1 */
+    --color-success: #9be39b;
+    /* #ffd166 on #130d08 ≈ 13.38:1 */
+    --color-warning: #ffd166;
+
+    /* ── Colour: UI chrome ────────────────────────────────────────── */
+    /* #c58b4e on #130d08 ≈ 6.59:1 — meets 3:1 UI minimum */
+    --color-border: #c58b4e;
+    /* #7dd3fc on #130d08 ≈ 11.57:1 — meets 3:1 focus ring minimum */
+    --color-focus-ring: #7dd3fc;
+  }
+}
+
+/* Manual dark-theme toggle — overrides the media query */
+[data-theme='dark'] {
+  --color-surface: #130d08;
+  --color-surface-raised: #241810;
+  --color-text: #f3e3c3;
+  --color-text-muted: #cdb48c;
+  --color-text-on-accent: #ffffff;
+  --color-link: #f0b45a;
+  --color-link-hover: #ffd08a;
+  --color-accent: #b45309;
+  --color-accent-hover: #92400e;
+  --color-error: #ff9d8f;
+  --color-success: #9be39b;
+  --color-warning: #ffd166;
+  --color-border: #c58b4e;
+  --color-focus-ring: #7dd3fc;
+}

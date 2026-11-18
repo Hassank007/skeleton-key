@@ -1,0 +1,28 @@
+﻿/* ResultsList: single column at 320px, two columns when there is room */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.heading {
+  font-family: var(--font-heading);
+}
+
+.count {
+  color: var(--color-text-muted);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .list {
+    grid-template-columns: 1fr 1fr;
+  }
+}

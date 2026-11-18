@@ -26,34 +26,34 @@ describe('PageShell', () => {
     expect(results).toHaveNoViolations()
   })
 
-  it('renders exactly one <header> landmark', () => {
+  it('renders exactly one <header> landmark [SC 1.3.1]', () => {
     renderShell()
     expect(screen.getByRole('banner')).toBeDefined()
   })
 
-  it('renders exactly one <nav> landmark with an accessible label', () => {
+  it('renders exactly one <nav> landmark with an accessible label [SC 1.3.1]', () => {
     renderShell()
     const nav = screen.getByRole('navigation', { name: 'Main' })
     expect(nav).toBeDefined()
   })
 
-  it('renders exactly one <main> landmark', () => {
+  it('renders exactly one <main> landmark [SC 1.3.1]', () => {
     renderShell()
     expect(screen.getByRole('main')).toBeDefined()
   })
 
-  it('renders exactly one <footer> landmark', () => {
+  it('renders exactly one <footer> landmark [SC 1.3.1]', () => {
     renderShell()
     expect(screen.getByRole('contentinfo')).toBeDefined()
   })
 
-  it('the skip link is present and href targets #main-content', () => {
+  it('the skip link is present and href targets #main-content [SC 2.4.1]', () => {
     renderShell()
     const skipLink = screen.getByRole('link', { name: /skip to main content/i })
     expect(skipLink.getAttribute('href')).toBe('#main-content')
   })
 
-  it('the skip link is the first focusable element in the DOM', () => {
+  it('the skip link is the first focusable element in the DOM [SC 2.4.1]', () => {
     const { container } = renderShell()
     const focusable = container.querySelectorAll<HTMLElement>(
       'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
@@ -73,13 +73,13 @@ describe('PageShell', () => {
     expect(main.id).toBe('main-content')
   })
 
-  it('activating the skip link moves focus to <main>', () => {
+  it('activating the skip link moves focus to <main> [SC 2.4.1]', () => {
     renderShell()
     fireEvent.click(screen.getByRole('link', { name: /skip to main content/i }))
     expect(document.activeElement).toBe(screen.getByRole('main'))
   })
 
-  it('the motion toggle is a pressed-state button that sets data-reduced-motion on <html>', () => {
+  it('the motion toggle is a pressed-state button that sets data-reduced-motion on <html> [SC 4.1.2]', () => {
     renderShell()
     const toggle = screen.getByRole('button', { name: 'Reduce motion' })
     expect(toggle.getAttribute('aria-pressed')).toBe('false')

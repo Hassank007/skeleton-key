@@ -59,7 +59,7 @@ describe('Toast', () => {
     expect(results).toHaveNoViolations()
   })
 
-  it('dismiss button is present and has an accessible name', async () => {
+  it('dismiss button is present and has an accessible name [SC 4.1.2]', async () => {
     const user = userEvent.setup()
     render(
       <Providers>
@@ -113,7 +113,7 @@ describe('Toast', () => {
     }
   })
 
-  it('dismiss button is keyboard-operable (Enter key)', async () => {
+  it('dismiss button is keyboard-operable (Enter key) [SC 2.1.1]', async () => {
     const user = userEvent.setup()
     render(
       <Providers>

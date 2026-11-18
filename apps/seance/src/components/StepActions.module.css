@@ -1,0 +1,16 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.button {
+  min-height: 2.75rem;
+  scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
+}
+
+.button[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: progress;
+}

@@ -58,7 +58,7 @@ const exists = (m: string | undefined): m is string => m !== undefined && m.trim
 
 describe('Field property', () => {
   it(
-    'labels, describes and flags every configuration correctly',
+    'labels, describes and flags every configuration correctly [SC 1.3.1, 3.3.1, 3.3.2]',
     async () => {
       await checkProperty(config, async (c) => {
         const { container, unmount } = render(

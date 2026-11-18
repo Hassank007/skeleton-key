@@ -1,0 +1,8 @@
+{
+  "product": { "name": "Golden App", "description": "A fixture app used to check the generated report byte for byte." },
+  "criteria": {
+    "1.2.1": { "level": "Not Applicable", "reason": "The app has no audio or video." },
+    "1.4.10": { "level": "Not Applicable", "reason": "Pretend nothing can reflow." },
+    "2.4.5": { "level": "Not Evaluated", "reason": "Single-page app; a person must confirm." }
+  }
+}

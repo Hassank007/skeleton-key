@@ -1,33 +1,33 @@
 import { test, expect } from '@playwright/test'
-import AxeBuilder from '@axe-core/playwright'
+import { scanPage } from './support/axe'
 
 test.describe('Home page', () => {
-  test('zero axe violations (WCAG 2.2 AA)', async ({ page }) => {
+  test('zero axe violations (WCAG 2.2 AA)', async ({ page }, testInfo) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .analyze()
+    const results = await scanPage(page, testInfo)
     expect(results.violations).toEqual([])
   })
 
-  test('first Tab press focuses the skip link', async ({ page }) => {
+  test('first Tab press focuses the skip link [SC 2.4.1]', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await page.keyboard.press('Tab')
     await expect(page.getByRole('link', { name: /skip to main content/i })).toBeFocused()
   })
 
-  test('Enter on skip link moves focus to main content', async ({ page }) => {
+  test('Enter on skip link moves focus to main content [SC 2.4.1]', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await page.keyboard.press('Tab') // focus skip link
     await expect(page.getByRole('link', { name: /skip to main content/i })).toBeFocused()
     await page.keyboard.press('Enter')
     await expect(page.locator('#main-content')).toBeFocused()
+    // The skip link moved focus by keyboard, so the ring must show (2.4.7)
+    await expect(page.locator('#main-content')).not.toHaveCSS('outline-style', 'none')
   })
 
-  test('keyboard walk: logical Tab order and a visible focus ring on every stop', async ({ page }) => {
+  test('keyboard walk: logical Tab order and a visible focus ring on every stop [SC 2.4.3, 2.4.7]', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     const expected = ['Skip to main content', 'Home', 'About', 'Reduce motion']
@@ -52,7 +52,7 @@ test.describe('Home page', () => {
     await expect(ghost).toHaveCSS('animation-name', 'none')
   })
 
-  test('the in-app "Reduce motion" toggle stops the ghost animation', async ({ page }) => {
+  test('the in-app "Reduce motion" toggle stops the ghost animation [SC 2.2.2]', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.goto('/')
     const ghost = page.locator('main svg[aria-hidden="true"]')

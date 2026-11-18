@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "axeVersion": "4.10.3",
+  "url": "/about",
+  "colorScheme": "dark",
+  "tags": ["wcag2a", "wcag2aa"],
+  "violations": [],
+  "passes": [
+    { "id": "color-contrast", "tags": ["wcag2aa", "wcag143"] },
+    { "id": "document-title", "tags": ["wcag2a", "wcag242"] }
+  ],
+  "incomplete": [],
+  "inapplicable": []
+}

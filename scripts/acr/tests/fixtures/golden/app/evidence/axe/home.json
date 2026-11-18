@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "axeVersion": "4.10.3",
+  "url": "/",
+  "colorScheme": "light",
+  "tags": ["wcag2a", "wcag2aa"],
+  "violations": [{ "id": "color-contrast", "impact": "serious", "tags": ["cat.color", "wcag2aa", "wcag143"], "nodes": 2 }],
+  "passes": [
+    { "id": "document-title", "tags": ["cat.text-alternatives", "wcag2a", "wcag242"] },
+    { "id": "image-alt", "tags": ["wcag2a", "wcag111"] },
+    { "id": "region", "tags": ["best-practice"] },
+    { "id": "reflow-rule", "tags": ["wcag2aa", "wcag1410", "wcag2411"] }
+  ],
+  "incomplete": [{ "id": "target-size", "tags": ["wcag22aa", "wcag258"], "nodes": 1 }],
+  "inapplicable": ["video-caption"]
+}

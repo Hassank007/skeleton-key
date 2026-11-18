@@ -43,7 +43,7 @@ function next(count: number, index: number, key: Key): number {
 
 describe('Tabs property', () => {
   it(
-    'keeps selection, tabindex, focus and panel visibility in step for any key sequence',
+    'keeps selection, tabindex, focus and panel visibility in step for any key sequence [SC 2.1.1, 4.1.2]',
     async () => {
       await checkProperty(config, async (c) => {
         const user = userEvent.setup({ delay: null })

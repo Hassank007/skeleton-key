@@ -1,0 +1,476 @@
+[
+    {
+        "slug":  "the-hollow-index",
+        "title":  "The Hollow Index",
+        "author":  "Mortimer Vane Ashgrove",
+        "school":  "Necromancy",
+        "hazard":  "Forbidden",
+        "year":  "c. 1347",
+        "pages":  412,
+        "summary":  "A catalogue of every name the dead have asked to forget, kept by a clerk who never learned to stop reading.",
+        "description":  [
+                            "The Hollow Index began as a clerk\u0027s private list of names struck from parish registers. Over thirty years it grew into a cross-referenced directory of the unremembered.",
+                            "Readers report that entries rewrite themselves overnight. The final volume is bound with a warning, written in the clerk\u0027s own hand, not to look up your own name."
+                        ],
+        "tags":  [
+                     "names",
+                     "registry",
+                     "dead",
+                     "erasure"
+                 ]
+    },
+    {
+        "slug":  "a-primer-for-the-patient-dead",
+        "title":  "A Primer for the Patient Dead",
+        "author":  "Philippa Corve",
+        "school":  "Necromancy",
+        "hazard":  "Mild",
+        "year":  "1802",
+        "pages":  96,
+        "summary":  "A gentle first reader for the recently departed, with large print and very short sentences.",
+        "description":  [
+                            "Written for ghosts who wake confused, this primer explains where they are, what has changed, and how to ask politely for a door.",
+                            "Living readers use it to learn the basic courtesies of the dead: never startle, never rush, and always leave a candle burning."
+                        ],
+        "tags":  [
+                     "ghosts",
+                     "etiquette",
+                     "primer"
+                 ]
+    },
+    {
+        "slug":  "letters-to-the-lower-ward",
+        "title":  "Letters to the Lower Ward",
+        "author":  "Ignatius Pell",
+        "school":  "Necromancy",
+        "hazard":  "Perilous",
+        "year":  "c. 1611",
+        "pages":  238,
+        "summary":  "Forty letters answered from beneath the city, collected by a postman who kept delivering them.",
+        "description":  [
+                            "A postman found a mailbox in the cellar of a closed hospital and, out of habit, began answering what he found there. The replies are bound here in order.",
+                            "The later letters ask questions about the reader. Most owners stop at letter thirty-one."
+                        ],
+        "tags":  [
+                     "letters",
+                     "cellar",
+                     "correspondence"
+                 ]
+    },
+    {
+        "slug":  "the-quiet-ledger-of-bones",
+        "title":  "The Quiet Ledger of Bones",
+        "author":  "Sister Anwen Holloway",
+        "school":  "Necromancy",
+        "hazard":  "Forbidden",
+        "year":  "c. 1290",
+        "pages":  530,
+        "summary":  "An accounting of what each grave owes, written by a convent that never forgave a debt.",
+        "description":  [
+                            "Every burial in the convent\u0027s yard was entered as a loan. The Ledger lists the interest, the due dates and the methods of collection.",
+                            "The method chapters are sealed with wax in most surviving copies. Libraries that broke the seal stopped lending the book soon after."
+                        ],
+        "tags":  [
+                     "graves",
+                     "debt",
+                     "convent",
+                     "accounts"
+                 ]
+    },
+    {
+        "slug":  "the-almanac-of-near-mornings",
+        "title":  "The Almanac of Near Mornings",
+        "author":  "Odile Marchénoir",
+        "school":  "Divination",
+        "hazard":  "Mild",
+        "year":  "1776",
+        "pages":  180,
+        "summary":  "A year of predictions about the few minutes just before sunrise, each of them modest and mostly right.",
+        "description":  [
+                            "Odile Marchénoir watched the same hill at dawn for forty years and recorded what she saw first. Her almanac sorts the signs by month and by weather.",
+                            "It claims no great prophecies. It promises only to tell you whether the day will start kindly or sharply."
+                        ],
+        "tags":  [
+                     "dawn",
+                     "weather",
+                     "almanac",
+                     "omens"
+                 ]
+    },
+    {
+        "slug":  "tea-leaves-and-other-small-warnings",
+        "title":  "Tea Leaves and Other Small Warnings",
+        "author":  "Beatrix Quillfeather",
+        "school":  "Divination",
+        "hazard":  "Mild",
+        "year":  "1923",
+        "pages":  144,
+        "summary":  "A friendly guide to reading the cup, the crumb and the spilled salt without frightening anyone.",
+        "description":  [
+                            "Quillfeather taught fortune-telling at village fetes and wrote this book for her apprentices. Every reading ends with something sensible to do.",
+                            "Chapters cover leaves, crumbs, candle smoke and the shape of a dropped spoon."
+                        ],
+        "tags":  [
+                     "tea",
+                     "fortune",
+                     "household"
+                 ]
+    },
+    {
+        "slug":  "the-cracked-mirror-concordance",
+        "title":  "The Cracked Mirror Concordance",
+        "author":  "Lucan Verrow",
+        "school":  "Divination",
+        "hazard":  "Forbidden",
+        "year":  "c. 1588",
+        "pages":  366,
+        "summary":  "Every future shown in a broken mirror, indexed by crack, angle and hour of the night.",
+        "description":  [
+                            "Lucan Verrow smashed a looking glass in his study and spent a decade cataloguing what each fragment showed. The concordance lists them in order of the crack.",
+                            "The index includes futures that have not been resolved. Several readers have found their own entry already marked complete."
+                        ],
+        "tags":  [
+                     "mirror",
+                     "future",
+                     "index",
+                     "glass"
+                 ]
+    },
+    {
+        "slug":  "forty-ways-to-read-a-candle",
+        "title":  "Forty Ways to Read a Candle",
+        "author":  "Rosalind Tallowe",
+        "school":  "Divination",
+        "hazard":  "Perilous",
+        "year":  "1694",
+        "pages":  204,
+        "summary":  "Forty methods for reading a flame, from the lean of the wick to the colour of the smoke.",
+        "description":  [
+                            "A chandler\u0027s daughter set down every method her family used to read a candle. The later methods require a candle that burns without fuel.",
+                            "Each method is rated by its author for accuracy and for what it takes from the reader."
+                        ],
+        "tags":  [
+                     "candle",
+                     "flame",
+                     "wick",
+                     "smoke"
+                 ]
+    },
+    {
+        "slug":  "the-lantern-of-small-hours",
+        "title":  "The Lantern of Small Hours",
+        "author":  "Cassian Wren",
+        "school":  "Illusion",
+        "hazard":  "Mild",
+        "year":  "1858",
+        "pages":  128,
+        "summary":  "A pocket guide to small lights that make the room look kinder than it is.",
+        "description":  [
+                            "Cassian Wren designed illusions for tired people: a warmer lamp, a steadier floor, a quiet corner where there was none. Each spell lasts about an hour.",
+                            "The title spell is the best known. It lights a lantern that gives no heat and casts no shadow, but makes anyone near it feel unhurried."
+                        ],
+        "tags":  [
+                     "light",
+                     "comfort",
+                     "lantern",
+                     "calm"
+                 ]
+    },
+    {
+        "slug":  "a-treatise-on-borrowed-faces",
+        "title":  "A Treatise on Borrowed Faces",
+        "author":  "Mireille Dastard",
+        "school":  "Illusion",
+        "hazard":  "Perilous",
+        "year":  "1731",
+        "pages":  289,
+        "summary":  "How to wear another face for an evening, and the three rules for giving it back.",
+        "description":  [
+                            "Mireille Dastard taught at a masked academy where disguise was a courtesy. This treatise sets out the methods and the etiquette of returning a face undamaged.",
+                            "The warning chapter lists what happens when a face is kept past dawn. It is the longest chapter in the book."
+                        ],
+        "tags":  [
+                     "faces",
+                     "disguise",
+                     "masks"
+                 ]
+    },
+    {
+        "slug":  "the-glass-masquerade",
+        "title":  "The Glass Masquerade",
+        "author":  "Tobias Hallowmere",
+        "school":  "Illusion",
+        "hazard":  "Perilous",
+        "year":  "c. 1650",
+        "pages":  312,
+        "summary":  "A ball held in a house made entirely of reflections, with a guest list that no one wrote.",
+        "description":  [
+                            "The Glass Masquerade describes a single evening in a mirrored mansion. The spells are the ones the guests used to hide, and the ones the house used to find them.",
+                            "The book is arranged as a floor plan. It is easy to enter and slow to leave."
+                        ],
+        "tags":  [
+                     "ball",
+                     "reflection",
+                     "mansion",
+                     "guests"
+                 ]
+    },
+    {
+        "slug":  "shadows-for-beginners",
+        "title":  "Shadows for Beginners",
+        "author":  "Ysolde Marrow",
+        "school":  "Illusion",
+        "hazard":  "Mild",
+        "year":  "1911",
+        "pages":  88,
+        "summary":  "Ten exercises for casting a shadow on a wall that is not there, written for the very young.",
+        "description":  [
+                            "A school primer for apprentices of eight and nine. The first exercise is a rabbit, and the last is a rabbit that waves back.",
+                            "Every spell in the book can be stopped by turning on a light."
+                        ],
+        "tags":  [
+                     "shadows",
+                     "children",
+                     "exercises"
+                 ]
+    },
+    {
+        "slug":  "ember-and-ash-herbal",
+        "title":  "Ember and Ash Herbal",
+        "author":  "Hesper Kindlewood",
+        "school":  "Herbalism",
+        "hazard":  "Mild",
+        "year":  "1768",
+        "pages":  264,
+        "summary":  "A kitchen herbal for plants that grow in burnt ground, with remedies for coughs, chills and low spirits.",
+        "description":  [
+                            "Hesper Kindlewood gathered plants from the edges of charred fields and learned what each one did after the fire. Her remedies are plain and mostly safe.",
+                            "The ash chapter explains which burnt woods improve a soil and which poison it. A short appendix covers smoke."
+                        ],
+        "tags":  [
+                     "plants",
+                     "remedies",
+                     "ash",
+                     "kitchen"
+                 ]
+    },
+    {
+        "slug":  "the-nightshade-kitchen-book",
+        "title":  "The Nightshade Kitchen Book",
+        "author":  "Gideon Spindle",
+        "school":  "Herbalism",
+        "hazard":  "Perilous",
+        "year":  "1839",
+        "pages":  221,
+        "summary":  "Recipes that use deadly nightshade, wolfsbane and foxglove, with dosages that are correct to the grain.",
+        "description":  [
+                            "Gideon Spindle was a cook who refused to waste a poisonous plant. The recipes are exact, and each one lists the symptoms of a mistake.",
+                            "The book is still used by physicians for its dosage tables. Cooks are advised to use it with an assistant."
+                        ],
+        "tags":  [
+                     "poison",
+                     "recipes",
+                     "nightshade",
+                     "dosage"
+                 ]
+    },
+    {
+        "slug":  "moss-salt-and-marrow",
+        "title":  "Moss, Salt and Marrow",
+        "author":  "Perpetua Greywell",
+        "school":  "Herbalism",
+        "hazard":  "Perilous",
+        "year":  "c. 1702",
+        "pages":  176,
+        "summary":  "A damp-ground herbal on growing things from bone, brine and the north side of old walls.",
+        "description":  [
+                            "Perpetua Greywell worked in a salt marsh and wrote about what grows in poor places. Her cures use moss, brine and powdered bone.",
+                            "Several remedies work faster than expected. The introduction asks readers to start with half the dose."
+                        ],
+        "tags":  [
+                     "moss",
+                     "salt",
+                     "marsh",
+                     "bone"
+                 ]
+    },
+    {
+        "slug":  "the-gravediggers-garden",
+        "title":  "The Gravedigger\u0027s Garden",
+        "author":  "Ambrose Thistlewick",
+        "school":  "Herbalism",
+        "hazard":  "Forbidden",
+        "year":  "1666",
+        "pages":  342,
+        "summary":  "A gardening manual for a plot where the soil is kept rich by a trade the author never names.",
+        "description":  [
+                            "Ambrose Thistlewick tended a churchyard garden that bloomed in every season. This manual describes the plants, the beds and the quiet arrangement behind them.",
+                            "The final section is titled Feeding. Most copies have it torn out."
+                        ],
+        "tags":  [
+                     "garden",
+                     "churchyard",
+                     "soil",
+                     "roses"
+                 ]
+    },
+    {
+        "slug":  "the-threshold-handbook",
+        "title":  "The Threshold Handbook",
+        "author":  "Marguerite Doorn",
+        "school":  "Warding",
+        "hazard":  "Mild",
+        "year":  "1889",
+        "pages":  152,
+        "summary":  "A homeowner\u0027s guide to charms for doors, windows and the gap under the stairs.",
+        "description":  [
+                            "Marguerite Doorn spent her career inspecting doorways for a guild of builders. The handbook explains which marks keep out draughts, damp and unwanted callers.",
+                            "Every charm has a diagram. Each can be checked with a candle, a coin and a steady hand."
+                        ],
+        "tags":  [
+                     "doors",
+                     "home",
+                     "charms",
+                     "threshold"
+                 ]
+    },
+    {
+        "slug":  "salt-lines-and-iron-nails",
+        "title":  "Salt Lines and Iron Nails",
+        "author":  "Barnaby Frost",
+        "school":  "Warding",
+        "hazard":  "Mild",
+        "year":  "1744",
+        "pages":  112,
+        "summary":  "Two simple wards, a line of salt and a nail in the sill, and forty ways to keep them working.",
+        "description":  [
+                            "The oldest wards are the cheapest. Barnaby Frost tested salt and iron against every sort of visitor and records what each one respects.",
+                            "The book is a favourite of landlords. It runs short on theory and long on maintenance."
+                        ],
+        "tags":  [
+                     "salt",
+                     "iron",
+                     "sill",
+                     "cheap"
+                 ]
+    },
+    {
+        "slug":  "the-lockwrights-catechism",
+        "title":  "The Lockwright\u0027s Catechism",
+        "author":  "Evander Gaunt",
+        "school":  "Warding",
+        "hazard":  "Perilous",
+        "year":  "c. 1522",
+        "pages":  298,
+        "summary":  "A question-and-answer manual for locks that must hold against something that knows the key.",
+        "description":  [
+                            "The Catechism trains apprentice lockwrights by questions: what do you keep, from whom, and what does it want. The answers become more careful as the book goes on.",
+                            "Its locks hold. The difficulty is that they sometimes hold the owner as well."
+                        ],
+        "tags":  [
+                     "locks",
+                     "keys",
+                     "guild",
+                     "questions"
+                 ]
+    },
+    {
+        "slug":  "wards-against-the-wind-that-listens",
+        "title":  "Wards Against the Wind That Listens",
+        "author":  "Ottoline Rooke",
+        "school":  "Warding",
+        "hazard":  "Forbidden",
+        "year":  "c. 1433",
+        "pages":  455,
+        "summary":  "Wards for a house that is overheard by the weather, and what to do when the weather answers.",
+        "description":  [
+                            "Ottoline Rooke lived on a headland where the wind repeated her words back to her a day later. She built a set of wards that hush a house entirely.",
+                            "The spells work. The book explains at length why a silent house is not always a safe one."
+                        ],
+        "tags":  [
+                     "wind",
+                     "silence",
+                     "headland",
+                     "listening"
+                 ]
+    },
+    {
+        "slug":  "the-copper-tongue",
+        "title":  "The Copper Tongue",
+        "author":  "Zacharias Quill",
+        "school":  "Alchemy",
+        "hazard":  "Perilous",
+        "year":  "1617",
+        "pages":  275,
+        "summary":  "Experiments in making metal speak, with notes on which metals have opinions.",
+        "description":  [
+                            "Zacharias Quill poured copper into the shape of a tongue and taught it to answer questions. The book records the first sixty conversations.",
+                            "Later chapters concern the metal\u0027s requests. The author granted the first four."
+                        ],
+        "tags":  [
+                     "copper",
+                     "metal",
+                     "speech",
+                     "experiments"
+                 ]
+    },
+    {
+        "slug":  "quicksilver-lullabies",
+        "title":  "Quicksilver Lullabies",
+        "author":  "Fenella Arkwright",
+        "school":  "Alchemy",
+        "hazard":  "Perilous",
+        "year":  "1795",
+        "pages":  134,
+        "summary":  "Songs to calm a restless mercury, set down in the key it prefers.",
+        "description":  [
+                            "Fenella Arkwright learned to keep mercury calm by singing to it. The lullabies are short, rhythmic and best performed in an unheated room.",
+                            "The book notes that the mercury has learned some of the songs and now sings back."
+                        ],
+        "tags":  [
+                     "mercury",
+                     "songs",
+                     "lullaby"
+                 ]
+    },
+    {
+        "slug":  "a-short-book-of-slow-gold",
+        "title":  "A Short Book of Slow Gold",
+        "author":  "Tamsin Gildersleeve",
+        "school":  "Alchemy",
+        "hazard":  "Mild",
+        "year":  "1902",
+        "pages":  118,
+        "summary":  "A patient guide to making gold over thirty years, with a very small furnace.",
+        "description":  [
+                            "Tamsin Gildersleeve rejected quick transmutation. Her method uses a candle-sized furnace, a lead coin and a great deal of waiting.",
+                            "Readers who finish the process report a tiny amount of gold and a lasting calm."
+                        ],
+        "tags":  [
+                     "gold",
+                     "patience",
+                     "furnace",
+                     "lead"
+                 ]
+    },
+    {
+        "slug":  "the-tenth-crucible",
+        "title":  "The Tenth Crucible",
+        "author":  "Dorian Malvesey",
+        "school":  "Alchemy",
+        "hazard":  "Forbidden",
+        "year":  "c. 1569",
+        "pages":  501,
+        "summary":  "The final volume of a series whose first nine crucibles were reported lost in a fire.",
+        "description":  [
+                            "Dorian Malvesey described nine crucibles in print and held back the tenth. When it appeared, the nine were found to have been written about it.",
+                            "The method at the centre of the book is not a transmutation. It is a request."
+                        ],
+        "tags":  [
+                     "crucible",
+                     "fire",
+                     "final",
+                     "series"
+                 ]
+    }
+]
