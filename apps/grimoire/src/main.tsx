@@ -21,7 +21,8 @@ if (!rootElement) {
 
 ReactDOM.createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* basename lets the app run under a sub-path (e.g. GitHub Pages); it is "/" in dev */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <MotionProvider>
         <AnnouncerProvider>
           <App />
