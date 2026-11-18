@@ -1,8 +1,37 @@
 {
-  "name": "a11y-mcp",
+  "name": "skeleton-key-a11y-mcp",
   "version": "0.1.0",
-  "private": true,
   "description": "MCP server that checks running web pages for accessibility problems (axe, keyboard walk, contrast, outline).",
+  "license": "MIT",
+  "author": "Hassan Ahmed",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hassank007/skeleton-key.git",
+    "directory": "mcp/a11y-mcp"
+  },
+  "homepage": "https://github.com/Hassank007/skeleton-key/tree/main/mcp/a11y-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Hassank007/skeleton-key/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "accessibility",
+    "a11y",
+    "wcag",
+    "axe",
+    "kiro",
+    "playwright",
+    "keyboard"
+  ],
+  "bin": {
+    "skeleton-key-a11y-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -12,7 +41,8 @@
     "start": "node dist/index.js",
     "lint": "eslint src tests --max-warnings 0",
     "pretest": "npm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
     "@axe-core/playwright": "^4.14.0",

@@ -1,6 +1,23 @@
-# a11y-mcp
+# skeleton-key-a11y-mcp
 
 a11y-mcp is a Model Context Protocol (MCP) server that lets Kiro check a running web app for accessibility problems. It has four tools: `audit_page` (axe-core, grouped by WCAG criterion), `keyboard_walk` (Tab order, focus indicators, keyboard traps), `check_contrast` (WCAG contrast maths, no browser) and `page_outline` (title, language, landmarks, headings).
+
+## Quick start (any project, from npm)
+
+Add this to `.kiro/settings/mcp.json` (Kiro) or your MCP client's config:
+
+```json
+{
+  "mcpServers": {
+    "a11y": {
+      "command": "npx",
+      "args": ["-y", "skeleton-key-a11y-mcp"]
+    }
+  }
+}
+```
+
+Then install Chromium for Playwright once: `npx playwright install chromium`. Ask Kiro something like "run keyboard_walk on http://localhost:5173 and fix what it finds".
 
 ## Requirements
 
