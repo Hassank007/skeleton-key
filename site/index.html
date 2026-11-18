@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skeleton Key — accessible by default</title>
+<meta name="description" content="An accessible-by-default Vite + React starter with an accessibility brain for Kiro, and two apps built from it.">
+<style>
+  :root { color-scheme: light dark; --bg: #ffffff; --text: #1a1523; --muted: #4b4458; --link: #6b21a8; --card: #f6f3fa; --focus: #b45309; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #120f17; --text: #f3eff8; --muted: #c9c1d6; --link: #c084fc; --card: #1e1926; --focus: #fbbf24; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 1.0625rem/1.6 system-ui, sans-serif; }
+  .skip { position: absolute; left: -9999px; top: 0; padding: .5rem 1rem; background: var(--text); color: var(--bg); }
+  .skip:focus { left: 1rem; top: 1rem; }
+  main { max-width: 46rem; margin: 0 auto; padding: 3rem 1rem; }
+  h1 { font-size: 2.25rem; line-height: 1.2; margin: 0 0 .5rem; }
+  .tagline { color: var(--muted); margin: 0 0 2rem; }
+  ul { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  li { background: var(--card); border-radius: 12px; padding: 1rem 1.25rem; }
+  h2 { font-size: 1.25rem; margin: 0 0 .25rem; }
+  p { margin: 0; }
+  a { color: var(--link); text-underline-offset: 3px; }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+  footer { margin-top: 2.5rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<main id="main">
+  <h1>Skeleton Key</h1>
+  <p class="tagline">Most websites are haunted for blind users. Skeleton Key exorcises them.</p>
+  <ul>
+    <li>
+      <h2><a href="./skeleton/">The skeleton</a></h2>
+      <p>The starter template: skip link, landmarks, focus on route change, accessible components and checked colour contrast.</p>
+    </li>
+    <li>
+      <h2><a href="./grimoire/">Grimoire</a></h2>
+      <p>A spooky catalogue to browse, built from the skeleton.</p>
+    </li>
+    <li>
+      <h2><a href="./seance/">Seance</a></h2>
+      <p>A multi-step booking form, built from the skeleton.</p>
+    </li>
+  </ul>
+  <footer>
+    <p><a href="https://github.com/Hassank007/skeleton-key">Source code on GitHub</a> (MIT licence). Built with Kiro for Kiroween 2026.</p>
+  </footer>
+</main>
+</body>
+</html>

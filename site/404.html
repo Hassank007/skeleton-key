@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Skeleton Key</title>
+<script>
+  // GitHub Pages has no SPA fallback. If a deep link inside one of the apps was
+  // opened directly (e.g. /skeleton-key/seance/book/spirit), send the visitor to
+  // that app's home page, which then routes client-side.
+  (function () {
+    var m = location.pathname.match(/^\/skeleton-key\/(skeleton|grimoire|seance)\//);
+    if (m) location.replace('/skeleton-key/' + m[1] + '/');
+  })();
+</script>
+</head>
+<body>
+<main>
+  <h1>Page not found</h1>
+  <p><a href="/skeleton-key/">Go to the Skeleton Key home page</a>.</p>
+</main>
+</body>
+</html>
