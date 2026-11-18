@@ -89,13 +89,18 @@ export function Dialog({ isOpen, onClose, title, description, children }: Dialog
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
 
+    // The panel itself (tabIndex -1) holds focus after a click on its padding. It is neither
+    // first nor last, so handle it here: Shift+Tab would otherwise leave the dialog.
+    const active = document.activeElement
+    const onPanel = active === panel
+
     if (e.shiftKey) {
-      if (document.activeElement === first) {
+      if (active === first || onPanel) {
         e.preventDefault()
         last.focus()
       }
     } else {
-      if (document.activeElement === last) {
+      if (active === last || onPanel) {
         e.preventDefault()
         first.focus()
       }

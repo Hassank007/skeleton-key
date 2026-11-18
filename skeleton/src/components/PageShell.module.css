@@ -10,6 +10,7 @@
 .headerInner {
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* reflow at 320px / 400% zoom (WCAG 1.4.10) */
   justify-content: space-between;
   gap: var(--space-4);
   max-width: 60rem;

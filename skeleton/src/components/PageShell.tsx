@@ -2,6 +2,7 @@
 import { type ReactNode, useEffect, useRef } from 'react'
 import { SkipLink } from './SkipLink'
 import { AppLink } from './AppLink'
+import { MotionToggle } from './MotionToggle'
 import styles from './PageShell.module.css'
 
 interface PageShellProps {
@@ -49,6 +50,7 @@ export function PageShell({ children }: PageShellProps) {
               </li>
             </ul>
           </nav>
+          <MotionToggle />
         </div>
       </header>
 

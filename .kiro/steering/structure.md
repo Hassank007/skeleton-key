@@ -11,6 +11,9 @@ skeleton-key/
   apps/
     grimoire/       app 1, created from the skeleton: content browsing
     seance/         app 2, created from the skeleton: multi-step booking form
+  mcp/
+    a11y-mcp/       our MCP server: audit_page, keyboard_walk, page_outline, check_contrast
+  docs/             audit results and generated reports
   scripts/
     new-app.mjs     copies skeleton/ into apps/<name> and renames it
   LICENSE           MIT

@@ -5,8 +5,8 @@
   height: 5rem;
   color: var(--color-accent);
   margin: var(--space-4) 0;
-  /* Stop animation entirely when reduced motion is on */
-  animation: ghost-float var(--duration-normal, 3s) ease-in-out infinite;
+  /* Slow ambient loop; stopped entirely when reduced motion is on (see rule below) */
+  animation: ghost-float 3s ease-in-out infinite;
   pointer-events: none;
   user-select: none;
 }

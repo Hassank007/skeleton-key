@@ -39,7 +39,10 @@ foreach ($b in $batches) {
   for ($a = 1; $a -le $attempts; $a++) {
     $log = Join-Path $logs "$name-$a.log"
     Write-Host ("run   {0} (attempt {1}) {2}" -f $name, $a, (Get-Date -Format "HH:mm"))
+    # Kiro logs [INFO] lines to stderr; don't let PowerShell treat them as fatal.
+    $ErrorActionPreference = "Continue"
     Get-Content $b.FullName -Raw | & $kiro chat --no-interactive --trust-all-tools *> $log
+    $ErrorActionPreference = "Stop"
 
     $text = Get-Content $log -Raw
     if ($text -match 'ThrottlingException|CREDIT_CONSUMPTION|429|limit reached|insufficient credits|quota') {

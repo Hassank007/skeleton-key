@@ -49,9 +49,18 @@ function ErrorIcon() {
   )
 }
 
+/** An empty or whitespace-only string is no message; so are null, undefined and booleans. */
+function hasContent(node: ReactNode): boolean {
+  if (node == null || typeof node === 'boolean') return false
+  if (typeof node === 'string') return node.trim() !== ''
+  return true
+}
+
 export function Field({ id, label, hint, error, children, required }: FieldProps) {
-  const hintId = hint != null ? `${id}-hint` : undefined
-  const errorId = error != null ? `${id}-error` : undefined
+  const hasHint = hasContent(hint)
+  const hasError = hasContent(error)
+  const hintId = hasHint ? `${id}-hint` : undefined
+  const errorId = hasError ? `${id}-error` : undefined
 
   // Build aria-describedby from whichever IDs are present.
   const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined
@@ -60,7 +69,7 @@ export function Field({ id, label, hint, error, children, required }: FieldProps
   const childWithProps = cloneElement(children, {
     id,
     'aria-describedby': describedBy,
-    ...(error != null ? { 'aria-invalid': 'true' as const } : {}),
+    ...(hasError ? { 'aria-invalid': 'true' as const } : {}),
   })
 
   return (
@@ -72,7 +81,7 @@ export function Field({ id, label, hint, error, children, required }: FieldProps
         )}
       </label>
 
-      {hint != null && (
+      {hasHint && (
         <span id={hintId} className={styles.hint}>
           {hint}
         </span>
@@ -80,7 +89,7 @@ export function Field({ id, label, hint, error, children, required }: FieldProps
 
       {childWithProps}
 
-      {error != null && (
+      {hasError && (
         <span id={errorId} className={styles.error}>
           <ErrorIcon />
           <span>

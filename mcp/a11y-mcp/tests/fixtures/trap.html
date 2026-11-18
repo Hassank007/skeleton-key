@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Fixture: BROKEN ON PURPOSE. It contains a keyboard trap (WCAG 2.1.2). Do not copy it or fix it. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trap fixture page</title>
+  </head>
+  <body>
+    <main>
+      <h1>Trap fixture</h1>
+      <button id="one" type="button">One</button>
+      <div id="box">
+        <button id="two" type="button">Two</button>
+        <button id="three" type="button">Three</button>
+      </div>
+      <a id="after" href="/clean.html">After the trap</a>
+    </main>
+    <script>
+      // Tab on the last button goes back to the middle one, and Shift+Tab on the middle one goes to the last.
+      document.getElementById('box').addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') return
+        var two = document.getElementById('two')
+        var three = document.getElementById('three')
+        if (!event.shiftKey && document.activeElement === three) {
+          event.preventDefault()
+          two.focus()
+        } else if (event.shiftKey && document.activeElement === two) {
+          event.preventDefault()
+          three.focus()
+        }
+      })
+    </script>
+  </body>
+</html>

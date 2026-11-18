@@ -142,6 +142,19 @@ describe('Field', () => {
     expect(input.getAttribute('aria-describedby')).toContain('inline-err-error')
   })
 
+  it('treats an empty or whitespace-only hint and error as absent (property-test counterexample)', () => {
+    const { getByLabelText, container } = render(
+      <Field id="a" label="Say hi" hint="" error="   ">
+        <input type="text" />
+      </Field>,
+    )
+    const input = getByLabelText('Say hi')
+    expect(input.hasAttribute('aria-describedby')).toBe(false)
+    expect(input.hasAttribute('aria-invalid')).toBe(false)
+    expect(container.querySelector('#a-hint')).toBeNull()
+    expect(container.querySelector('#a-error')).toBeNull()
+  })
+
   it('required field includes "(required)" text in label', () => {
     const { getByText } = render(
       <Field id="terms" label="Agree to terms" required>

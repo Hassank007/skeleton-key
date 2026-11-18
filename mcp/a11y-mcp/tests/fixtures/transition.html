@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Fixture: accessible page whose skip link slides in with a short transition. It checks that keyboard_walk measures at rest. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Transition fixture page</title>
+    <style>
+      body { margin: 0; font: 1rem/1.5 system-ui, sans-serif; color: #1a1a1a; background: #ffffff; }
+      .skip-link {
+        position: absolute; top: 0; left: 0; padding: 0.5rem 1rem; background: #1a1a1a; color: #ffffff;
+        transform: translateY(-200%); opacity: 0; transition: transform 200ms ease, opacity 200ms ease;
+      }
+      .skip-link:focus-visible { transform: translateY(0); opacity: 1; outline: 3px solid #0033cc; outline-offset: 2px; }
+      a { color: #0b3d91; }
+      a:focus-visible { outline: 3px solid #0033cc; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <main id="main">
+      <h1>Transition fixture</h1>
+      <p><a href="/clean.html">Go to the clean page</a></p>
+    </main>
+  </body>
+</html>

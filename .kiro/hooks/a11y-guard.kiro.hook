@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "a11y-guard",
+  "description": "On save of a .tsx file under skeleton/ or apps/, review it against .kiro/steering/accessibility.md and fix violations.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["skeleton/src/**/*.tsx", "apps/*/src/**/*.tsx"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A .tsx file was just saved. Read .kiro/steering/accessibility.md, then review the saved file against every rule in it that applies (semantic HTML, no click handlers on div or span, labels, aria-describedby links, focus styles, live-region announcer, alt text, target size, reduced motion). If you find violations, fix them in the file and report one line per fix in the form '<rule>: <what you changed>'. If you find none, do not edit anything and reply with the single line 'a11y-guard: no violations found'. Never disable a lint rule or axe rule to make a violation go away. Do not claim the file is accessible or conformant; you only did a static review."
+  }
+}

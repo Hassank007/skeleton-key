@@ -1,17 +1,20 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, within, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { axe } from 'vitest-axe'
 import { PageShell } from '../../src/components/PageShell'
+import { MotionProvider } from '../../src/contexts/MotionContext'
 
-/** Minimal wrapper: PageShell needs a router context (AppLink inside uses Link). */
+/** Minimal wrapper: PageShell needs a router (AppLink uses Link) and MotionProvider (MotionToggle). */
 function renderShell() {
   return render(
     <MemoryRouter>
-      <PageShell>
-        <h1 tabIndex={-1}>Test page heading</h1>
-        <p>Page content.</p>
-      </PageShell>
+      <MotionProvider>
+        <PageShell>
+          <h1 tabIndex={-1}>Test page heading</h1>
+          <p>Page content.</p>
+        </PageShell>
+      </MotionProvider>
     </MemoryRouter>,
   )
 }
@@ -68,5 +71,20 @@ describe('PageShell', () => {
     renderShell()
     const main = screen.getByRole('main')
     expect(main.id).toBe('main-content')
+  })
+
+  it('activating the skip link moves focus to <main>', () => {
+    renderShell()
+    fireEvent.click(screen.getByRole('link', { name: /skip to main content/i }))
+    expect(document.activeElement).toBe(screen.getByRole('main'))
+  })
+
+  it('the motion toggle is a pressed-state button that sets data-reduced-motion on <html>', () => {
+    renderShell()
+    const toggle = screen.getByRole('button', { name: 'Reduce motion' })
+    expect(toggle.getAttribute('aria-pressed')).toBe('false')
+    fireEvent.click(toggle)
+    expect(toggle.getAttribute('aria-pressed')).toBe('true')
+    expect(document.documentElement.getAttribute('data-reduced-motion')).toBe('true')
   })
 })

@@ -118,38 +118,38 @@
 
 ## 16. Dev-time axe overlay
 
-- [ ] 16. Wire `@axe-core/react` for development only
-  - [ ] 16.1 Install `@axe-core/react` as a dev dependency. *(REQ-17)*
-  - [ ] 16.2 In `main.tsx`, add `if (import.meta.env.DEV) { import('@axe-core/react').then(axe => axe.default(React, ReactDOM, 1000)); }` so the import is dynamic and tree-shaken in production. *(REQ-17)*
+- [x] 16. Wire `@axe-core/react` for development only
+  - [x] 16.1 Install `@axe-core/react` as a dev dependency. *(REQ-17)*
+  - [x] 16.2 In `main.tsx`, add `if (import.meta.env.DEV) { import('@axe-core/react').then(axe => axe.default(React, ReactDOM, 1000)); }` so the import is dynamic and tree-shaken in production. *(REQ-17)*
 
 ## 17. Vitest configuration
 
-- [ ] 17. Configure Vitest for unit tests
-  - [ ] 17.1 Install `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`, and `axe-core` as dev dependencies. *(REQ-15)*
-  - [ ] 17.2 Add a `test` block to `vite.config.ts` with `environment: 'jsdom'` and `setupFiles: ['./tests/unit/setup.ts']`. *(REQ-15)*
-  - [ ] 17.3 Create `tests/unit/setup.ts` that imports `@testing-library/jest-dom` and `vitest-axe/extend-expect`. *(REQ-15)*
-  - [ ] 17.4 Add `"test": "vitest run"` and `"test:watch": "vitest"` to `package.json` scripts. *(REQ-15)*
+- [x] 17. Configure Vitest for unit tests
+  - [x] 17.1 Install `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`, and `axe-core` as dev dependencies. *(REQ-15)*
+  - [x] 17.2 Add a `test` block to `vite.config.ts` with `environment: 'jsdom'` and `setupFiles: ['./tests/unit/setup.ts']`. *(REQ-15)*
+  - [x] 17.3 Create `tests/unit/setup.ts` that imports `@testing-library/jest-dom` and `vitest-axe/extend-expect`. *(REQ-15)*
+  - [x] 17.4 Add `"test": "vitest run"` and `"test:watch": "vitest"` to `package.json` scripts. *(REQ-15)*
 
 ## 18. Playwright configuration and E2E axe tests
 
-- [ ] 18. Configure Playwright and write the page-level axe tests
-  - [ ] 18.1 Install `playwright` (with Chromium) and `@axe-core/playwright` as dev dependencies. *(REQ-16)*
-  - [ ] 18.2 Create `playwright.config.ts` with `baseURL: 'http://localhost:5173'`, one Chromium project, and `webServer` pointing to `npm run dev`. *(REQ-16)*
-  - [ ] 18.3 Create `tests/e2e/home.spec.ts`: navigate to `/`; call `checkA11y(page)`; assert zero violations. *(REQ-16)*
-  - [ ] 18.4 Create `tests/e2e/about.spec.ts`: navigate to `/about`; call `checkA11y(page)`; assert zero violations. *(REQ-16)*
-  - [ ] 18.5 Add `"test:e2e": "playwright test"` to `package.json` scripts. *(REQ-16)*
+- [x] 18. Configure Playwright and write the page-level axe tests
+  - [x] 18.1 Install `playwright` (with Chromium) and `@axe-core/playwright` as dev dependencies. *(REQ-16)*
+  - [x] 18.2 Create `playwright.config.ts` with `baseURL: 'http://localhost:5173'`, one Chromium project, and `webServer` pointing to `npm run dev`. *(REQ-16)*
+  - [x] 18.3 Create `tests/e2e/home.spec.ts`: navigate to `/`; call `checkA11y(page)`; assert zero violations. *(REQ-16)*
+  - [x] 18.4 Create `tests/e2e/about.spec.ts`: navigate to `/about`; call `checkA11y(page)`; assert zero violations. *(REQ-16)*
+  - [x] 18.5 Add `"test:e2e": "playwright test"` to `package.json` scripts. *(REQ-16)*
 
 ## 19. Decorative art handling
 
-- [ ] 19. Add decorative spooky art to the Home page and verify it is hidden from AT
-  - [ ] 19.1 Add at least one inline SVG decorative illustration (e.g. a simple ghost or bat) to `HomePage.tsx` with `aria-hidden="true"` and no `alt` or `title` text. *(REQ-13)*
-  - [ ] 19.2 Add a unit test assertion in the HomePage or PageShell test that the decorative SVG has `aria-hidden="true"`. *(REQ-13, REQ-15)*
+- [x] 19. Add decorative spooky art to the Home page and verify it is hidden from AT
+  - [x] 19.1 Add at least one inline SVG decorative illustration (e.g. a simple ghost or bat) to `HomePage.tsx` with `aria-hidden="true"` and no `alt` or `title` text. *(REQ-13)*
+  - [x] 19.2 Add a unit test assertion in the HomePage or PageShell test that the decorative SVG has `aria-hidden="true"`. *(REQ-13, REQ-15)*
 
 ## 20. Final verification
 
-- [ ] 20. Verify the complete scaffold passes all checks
-  - [ ] 20.1 Run `npm run lint` inside `skeleton/` and confirm zero violations. *(REQ-14)*
-  - [ ] 20.2 Run `npm test` and confirm all unit + axe tests pass with zero violations. *(REQ-15)*
-  - [ ] 20.3 Run `npm run build` and confirm a clean production bundle with no type errors. *(REQ-1)*
-  - [ ] 20.4 Run `npm run test:e2e` and confirm both page-level axe tests pass with zero violations. *(REQ-16)*
-  - [ ] 20.5 Manually tab through the Home and About pages in a browser; confirm focus order is logical, the skip link appears on first Tab, the focus ring is always visible, and no focus is ever lost after a route change. *(REQ-2, REQ-3)*
+- [x] 20. Verify the complete scaffold passes all checks
+  - [x] 20.1 Run `npm run lint` inside `skeleton/` and confirm zero violations. *(REQ-14)*
+  - [x] 20.2 Run `npm test` and confirm all unit + axe tests pass with zero violations. *(REQ-15)*
+  - [x] 20.3 Run `npm run build` and confirm a clean production bundle with no type errors. *(REQ-1)*
+  - [x] 20.4 Run `npm run test:e2e` and confirm both page-level axe tests pass with zero violations. *(REQ-16)*
+  - [x] 20.5 Manually tab through the Home and About pages in a browser; confirm focus order is logical, the skip link appears on first Tab, the focus ring is always visible, and no focus is ever lost after a route change. *(REQ-2, REQ-3)*

@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/unit/setup.ts'],
     globals: true,
+    css: { include: [/tokens\/.*\.css/] },
     passWithNoTests: true,
     include: ['tests/unit/**/*.test.{ts,tsx}'],
     exclude: ['tests/e2e/**'],

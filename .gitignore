@@ -13,3 +13,7 @@ test-results/
 # Kiro batch runner output (local only)
 scripts/kiro-batches/logs/
 scripts/kiro-batches/.done/
+
+# Kiro scratch files
+*.bak
+mcp/scratch-*.json

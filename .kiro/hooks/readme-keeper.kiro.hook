@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "readme-keeper",
+  "description": "Manual: refresh README.md from the specs in .kiro/specs and the hooks in .kiro/hooks.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Read every requirements.md under .kiro/specs/ and every *.kiro.hook file under .kiro/hooks/, plus .kiro/agents/*.json. Then update README.md so its sections on the specs, the Kiro accessibility brain and the hooks are accurate: one line per spec describing what it covers, and a table of hooks with name, trigger and what it does. Keep the existing title, pitch, license section and links. Change only what you can derive from the files you read, and state facts only from those files. Do not claim that any app conforms to WCAG; describe what the tooling does instead. Reply with a short list of the README sections you changed."
+  }
+}

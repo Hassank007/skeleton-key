@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- Fixture: BROKEN ON PURPOSE. It contains known axe violations so the tests can assert them. Do not copy it or fix it. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Violations fixture page</title>
+  </head>
+  <body>
+    <main>
+      <h1>Violations fixture</h1>
+      <!-- 1.1.1 image-alt: no alt attribute -->
+      <img id="no-alt" src="/x.png" />
+      <!-- 1.4.3 color-contrast: #aaa on white is about 2.3:1 -->
+      <p id="low-contrast" style="color: #aaaaaa; background: #ffffff">This text has too little contrast.</p>
+      <!-- 4.1.2 button-name: an icon-only button with no accessible name -->
+      <button id="no-name" type="button"><span aria-hidden="true">&#9776;</span></button>
+      <!-- 4.1.2 label: an input with no label -->
+      <input id="no-label" type="text" />
+      <!-- 2.4.4 and 4.1.2 link-name: a link with no text. axe maps this rule to both criteria -->
+      <a id="empty-link" href="/clean.html"></a>
+    </main>
+  </body>
+</html>

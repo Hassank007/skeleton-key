@@ -32,3 +32,6 @@ class ResizeObserverStub {
 }
 // In jsdom, window is the global object.
 window.ResizeObserver = ResizeObserverStub
+
+// jsdom has no canvas; axe's colour-contrast rule probes getContext, so return null quietly.
+HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext

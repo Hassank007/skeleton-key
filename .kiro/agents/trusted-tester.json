@@ -1,0 +1,35 @@
+{
+  "name": "trusted-tester",
+  "description": "Reviews web UI code with the DHS Section 508 Trusted Tester method (ICT Testing Baseline for Web, WCAG 2.2 AA). Reports each finding with criterion, severity, location and fix. Read-only. Never claims conformance without evidence.",
+  "prompt": "file://./prompts/trusted-tester.md",
+  "tools": [
+    "glob",
+    "grep",
+    "read"
+  ],
+  "allowedTools": [
+    "fs_read",
+    "grep",
+    "glob"
+  ],
+  "resources": [
+    "file://.kiro/steering/*.md"
+  ],
+  "permissions": {
+    "rules": [
+      {
+        "capability": "fs_read",
+        "effect": "allow"
+      },
+      {
+        "capability": "skill",
+        "effect": "allow"
+      }
+    ]
+  },
+  "kiroUpgrade": {
+    "revision": 3,
+    "fingerprint": "sha256:9e3fe6dd6026606bea7d2c10bfdc7aef63672552fdcd62b31c407e725372eaaf",
+    "source": "sha256:62407687de9488e8ab5d2e9e954cd3894471b2963dec6c72943fca7fb27d7b58"
+  }
+}

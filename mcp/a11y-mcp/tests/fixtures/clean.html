@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Fixture: a clean page. It follows .kiro/steering/accessibility.md and must have zero axe violations. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clean fixture page</title>
+    <style>
+      body { margin: 0; font: 1rem/1.5 system-ui, sans-serif; color: #1a1a1a; background: #ffffff; }
+      .skip-link { position: absolute; top: -100px; left: 0; padding: 0.5rem 1rem; background: #1a1a1a; color: #ffffff; }
+      .skip-link:focus-visible { top: 0; }
+      header, main, footer { padding: 1rem; }
+      nav ul { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+      a { color: #0b3d91; }
+      nav a, .more { display: inline-block; min-height: 24px; min-width: 24px; padding: 0.25rem 0.5rem; }
+      input, button { min-height: 32px; font: inherit; }
+      button { color: #ffffff; background: #1a1a1a; border: 2px solid #1a1a1a; padding: 0 1rem; }
+      a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #0033cc; outline-offset: 2px; }
+      main:focus-visible { outline: none; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header>
+      <p>Skeleton Key fixtures</p>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="/clean.html">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <h1>Clean fixture</h1>
+      <p>This page has no accessibility violations.</p>
+      <h2>Contact form</h2>
+      <form>
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" />
+        <button type="button">Send</button>
+      </form>
+      <p><a class="more" href="/more.html">Read more</a></p>
+    </main>
+    <footer>
+      <p>End of the clean fixture.</p>
+    </footer>
+  </body>
+</html>

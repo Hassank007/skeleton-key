@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Design tokens — dark theme overrides (Kiroween dark palette)
  * Active when: OS is in dark mode OR [data-theme="dark"] is set on <html>.
  * All text/background pairs maintain the same WCAG contrast ratios as the light theme.
@@ -27,7 +27,7 @@
 
     /* ── Colour: accent ───────────────────────────────────────────── */
     --color-accent: #9333ea;           /* for UI components only (3.62:1) — NOT for text */
-    --color-accent-hover: #a855f7;
+    --color-accent-hover: #7e22ce;
 
     /* ── Colour: feedback ─────────────────────────────────────────── */
     /* #fca5a5 on #0f0a1a ≈ 7:1 */
@@ -55,7 +55,7 @@
   --color-link: #c084fc;
   --color-link-hover: #d8b4fe;
   --color-accent: #9333ea;
-  --color-accent-hover: #a855f7;
+  --color-accent-hover: #7e22ce;
   --color-error: #fca5a5;
   --color-success: #86efac;
   --color-warning: #fcd34d;

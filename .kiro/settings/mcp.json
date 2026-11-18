@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "a11y": {
+      "command": "node",
+      "args": ["mcp/a11y-mcp/dist/index.js"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": ["check_contrast", "page_outline"]
+    }
+  }
+}

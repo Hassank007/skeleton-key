@@ -118,6 +118,29 @@ describe('Dialog', () => {
     expect(document.activeElement).toBe(closeBtn)
   })
 
+  it('keeps Shift+Tab inside the dialog when the panel itself has focus (property-test counterexample)', async () => {
+    const user = userEvent.setup()
+    render(
+      <DialogWrapper>
+        <button type="button">Item 0</button>
+      </DialogWrapper>,
+    )
+    await user.click(screen.getByRole('button', { name: 'Open dialog' }))
+    const panel = await screen.findByRole('dialog')
+    await waitFor(() => expect(panel.contains(document.activeElement)).toBe(true))
+
+    // Click the panel's padding: focus moves to the panel (tabIndex -1).
+    await user.click(panel)
+    expect(document.activeElement).toBe(panel)
+
+    await user.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Item 0' }))
+
+    await user.click(panel)
+    await user.keyboard('{Tab}')
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Close dialog' }))
+  })
+
   it('traps Shift+Tab focus inside the dialog', async () => {
     const user = userEvent.setup()
     render(
