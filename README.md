@@ -67,9 +67,9 @@ npm run acr -- skeleton   # writes skeleton/ACR.md; use grimoire or seance in th
 
 ## Live demos
 
-- Grimoire: _link coming soon_
-- Seance: _link coming soon_
-- Skeleton: _link coming soon_
+- Grimoire: https://hassank007.github.io/skeleton-key/grimoire/
+- Seance: https://hassank007.github.io/skeleton-key/seance/
+- Skeleton: https://hassank007.github.io/skeleton-key/skeleton/
 
 ## How Kiro built this
 
