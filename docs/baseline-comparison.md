@@ -4,7 +4,7 @@
 
 ## What was compared
 
-- **Baseline:** Kiro was given a plain prompt asking for the same séance booking form: three steps, a confirm dialog and a spooky look. It ran in an empty folder with **no** `.kiro` steering, specs, hooks or agents. The generated code was not edited. It is kept outside this repo, because it is a demo prop and not part of the entry.
+- **Baseline:** Kiro was given a plain prompt asking for the same séance booking form: three steps, a confirm dialog and a spooky look. It ran in an empty folder with **no** `.kiro` steering, specs, hooks or agents. The generated code was not edited; it is the first commit of `examples/haunted-seance` (not one of the two Skeleton Crew apps).
 - **Seance:** the app in `apps/seance`, built from the skeleton with the steering, specs and hooks in this repo. It was tested at its live URL.
 
 Both were measured with the same scripts, in `scripts/compare/`:
@@ -54,7 +54,7 @@ The same scripts found one real bug in Seance. If a spirit radio has focus, noth
 ## How to rerun
 
 ```bash
-# baseline: serve the generated app (outside this repo) with `npx vite preview --port 4180`, then
+# before: check out the first commit of examples/haunted-seance, run `npm run dev -- --port 4180` there, then
 node scripts/compare/measure-baseline.mjs http://localhost:4180/
 # after the exorcism: `npm run dev -- --port 4181` in examples/haunted-seance, then
 node scripts/compare/measure-baseline.mjs http://localhost:4181/
