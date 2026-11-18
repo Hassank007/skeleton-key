@@ -22,12 +22,27 @@ function slug(text: string): string {
 }
 
 /**
+ * In development, @axe-core/react runs axe inside the page shortly after each render. If the test's scan starts
+ * during that run, axe throws "Axe is already running". Wait and retry that one error; anything else is rethrown.
+ */
+async function analyzeWhenIdle(page: Page, attempts = 5): Promise<AxeResults> {
+  for (let n = 1; ; n++) {
+    try {
+      return await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze()
+    } catch (error) {
+      const busy = error instanceof Error && error.message.includes('Axe is already running')
+      if (!busy || n >= attempts) throw error
+      await page.waitForTimeout(500)
+    }
+  }
+}
+/**
  * Accessibility guarantee: every page-level axe scan is recorded as evidence for the ACR generator,
  * before the caller asserts on it, so a failing scan is also on record. Only ids, tags and node counts are
  * written (no HTML or selectors). The caller still asserts `results.violations` is empty.
  */
 export async function scanPage(page: Page, testInfo: TestInfo, label?: string): Promise<AxeResults> {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze()
+  const results = await analyzeWhenIdle(page)
 
   const colorScheme = await page.evaluate(() =>
     window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
