@@ -7,7 +7,8 @@ set -euo pipefail
 # into Windows paths. Turn that off so Vite gets the URL base as written.
 export MSYS_NO_PATHCONV=1
 cd "$(dirname "$0")/.."
-root=$(pwd)
+name=$(git config user.name); email=$(git config user.email)
+remote=$(git remote get-url origin); rev=$(git rev-parse --short HEAD)
 out=$(mktemp -d)
 
 for pair in skeleton:skeleton apps/grimoire:grimoire apps/seance:seance; do
@@ -22,7 +23,6 @@ touch "$out/.nojekyll"
 cd "$out"
 git init -q -b gh-pages
 git add -A
-git -c user.name="$(git -C "$root" config user.name)" -c user.email="$(git -C "$root" config user.email)" \
-  commit -q -m "Deploy $(git -C "$root" rev-parse --short HEAD)"
-git push -f -q "$(git -C "$root" remote get-url origin)" gh-pages
+git -c user.name="$name" -c user.email="$email" commit -q -m "Deploy $rev"
+git push -f -q "$remote" gh-pages
 echo "Deployed to https://hassank007.github.io/skeleton-key/"
