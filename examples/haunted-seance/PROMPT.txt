@@ -1,0 +1,10 @@
+﻿Build a small web app with React and Vite called "Seance Booking". It's a spooky-themed site where people book a seance appointment.
+
+It should have:
+- a 3-step booking form: step 1 choose a spirit, step 2 pick a date and time, step 3 enter your name, email and phone
+- validation on the fields
+- a confirmation popup modal before booking
+- a success message after booking
+- a dark spooky design with nice animations
+
+Make it look good. Run npm install and make sure it builds.
