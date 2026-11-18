@@ -76,14 +76,17 @@ await reviewBtn.click();
 await page.waitForTimeout(500);
 await scan('Confirm dialog open');
 
-const inDialog = () => page.evaluate(() => !!document.activeElement?.closest('[role=dialog]'));
+// Native <dialog> has an implicit dialog role, so match both. Focus on <body> means the browser's own UI
+// (address bar) after the last element, which is not the page behind the dialog.
+const inDialog = () => page.evaluate(() => !!document.activeElement?.closest('dialog, [role=dialog]'));
+const behindDialog = () => page.evaluate(() => { const e = document.activeElement; return !!e && e !== document.body && !e.closest('dialog, [role=dialog]'); });
 check('Dialog: focus starts inside the dialog', await inDialog(), await focused());
 let escaped = false;
-for (let i = 0; i < 6; i++) { await page.keyboard.press('Tab'); if (!(await inDialog())) { escaped = true; break; } }
-check('Dialog: Tab stays inside the dialog (focus trap)', !escaped, escaped ? `focus left the dialog to ${await focused()}` : 'trapped');
+for (let i = 0; i < 10; i++) { await page.keyboard.press('Tab'); if (await behindDialog()) { escaped = true; break; } }
+check('Dialog: Tab never reaches the page behind it', !escaped, escaped ? `focus reached the page behind: ${await focused()}` : 'stayed in the dialog (or browser UI)');
 await page.keyboard.press('Escape');
 await page.waitForTimeout(300);
-const open = await page.locator('[role=dialog]').count();
+const open = await page.locator('dialog[open], [role=dialog]').count();
 check('Dialog: Escape closes it', open === 0, open ? 'still open after Escape' : 'closed');
 if (open === 0) {
   const back = await focused();

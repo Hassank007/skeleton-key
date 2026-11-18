@@ -1,0 +1,28 @@
+EXORCISE: make an existing web app accessible, without changing what it does or how it looks.
+
+App folder: {APP_DIR}
+Running at: {URL}   (a dev server is already running with hot reload; do not start or stop it)
+
+Follow the steering docs in .kiro/steering, especially accessibility.md (WCAG 2.2 AA). Work ONLY inside {APP_DIR}.
+
+1. AUDIT FIRST, using the `a11y` MCP server tools against the running app (do not guess):
+   - audit_page on {URL}
+   - keyboard_walk on {URL}
+   - page_outline on {URL}
+   Also review the source like a DHS Trusted Tester: walk the whole flow with the keyboard in your head (every step, the error state on an empty submit, the confirm dialog, the success view) and check:
+   skip link (2.4.1); page title per step (2.4.2); focus order and where focus goes after a step change, an error and a dialog (2.4.3);
+   error identification and focus to the errors (3.3.1, 3.3.3); status messages (4.1.3); dialog focus trap, Escape to close and focus return (2.1.2, 2.4.3);
+   reduced motion and a way to pause motion (2.2.2, 2.3.3); contrast (1.4.3, 1.4.11); focus visible (2.4.7, 2.4.11); target size (2.5.8); names, roles, values (4.1.2).
+   Record every finding with: WCAG criterion, severity (critical/serious/moderate/minor), where, and evidence (tool output or code line).
+
+2. FIX every finding with the smallest correct change. Keep the existing features, text, spooky design and colours unless a colour fails contrast (then adjust it as little as possible). Prefer native HTML over ARIA. Do not add dependencies.
+
+3. VERIFY: run audit_page, keyboard_walk and page_outline again on {URL} after the fixes and include the new results. Run `npm run build` in {APP_DIR}; it must succeed.
+
+4. WRITE {APP_DIR}/EXORCISM.md with:
+   - a one-paragraph summary;
+   - a table of findings: criterion, severity, what was wrong, what you changed, file;
+   - before vs after tool results (violation counts, keyboard_walk traps / missing focus indicators / missing names, outline issues);
+   - anything you could NOT verify (for example: a real screen reader, a native date picker pop-up).
+
+Be honest: if a tool was unavailable or a check was not run, say so in EXORCISM.md.
