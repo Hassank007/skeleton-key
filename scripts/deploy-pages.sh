@@ -3,6 +3,9 @@
 # Site: https://hassank007.github.io/skeleton-key/
 # Usage (repo root, Git Bash): bash scripts/deploy-pages.sh
 set -euo pipefail
+# Git Bash on Windows rewrites arguments that look like POSIX paths (e.g. --base=/skeleton-key/)
+# into Windows paths. Turn that off so Vite gets the URL base as written.
+export MSYS_NO_PATHCONV=1
 cd "$(dirname "$0")/.."
 root=$(pwd)
 out=$(mktemp -d)
