@@ -67,6 +67,8 @@ npm run acr -- skeleton   # writes skeleton/ACR.md; use grimoire or seance in th
 
 ## Live demos
 
+**Accessibility MCP server on npm:** [`skeleton-key-a11y-mcp`](https://www.npmjs.com/package/skeleton-key-a11y-mcp). Add `{"command": "npx", "args": ["-y", "skeleton-key-a11y-mcp"]}` to `.kiro/settings/mcp.json` in any project.
+
 - Grimoire: https://hassank007.github.io/skeleton-key/grimoire/
 - Seance: https://hassank007.github.io/skeleton-key/seance/
 - Skeleton: https://hassank007.github.io/skeleton-key/skeleton/
