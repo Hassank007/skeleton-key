@@ -65,12 +65,35 @@ export function useStepForm(step: StepId, onValid: () => void): StepForm {
     setShowSummary(false)
   })
 
+  // True from a pointer press on a submit button until the pointer is released. The press blurs the focused field
+  // before the click; touching it then would render an inline error that moves the button, so the click would miss.
+  // The submit touches every field of the step anyway.
+  const pressingSubmit = useRef(false)
+  useEffect(() => {
+    const down = (event: PointerEvent) => {
+      const target = event.target
+      pressingSubmit.current = target instanceof Element && target.closest('button[type="submit"]') !== null
+    }
+    const up = () => {
+      pressingSubmit.current = false
+    }
+    document.addEventListener('pointerdown', down, true)
+    document.addEventListener('pointerup', up, true)
+    document.addEventListener('pointercancel', up, true)
+    return () => {
+      document.removeEventListener('pointerdown', down, true)
+      document.removeEventListener('pointerup', up, true)
+      document.removeEventListener('pointercancel', up, true)
+    }
+  }, [])
+
   return {
     errors,
     summaryItems,
     showSummary,
     summaryRef,
     onBlur(field) {
+      if (pressingSubmit.current) return
       dispatch({ type: 'touch', fields: [field] })
     },
     onChange(field, value) {

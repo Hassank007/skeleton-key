@@ -53,6 +53,30 @@ async function toDialog(user: User) {
   await screen.findByRole('dialog', { name: 'Confirm your séance' })
 }
 
+describe('Submit by pointer press from a focused field', () => {
+  it('a pointerdown on Next does not touch the blurred field, and the submit still shows the summary [SC 3.3.1]', () => {
+    renderRoutes('/book/spirit')
+    const radio = screen.getAllByRole('radio')[0]
+    const next = screen.getByRole('button', { name: 'Next' })
+    radio.focus()
+    fireEvent.pointerDown(next)
+    fireEvent.blur(radio)
+    expect(screen.getByRole('radiogroup')).not.toHaveAttribute('aria-invalid', 'true')
+    fireEvent.pointerUp(next)
+    fireEvent.click(next)
+    expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-invalid', 'true')
+    expect(screen.getByRole('link', { name: 'Choose a spirit to continue.' })).toBeInTheDocument()
+  })
+
+  it('leaving a field without a pointer press on submit still shows its error', () => {
+    renderRoutes('/book/spirit')
+    const radio = screen.getAllByRole('radio')[0]
+    radio.focus()
+    fireEvent.blur(radio)
+    expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-invalid', 'true')
+  })
+})
+
 describe('BookingPage titles and headings', () => {
   const cases = [
     ['/book/spirit', 'Step 1 of 3: Choose a spirit — Seance', 'Choose a spirit'],

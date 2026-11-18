@@ -1,0 +1,25 @@
+Bug fix in apps/seance. Follow the steering docs in .kiro/steering (especially accessibility.md). Work only in apps/seance.
+
+BUG (found by an external keyboard + pointer test against the deployed app):
+On step 1 ("Choose a spirit"), if a spirit radio has focus and nothing is chosen, and the user then CLICKS the "Next" button with a mouse or pointer, nothing happens: no error summary appears and focus stays on "Next". The same interaction with the keyboard (Tab to Next, press Enter) works correctly and the error summary appears and receives focus.
+
+Reproduction (Playwright, Chromium):
+  1. Open /book/spirit (via the intro page's "Start booking" link).
+  2. await page.locator('input[name=spirit]').first().focus()
+  3. await page.getByRole('button', { name: 'Next' }).click()
+  4. Expected: the error summary "There is a problem / Choose a spirit to continue." is shown and focused. Actual: it is not shown; focus is on the Next button.
+
+Root cause (verify it before fixing): the radio's onBlur calls useStepForm's onBlur, which marks the field as touched. The inline error then renders and pushes the Next button down between pointerdown and click, so the click no longer lands on the button and the form is never submitted. The same layout shift can happen on any step whenever a field with an error is blurred by pressing the submit button.
+
+Fix requirements:
+- A pointer press on the step's submit button must always result in a submit (the summary appears and is focused when there are errors), on every step.
+- Keep the existing guarantees: no inline error on a field the user has not touched (WCAG 3.3.1); errors appear on blur when the user leaves a field for anything other than the submit button; the error summary still receives focus after a failed submit.
+- Prefer a small change in src/hooks/useStepForm.ts (for example: ignore the touch-on-blur when the blur was caused by a pointer press on the form's submit button, since the submit touches every field anyway) over changes in each step component.
+- Do not change the visual design.
+
+Tests:
+- Add a Playwright e2e test in tests/e2e/ that reproduces the bug above (focus a spirit radio, click Next, expect the summary to be visible and focused) and one for the details step (focus "Full name", click "Review and book" with empty fields, expect the summary). Both must fail before the fix and pass after.
+- Add or update a unit test for the hook behaviour if the hook has unit tests.
+- Run npm run lint, npx tsc --noEmit, npm test and npm run test:e2e in apps/seance. All must pass.
+
+When done, list what you changed, the root cause you confirmed, and the command results.
