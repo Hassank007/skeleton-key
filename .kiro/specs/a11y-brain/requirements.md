@@ -1,6 +1,6 @@
 # Accessibility Brain: Requirements
 
-The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four agent hooks that keep any app built from the skeleton accessible while it is being edited with Kiro. Requirements use EARS notation. WCAG references are to WCAG 2.2.
+The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent, four hooks and one manual steering workflow that keep any app built from the skeleton accessible while it is being edited with Kiro. Requirements use EARS notation. WCAG references are to WCAG 2.2.
 
 ## REQ-1 Trusted Tester agent definition
 
@@ -73,12 +73,13 @@ The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four age
 
 ### Acceptance criteria
 
-- 5.1 The system SHALL provide a hook named `a11y-guard` in `.kiro/hooks/a11y-guard.kiro.hook`.
-- 5.2 WHEN a `.tsx` file under `skeleton/src/` or `apps/*/src/` is saved, THEN the hook SHALL trigger an agent prompt for that file (event `fileEdited`).
+- 5.1 The system SHALL provide a hook named `a11y-guard` in `.kiro/hooks/a11y-guard.json` (current hook format, `version` `v1`).
+- 5.2 WHEN a person saves a `.tsx` file under `skeleton/src/` or `apps/*/src/`, THEN the hook SHALL trigger an agent prompt for that file (trigger `PostFileSave`). The `matcher` SHALL accept both `/` and `\` as path separators.
 - 5.3 The hook prompt SHALL instruct the agent to review the saved file against `.kiro/steering/accessibility.md` (WCAG 2.2 AA).
 - 5.4 WHEN the review finds a violation, THEN the prompt SHALL instruct the agent to fix it in the file and explain each fix in one line.
 - 5.5 WHEN the review finds no violation, THEN the prompt SHALL instruct the agent to make no edit and reply with one line.
 - 5.6 The hook SHALL NOT trigger on files under `node_modules/`, `dist/` or `tests/`.
+- 5.7 The saves made by the agent itself are covered by the `a11y-guard-agent` hook (REQ-11), because `PostFileSave` fires when a person saves a file.
 
 ---
 
@@ -88,8 +89,8 @@ The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four age
 
 ### Acceptance criteria
 
-- 6.1 The system SHALL provide a hook named `test-buddy` in `.kiro/hooks/test-buddy.kiro.hook`.
-- 6.2 WHEN a new `.tsx` file is created in any `src/components` folder, THEN the hook SHALL trigger an agent prompt (event `fileCreated`).
+- 6.1 The system SHALL provide a hook named `test-buddy` in `.kiro/hooks/test-buddy.json`.
+- 6.2 WHEN a new `.tsx` file is created directly in `skeleton/src/components/` or `apps/*/src/components/`, THEN the hook SHALL trigger an agent prompt (trigger `PostFileCreate`). The `matcher` SHALL accept both `/` and `\` as path separators.
 - 6.3 The hook prompt SHALL instruct the agent to create a Vitest and `vitest-axe` test for the component in the sibling `tests/unit/` folder, named `<Component>.test.tsx`, following the pattern of the existing tests there.
 - 6.4 The generated test SHALL render the component, assert that `axe` reports zero violations (WCAG 4.1.2 and related), and cover the component's keyboard behaviour where it has any (WCAG 2.1.1).
 - 6.5 The hook prompt SHALL instruct the agent to run the new test and fix it until it passes, without weakening the assertion or disabling an axe rule.
@@ -103,25 +104,25 @@ The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four age
 
 ### Acceptance criteria
 
-- 7.1 The system SHALL provide a hook named `skeleton-sync` in `.kiro/hooks/skeleton-sync.kiro.hook`.
-- 7.2 WHEN a file in `skeleton/src/components/` changes, THEN the hook SHALL trigger an agent prompt (event `fileEdited`).
+- 7.1 The system SHALL provide a hook named `skeleton-sync` in `.kiro/hooks/skeleton-sync.json`.
+- 7.2 WHEN a person saves a file in `skeleton/src/components/`, THEN the hook SHALL trigger an agent prompt (trigger `PostFileSave`). The `matcher` SHALL accept both `/` and `\` as path separators.
 - 7.3 The hook prompt SHALL instruct the agent to list each app in `apps/` that imports or contains a copy of the changed component, or to state that no apps exist yet.
 - 7.4 The hook prompt SHALL instruct the agent to state, for each affected app, what needs updating (for example "copy the file", "update the prop name in `X.tsx`").
 - 7.5 The hook prompt SHALL instruct the agent to report only and not edit app files, consistent with the rule that shared improvements go into `skeleton/` first.
 
 ---
 
-## REQ-8 readme-keeper hook
+## REQ-8 readme-keeper manual workflow
 
 **User story:** As a maintainer, I want one click to bring the README in line with the specs and hooks, so that the documentation does not drift.
 
 ### Acceptance criteria
 
-- 8.1 The system SHALL provide a hook named `readme-keeper` in `.kiro/hooks/readme-keeper.kiro.hook`.
-- 8.2 The hook SHALL run only when a developer triggers it manually (event `userTriggered`).
-- 8.3 WHEN triggered, THEN the hook prompt SHALL instruct the agent to read every spec under `.kiro/specs/` and every hook under `.kiro/hooks/`, and update `README.md` to describe them.
-- 8.4 The hook prompt SHALL instruct the agent to keep the README's existing license section and the project pitch line, and to change only the sections it can derive from specs and hooks.
-- 8.5 The hook prompt SHALL instruct the agent to state facts only from the files it read and to not claim WCAG conformance (see REQ-4).
+- 8.1 The system SHALL provide a manual steering file `.kiro/steering/readme-keeper.md` with `inclusion: manual`. The current Kiro IDE has no manual hook trigger, so the legacy `userTriggered` hook is replaced by this file, which runs as the `/readme-keeper` slash command.
+- 8.2 The file SHALL load only when a developer invokes it manually.
+- 8.3 WHEN invoked, THEN the prompt SHALL instruct the agent to read every spec under `.kiro/specs/` and every hook file under `.kiro/hooks/`, and update `README.md` to describe them.
+- 8.4 The prompt SHALL instruct the agent to keep the README's existing license section and the project pitch line, and to change only the sections it can derive from specs and hooks.
+- 8.5 The prompt SHALL instruct the agent to state facts only from the files it read and to not claim WCAG conformance (see REQ-4).
 
 ---
 
@@ -131,8 +132,9 @@ The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four age
 
 ### Acceptance criteria
 
-- 9.1 Each hook file SHALL be valid JSON in the Kiro hook format with `enabled`, `name`, `description`, `version`, `when` and `then` fields.
-- 9.2 Each hook's `then.type` SHALL be `askAgent` and its `when.type` SHALL be one of `fileEdited`, `fileCreated` or `userTriggered`.
+- 9.1 Each hook file in `.kiro/hooks/` SHALL be valid JSON in the current Kiro hook format: `version` `"v1"` and a `hooks` array whose entries have `name`, `trigger`, `action` and, where useful, `description`, `matcher` and `enabled`.
+- 9.2 Each hook's `action.type` SHALL be `agent` (with `prompt`) or `command` (with `command`), and its `trigger` SHALL be one of `PostFileSave`, `PostFileCreate` or `PostToolUse`.
+- 9.5 The repository SHALL contain no hook files in the legacy `*.kiro.hook` format. The legacy files did not run in the current Kiro IDE (see `docs/kiro-brain.md`).
 - 9.3 The files under `.kiro/agents/` and `.kiro/hooks/` SHALL NOT be matched by `.gitignore`.
 - 9.4 WHEN a validation script parses the agent and all hook files, THEN it SHALL report zero errors.
 
@@ -147,5 +149,22 @@ The "brain" is the Kiro-side half of Skeleton Key: a reviewer agent and four age
 - 10.1 The system SHALL provide `docs/kiro-brain.md`.
 - 10.2 The document SHALL explain what the `trusted-tester` agent is, how to start it, and what its report contains.
 - 10.3 The document SHALL list each hook with its trigger, what it does and how to disable it.
+- 10.6 The document SHALL state plainly that the original hooks were written in the legacy format and had not run when the apps were built (2026-11-18), and that they were converted on 2026-11-23.
 - 10.4 The document SHALL state the limits of the brain: it performs static review and does not replace testing with assistive technology (see REQ-4).
 - 10.5 The document SHALL be short enough to read in under five minutes.
+
+---
+
+## REQ-11 a11y-guard-agent hook
+
+**User story:** As a developer, I want the agent's own edits checked against the jsx-a11y rules as they happen, because most edits in this repository are made by the agent and `PostFileSave` fires only when a person saves.
+
+### Acceptance criteria
+
+- 11.1 The system SHALL provide a hook named `a11y-guard-agent` in `.kiro/hooks/a11y-guard-agent.json` with trigger `PostToolUse`, a `matcher` for the file-writing tools (`fs_write`, `fs_append`, `str_replace`) and a `command` action that runs `node scripts/hooks/a11y-guard.mjs`.
+- 11.2 The script SHALL read the hook event JSON from stdin and find the edited path in any field of the tool input.
+- 11.3 IF the path is not a `.tsx` file under `skeleton/src/` or `apps/*/src/`, THEN the script SHALL print nothing and exit 0. It SHALL accept `/` and `\` separators and absolute paths inside the repository.
+- 11.4 WHEN the path is in scope, THEN the script SHALL run the project's own ESLint (jsx-a11y strict config) on that one file and print `a11y-guard: <file>: no jsx-a11y violations`, or each jsx-a11y violation with its line number followed by `Fix these now, following .kiro/steering/accessibility.md.`.
+- 11.5 The script SHALL append one line per run (ISO time, hook name, file, result) to `.kiro/hook-runs.log`, which SHALL be listed in `.gitignore`.
+- 11.6 The script SHALL never fail the session: on its own errors, including malformed stdin, it SHALL print one line and exit 0.
+- 11.7 The script SHALL use only Node built-ins, and its tests (`scripts/hooks/tests/`) SHALL run under `npm run test:scripts`.

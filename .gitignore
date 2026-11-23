@@ -20,3 +20,6 @@ mcp/scratch-*.json
 
 # Interrupted new-app runs
 apps/.*.tmp-*
+
+# Local evidence of Kiro hook runs (scripts/hooks/a11y-guard.mjs)
+.kiro/hook-runs.log

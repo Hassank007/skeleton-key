@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, fireEvent } from '@testing-library/react'
 import { axe } from 'vitest-axe'
 import { Button } from '../../src/components/Button'
 
@@ -31,5 +31,39 @@ describe('Button', () => {
     const { container } = render(<Button disabled>Disabled</Button>)
     const results = await axe(container)
     expect(results).toHaveNoViolations()
+  })
+})
+
+describe('Button type', () => {
+  it('defaults to type="button"', () => {
+    const { getByRole } = render(<Button>Plain</Button>)
+    expect(getByRole('button').getAttribute('type')).toBe('button')
+  })
+
+  it('lets an explicit type="submit" win', () => {
+    const { getByRole } = render(<Button type="submit">Send</Button>)
+    expect(getByRole('button').getAttribute('type')).toBe('submit')
+  })
+
+  it('does not submit a form when it has no explicit type', () => {
+    const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault())
+    const { getByRole } = render(
+      <form onSubmit={onSubmit}>
+        <Button>Plain</Button>
+      </form>,
+    )
+    fireEvent.click(getByRole('button'))
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('submits a form when type="submit"', () => {
+    const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault())
+    const { getByRole } = render(
+      <form onSubmit={onSubmit}>
+        <Button type="submit">Send</Button>
+      </form>,
+    )
+    fireEvent.click(getByRole('button'))
+    expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 })

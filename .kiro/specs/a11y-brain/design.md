@@ -7,10 +7,11 @@ The brain is configuration, not application code. It has three parts, all commit
 | Part | Path | Purpose |
 |---|---|---|
 | Agent | `.kiro/agents/trusted-tester.json` and `.kiro/agents/prompts/trusted-tester.md` | On-demand Trusted Tester review (REQ-1 to REQ-4) |
-| Hooks | `.kiro/hooks/*.kiro.hook` | Automatic and manual actions on file events (REQ-5 to REQ-8) |
+| Hooks | `.kiro/hooks/*.json`, `scripts/hooks/a11y-guard.mjs` | Automatic actions on file events and agent tool calls (REQ-5 to REQ-7, REQ-9, REQ-11) |
+| Manual workflow | `.kiro/steering/readme-keeper.md` | On-demand README refresh (REQ-8) |
 | Docs | `docs/kiro-brain.md` | Developer guide (REQ-10) |
 
-No new runtime or dev dependencies are added. Validation of the JSON files uses a short Node script run once and not committed.
+No new runtime or dev dependencies are added. Validation of the JSON files uses a short Node script run once and not committed. The one committed script, `scripts/hooks/a11y-guard.mjs`, uses only Node built-ins and the ESLint that each project already has.
 
 ## Agent: `trusted-tester`
 
@@ -72,27 +73,34 @@ Severity scale: Critical, Serious, Moderate, Minor, defined in the prompt.
 
 ## Hooks
 
-Kiro hooks are JSON files named `<name>.kiro.hook` in `.kiro/hooks/`. Each one has this shape:
+Kiro hooks are JSON files in `.kiro/hooks/` (documented at kiro.dev/docs/hooks). Each file has `version: "v1"` and a `hooks` array, and Kiro loads it when a session starts. This is the current format. The first versions of these hooks used the legacy `<name>.kiro.hook` format (`when` / `then`, `fileEdited`, `fileCreated`, `userTriggered`). The current Kiro IDE offers to convert that format and does not run it, so the hooks had not run when the apps were built (2026-11-18). They were converted on 2026-11-23. Each file now has this shape:
 
 ```json
 {
-  "enabled": true,
-  "name": "a11y-guard",
-  "description": "...",
-  "version": "1",
-  "when": { "type": "fileEdited", "patterns": ["skeleton/src/**/*.tsx"] },
-  "then": { "type": "askAgent", "prompt": "..." }
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "a11y-guard",
+      "description": "...",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[/\\\\])(skeleton|apps[/\\\\][^/\\\\]+)[/\\\\]src[/\\\\].*\\.tsx$",
+      "action": { "type": "agent", "prompt": "..." },
+      "enabled": true
+    }
+  ]
 }
 ```
 
-| Hook | `when.type` | `when.patterns` | Requirement |
-|---|---|---|---|
-| a11y-guard | `fileEdited` (fires on save) | `skeleton/src/**/*.tsx`, `apps/*/src/**/*.tsx` | REQ-5 |
-| test-buddy | `fileCreated` | `skeleton/src/components/*.tsx`, `apps/*/src/components/*.tsx` | REQ-6 |
-| skeleton-sync | `fileEdited` | `skeleton/src/components/**` | REQ-7 |
-| readme-keeper | `userTriggered` | none | REQ-8 |
+For file events, `matcher` is a regular expression tested against the file path. Windows paths use `\`, so every matcher accepts `/` and `\` through the character class `[/\\]` (written `[/\\\\]` in JSON).
 
-All four use `then.type: "askAgent"` so the work runs in the active chat with the steering files already loaded.
+| Hook | `trigger` | `matcher` (tested against) | Action | Requirement |
+|---|---|---|---|---|
+| a11y-guard | `PostFileSave` | `.tsx` under `skeleton/src/` or `apps/*/src/` (file path) | `agent` prompt | REQ-5 |
+| test-buddy | `PostFileCreate` | `.tsx` directly in `skeleton/src/components/` or `apps/*/src/components/` (file path) | `agent` prompt | REQ-6 |
+| skeleton-sync | `PostFileSave` | anything in `skeleton/src/components/` (file path) | `agent` prompt | REQ-7 |
+| a11y-guard-agent | `PostToolUse` | `^(fs_write\|fs_append\|str_replace)$` (tool ID) | `command`: `node scripts/hooks/a11y-guard.mjs` | REQ-11 |
+
+The three `agent` hooks inject their prompt into the active chat, so the work runs with the steering files already loaded. `a11y-guard-agent` is a `command` hook because its check is deterministic (ESLint) and needs no judgement.
 
 **a11y-guard.** The prompt names the saved file, tells the agent to read `.kiro/steering/accessibility.md`, review the file against each rule that applies to it, edit only on violation, and reply with one line per fix. A clean file gets a single "No violations found" line. Patterns cover `src/` only, so test files in `tests/` and build output in `dist/` never trigger it (REQ-5.6).
 
@@ -100,20 +108,30 @@ All four use `then.type: "askAgent"` so the work runs in the active chat with th
 
 **skeleton-sync.** Report-only. The prompt tells the agent to search `apps/` for imports of, or copies of, the changed component, then list each app and the update needed. If `apps/` is empty it says so. This respects the structure rule that apps are created with `npm run new-app` and shared improvements land in `skeleton/` first.
 
-**readme-keeper.** Manual. The prompt tells the agent to read `.kiro/specs/*/requirements.md` and `.kiro/hooks/*.kiro.hook`, then update only the README sections that describe the specs, the Kiro brain and the hooks, keep the license section, and avoid conformance claims.
+**a11y-guard-agent.** The Kiro documentation says `PostFileSave` fires when "the agent saves or modifies files", but this repository treats it as firing for a person's saves only, because it has not been confirmed to fire for the agent's tool edits. The `PostToolUse` hook covers them directly: it fires after each file-writing tool call and does not depend on how the file event is raised. Kiro sends the event JSON on stdin, and the script (`scripts/hooks/a11y-guard.mjs`) works as follows:
 
-**Loop risk.** `a11y-guard` edits `.tsx` files, which is a save and could re-trigger the hook. The prompt says "if there is nothing to fix, do not edit", so the second run ends with no edit and the chain stops. `skeleton-sync` is report-only and cannot cascade.
+1. Search the whole event for path strings (keys such as `path`, `file_path`, `filePath`, `target_file`, or any `.tsx` string) and take the first one in scope.
+2. Stay silent (exit 0, no output) unless it is a `.tsx` file under `skeleton/src/` or `apps/*/src/`. Backslash and forward-slash paths, relative paths and absolute paths inside the repository are accepted.
+3. Run `node_modules/eslint/bin/eslint.js --format json <file>` with the project folder (`skeleton/` or `apps/<name>/`) as the working directory, so the project's own `eslint.config.js` (jsx-a11y strict) applies. Keep only `jsx-a11y/*` messages.
+4. Print `a11y-guard: <file>: no jsx-a11y violations`, or each violation as `<file>:<line>:<col> <rule>: <message>` followed by `Fix these now, following .kiro/steering/accessibility.md.` Exit code 0 means Kiro adds this output to the agent's context.
+5. Append `<ISO time>\ta11y-guard-agent\t<file>\t<result>` to `.kiro/hook-runs.log` (ignored by git) on every run, including ignored files. This log is the local evidence that the hook fires.
+
+The script never exits non-zero. Its own failures (malformed stdin, ESLint not installed, parse error) print one line and exit 0, so a broken hook cannot block the agent. A missing `node_modules` is reported, not fixed.
+
+**readme-keeper.** Manual, and a steering file, not a hook: the current Kiro IDE has no manual hook trigger (legacy manual hooks only appear with a legacy label), and its documentation recommends a manually included steering file for on-demand workflows. `.kiro/steering/readme-keeper.md` has `inclusion: manual` and runs as `/readme-keeper`. The prompt tells the agent to read `.kiro/specs/*/requirements.md` and `.kiro/hooks/*.json`, then update only the README sections that describe the specs, the Kiro brain and the hooks, keep the license section, and avoid conformance claims.
+
+**Loop risk.** `a11y-guard` edits `.tsx` files, which is a save and could re-trigger the hook. The prompt says "if there is nothing to fix, do not edit", so the second run ends with no edit and the chain stops. `skeleton-sync` is report-only and cannot cascade. `a11y-guard-agent` only reads and prints, so it cannot trigger itself, but the agent's fixes are new tool calls that run it again, which ends as soon as the output is "no jsx-a11y violations".
 
 ## Documentation: `docs/kiro-brain.md`
 
-Sections: what the brain is; the agent (start it with `kiro-cli --agent trusted-tester` or pick it in the agent selector; sample prompt; what the report contains); the hooks table (trigger, action, how to disable by setting `"enabled": false` or using the Agent Hooks panel); limits (static review only); links to the spec. Target length is about 80 lines (REQ-10.5).
+Sections: what the brain is; the agent (start it with `kiro-cli --agent trusted-tester` or pick it in the agent selector; sample prompt; what the report contains); the hooks table (trigger, action, how to disable by setting `"enabled": false` or using the Agent Hooks panel); the manual `/readme-keeper` workflow; a plain statement that the original hooks used the legacy format and had not run when the apps were built (2026-11-18) and were converted on 2026-11-23; limits (static review only); links to the spec. Target length is about 80 lines (REQ-10.5).
 
 ## Validation (REQ-1.5, REQ-9)
 
 A one-off Node script, deleted after use, checks that:
 
 1. `trusted-tester.json` parses and has the required fields, and the `file://` prompt resolves to an existing file.
-2. Each `*.kiro.hook` parses, has the required fields, and uses an allowed `when.type` and `then.type`.
+2. Each `.kiro/hooks/*.json` parses, has `version: "v1"` and a `hooks` array, each hook has the required fields and an allowed `trigger` and `action.type`, and each `matcher` compiles as a regular expression and matches the sample Windows and POSIX paths.
 3. `git check-ignore` reports none of the new files as ignored.
 
 Because this change touches only JSON, Markdown and docs, no TypeScript, lint or test config changes. The existing `skeleton/` checks are re-run to show nothing regressed.
@@ -122,5 +140,6 @@ Because this change touches only JSON, Markdown and docs, no TypeScript, lint or
 
 - **JSON agent with a Markdown prompt file** over an inline prompt: the prompt is long and reviewers want diffs.
 - **Read-only agent** over a fixing agent: keeps review and repair separate (REQ-1.4).
-- **`askAgent` hooks** over `runCommand` hooks: the work needs judgement, and `askAgent` reuses steering context.
-- **No custom script or dependency** for the brain: the repository stays lean per `tech.md`. Automated axe evidence comes from the separate MCP and test specs.
+- **`agent` hooks** for review and test writing: the work needs judgement, and they reuse steering context.
+- **A `command` hook for agent edits**: the ESLint check is deterministic, and its output reaches the agent as context. It is the one script in the brain (`scripts/hooks/a11y-guard.mjs`), with no dependency, so the repository stays lean per `tech.md`. Automated axe evidence comes from the separate MCP and test specs.
+- **Steering file for readme-keeper** over a hook: no manual hook trigger exists in the current IDE.

@@ -1,0 +1,17 @@
+{
+    "version":  "v1",
+    "hooks":  [
+                  {
+                      "name":  "a11y-guard-agent",
+                      "description":  "After the agent writes a .tsx file under skeleton/src or apps/*/src, run ESLint (jsx-a11y strict) on that one file and report violations. Logs each run to .kiro/hook-runs.log.",
+                      "trigger":  "PostToolUse",
+                      "matcher":  "^(fs_write|fs_append|str_replace)$",
+                      "action":  {
+                                     "type":  "command",
+                                     "command":  "node scripts/hooks/a11y-guard.mjs"
+                                 },
+                      "timeout":  120,
+                      "enabled":  true
+                  }
+              ]
+}

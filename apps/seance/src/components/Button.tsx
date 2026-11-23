@@ -32,6 +32,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
+      type="button"
       {...rest}
       className={[
         styles.button,

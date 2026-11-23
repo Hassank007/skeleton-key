@@ -114,8 +114,10 @@ describe('Dialog property', () => {
         const { unmount, baseElement } = render(<Harness items={c.items} dialogTitle={c.title} />, { container: root })
         try {
           const trigger = within(root).getByRole('button', { name: 'Open dialog' })
+          // No assertion that the trigger still has focus here: Dialog moves focus in on a
+          // requestAnimationFrame, which may already have fired when click() resolves (a race).
+          // The next waitFor asserts the invariant: focus ends up inside the dialog.
           await user.click(trigger)
-          expect(trigger).toHaveFocus()
 
           const panel = await screen.findByRole('dialog')
           // Focus moves into the dialog before the first action (REQ-5.7).

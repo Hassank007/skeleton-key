@@ -5,12 +5,22 @@
 ## What was compared
 
 - **Baseline:** Kiro was given a plain prompt asking for the same séance booking form: three steps, a confirm dialog and a spooky look. It ran in an empty folder with **no** `.kiro` steering, specs, hooks or agents. The generated code was not edited; it is the first commit of `examples/haunted-seance` (not one of the two Skeleton Crew apps).
-- **Seance:** the app in `apps/seance`, built from the skeleton with the steering, specs and hooks in this repo. It was tested at its live URL.
+- **Seance:** the app in `apps/seance`, built from the skeleton with the steering and specs in this repo. (The hooks existed but had not run; see `docs/kiro-brain.md`.) It was tested at its live URL.
 
 Both were measured with the same scripts, in `scripts/compare/` (the extra checks are in `extra-checks.mjs`):
 
 - axe-core, with the same WCAG tags Seance's own tests use (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`), on every step, the error state and the open dialog;
 - 21 scripted checks in Chromium through Playwright: screen reader, keyboard and focus, vision, wording and motion.
+
+## Limits of this comparison
+
+- **The two builds did not get the same prompt.** The baseline got the short plain prompt in `examples/haunted-seance/PROMPT.txt`. Seance got the steering files, the skeleton, and a spec that asked for accessibility features and tests by name. The comparison shows what a plain prompt gives you against what Skeleton Key gives you. It does not isolate which part made the difference.
+- **One build of each.** Another run of the same prompt could score differently.
+- **We wrote the checks.** Claude Code wrote the scripts in `scripts/compare/`, for this project. Ten of the 21 checks were added after the exorcism run. They are not an independent benchmark.
+- **The exorcism prompt names many of the things the checks measure** (`scripts/exorcise.txt`), so a high score after it is expected to some degree.
+- **Scripted checks in Chromium only.** No person and no screen reader took part.
+
+Re-measured on 2026-11-23 with the same scripts: baseline 2 of 20, after the exorcism 21 of 21, Seance (live) 21 of 21, axe 0 on all three.
 
 ## Result 1: the scanner says both are clean
 
@@ -18,7 +28,7 @@ Both were measured with the same scripts, in `scripts/compare/` (the extra check
 |---|---|---|
 | axe violations, 5 states scanned | **0** | **0** |
 
-The baseline is not careless code. It has real `<label>`s, `<fieldset>` and `<legend>` for the radio groups, `aria-invalid`, `role="dialog"` and `aria-modal`. An automated audit would pass it.
+The baseline is not careless code. It has real `<label>`s, `<fieldset>` and `<legend>` for the radio groups, `aria-invalid`, `role="dialog"` and `aria-modal`. An axe scan passes it.
 
 ## Result 2: screen reader, vision, motion and keyboard users get very different apps
 
@@ -55,13 +65,13 @@ The contrast checker resolves every colour through the browser, composites trans
 
 ## Result 3: the exorcism
 
-The baseline was copied unedited into `examples/haunted-seance` (first commit). Kiro was then run in this repo with the reusable prompt `scripts/exorcise.txt`. It used the `a11y` MCP server (`audit_page`, `keyboard_walk`, `page_outline`, `check_contrast`) together with the steering rules. It added a skip link, per-step titles, focus management, an error summary, a native `<dialog>`, a "Pause animations" toggle and contrast fixes, and kept the design. Its own report, including what it could not verify, is in `examples/haunted-seance/EXORCISM.md`.
+The baseline was copied unedited into `examples/haunted-seance` (first commit). Kiro was then run in this repo with the reusable prompt `scripts/exorcise.txt`. It used the `a11y` MCP server (`audit_page`, `keyboard_walk`, `page_outline`, `check_contrast`) together with the steering rules. It added a skip link, per-step titles, focus management, an error summary, a native `<dialog>`, a "Pause animations" toggle and contrast fixes, and kept the design. The MCP tools load a page without clicking or typing, so they only reached step 1. As Kiro's report says, most of the defects were found by reading the source, and Kiro did not run the later steps in a browser. The scripted checks above were run afterwards. Kiro's own report, including what it could not verify, is in `examples/haunted-seance/EXORCISM.md`.
 
 Measured afterwards with the same script: **2 of 20 → 21 of 21**, and still 0 axe violations.
 
 ## Why this matters for the entry
 
-Automated tools find roughly a third of WCAG issues. The rest are about behaviour and context: where focus goes, what is announced, contrast on gradients and selected states, colour-only cues, helpful error wording and whether motion can be stopped. Those are exactly what Skeleton Key adds: the steering rules, the focus-on-route-change hook, the `keyboard_walk` tool in the a11y MCP server, and the Trusted Tester agent. Both apps "pass axe". Only one of them works for a screen reader, keyboard, low-vision or motion-sensitive user.
+Automated tools find only some accessibility problems. Many of the others are about behaviour and context: where focus goes, what is announced, contrast on gradients and selected states, colour-only cues, helpful error wording and whether motion can be stopped. Those are exactly what Skeleton Key adds: the steering rules, the focus-on-route-change hook, the `keyboard_walk` tool in the a11y MCP server, and the Trusted Tester agent. Both apps "pass axe". On these checks, only one of them handles focus, announcements, contrast and motion.
 
 ## Found along the way: a bug in Seance
 

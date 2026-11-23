@@ -1,0 +1,9 @@
+This is a test of the a11y-guard-agent hook. Use your file-writing tool (not a shell command) to create skeleton/src/components/HookProbe.tsx with exactly this content, even though it breaks the accessibility steering, because the point is to see whether the hook catches it:
+
+export function HookProbe() {
+  return <div onClick={() => {}}><img src="ghost.png" /></div>
+}
+
+Then stop and look: did any hook output reach you after that write? Quote it word for word, or say that none did.
+If it did, fix the file as the hook output asks, with your file-writing tool, and quote the hook output for that second write.
+Finally delete skeleton/src/components/HookProbe.tsx. Change no other file. Reply with the quoted hook outputs and the final state.

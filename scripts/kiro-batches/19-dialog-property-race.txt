@@ -1,0 +1,11 @@
+tests/unit/properties/Dialog.property.test.tsx failed once in apps/grimoire on 2026-11-23, on a busy machine ("Property failed after 26 tests", seed 2072499194, path "25"), and then passed on every re-run, including with FC_SEED=2072499194. The assertion text was not kept.
+
+Find out whether this is a test race or a defect in Dialog. One suspect: the test asserts `expect(trigger).toHaveFocus()` right after `user.click(trigger)`, but Dialog moves focus in a requestAnimationFrame, which on a slow machine may already have fired by then. Another: the `expect(trigger).toHaveFocus()` after close depends on a passive effect that may not have flushed.
+
+1. Prove each suspect before changing anything: add a temporary delay (for example await new Promise(r => setTimeout(r, 50))) before the assertion, run the test, and record whether it fails. Remove the temporary delay.
+2. If it is a test race, fix the test in skeleton/ first and make the same change in apps/grimoire and apps/seance. Keep the invariant as strong as it is now: focus must be inside the dialog while open, and on the trigger after close. Do not add a blanket timeout or retry of the whole property, and do not weaken an assertion.
+3. If it is a defect in Dialog, fix it in skeleton/ first with a regression test, then in both apps.
+4. If you cannot prove a cause, change nothing and say so.
+5. Append a short section to docs/pbt-findings.md with what you did, what you proved, and what you could not prove.
+
+Run the Dialog property test and Dialog unit test in all three projects. Reply with the evidence for each suspect, files changed and results.

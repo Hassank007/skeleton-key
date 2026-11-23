@@ -1,4 +1,4 @@
-﻿# Trusted Tester review: skeleton/src
+# Trusted Tester review: skeleton/src
 
 Method: DHS Section 508 Trusted Tester, run by the `trusted-tester` agent as a one-off dry run. Static review only: the agent read the code but did not run tests or a browser. Contrast ratios are hand calculations. This is not a conformance statement.
 
@@ -56,7 +56,7 @@ Fix: Add dark-scheme and dialog-open axe runs.
 [Minor] 2.4.7  .main has outline: none (PageShell.module.css:44-45); skip-link target shows no focus position.  -> OPEN
 [Minor] 1.3.1  Site name "Skeleton Key" is aria-hidden (PageShell.tsx:40-42); only the emoji should be hidden.  -> OPEN
 [Minor] 1.3.1  Nav links expose no aria-current="page" (AppLink.tsx, PageShell.tsx).  -> OPEN
-[Minor] 3.2.2  Button has no default type="button" (Button.tsx:34-35).  -> OPEN
+[Minor] 3.2.2  Button has no default type="button" (Button.tsx:34-35).  -> FIXED (Button defaults to type="button"; an explicit type wins. Same change in apps/grimoire and apps/seance. Tests in Button.test.tsx in each project. The only submit Button, in seance StepActions, keeps type="submit".)
 [Minor] 3.3.2 / 4.1.2  Field does not forward required, and cloneElement overwrites the child's aria-describedby (Field.tsx:60-73).  -> OPEN
 [Minor] 1.1.1  Decorative SVG has both aria-hidden and role="img" (HomePage.tsx:15).  -> OPEN
 [Minor] 1.3.3  "Use the navigation above" relies on position (HomePage.tsx:44).  -> OPEN
