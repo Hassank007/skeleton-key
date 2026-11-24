@@ -330,3 +330,15 @@ Rules for the tests:
 | Dark `--color-accent` is only 3.84:1 on the surface. | Allowed for UI fills (3:1). Never used for text; the matrix lists it with min 3. |
 | A shared defect is found while building. | REQ-17: fix in `skeleton/` first, then bring it in. |
 | Checkbox custom drawing hides native state from forced-colours mode. | Use `appearance: none` with a `border` and a `:checked::after` mark that uses `currentColor`; add a `forced-colors: active` rule that keeps the border. The unit test checks the input is still `type="checkbox"`. |
+
+## 10. Visual refresh
+
+A look-only change: copy, accessible names, roles, ids, DOM order, tab order, focus moves, routes, data, logic and the `--color-*` tokens are unchanged. The set of tokens and their values are the same, so the contrast and theme-identity tests still cover it.
+
+- **Candlelit library.** Covers are cloth-bound books (inline SVG: cloth, spine, page edge, foil frame and the school glyph). Each school has its own cloth colour, mixed from existing tokens with `color-mix()`; the foil colour keeps the glyph legible. `--cloth` and `--foil` are local custom properties on the cover, not `--color-*` tokens. Cover art is decorative and `aria-hidden`; school and hazard stay text.
+- **Shelves.** The results list is one bordered shelf. From 40rem each card is a column with the cover standing on a plank drawn by `.card::before`, and the planks of touching cards join into one shelf. Below 40rem each card is a row with a shelf edge under it. Books differ slightly in size and one in seven leans; covers never move on hover.
+- **First screen.** From 64rem the filters sit in a 15rem left column beside the shelves (grid placement only, so DOM and tab order are unchanged). Below 64rem the filter options are compact chips. Measured first card top: 260px at 1280x720 and 1440x900 (four covers fully visible), 740px at 375x812.
+- **Book page.** An open book: a raised page with a double-ruled facts panel, the cover on the left page, a soft gutter gradient (20% border colour, because 35% made the link fall to 4.35:1) and serif body text.
+- **Focus.** The card ring is still the link's `::after` (3px solid, now inset by `--space-1` so the next card cannot hide it). From 40rem the title sits under the cover, so `scroll-margin-top` is `header height + 14rem`.
+- **Motion.** The candle flicker is still the only looping animation. Card and checkbox transitions use `--duration-fast` and are removed under `prefers-reduced-motion: reduce`.
+- **Forced colours.** Covers use `CanvasText` and `Canvas` and no shadow; the checkbox and card ring rules are kept.

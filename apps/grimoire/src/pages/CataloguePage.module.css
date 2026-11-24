@@ -1,7 +1,13 @@
-﻿/* CataloguePage */
+/* CataloguePage: one column, then filters beside the shelves from 64rem. DOM and tab order never change. */
+.catalogue {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-3);
+}
+
 .hero {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-4);
 }
@@ -9,16 +15,44 @@
 .title {
   min-width: 0;
   overflow-wrap: anywhere;
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2.75rem);
+  line-height: 1.15;
 }
 
 .intro {
-  margin: var(--space-3) 0 var(--space-5);
-  max-width: 40rem;
+  margin: 0;
+  max-width: 60rem;
 }
 
 .find {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-6);
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.find h2 {
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
+}
+
+@media (min-width: 64rem) {
+  .catalogue {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: var(--space-6);
+  }
+
+  .hero,
+  .intro {
+    grid-column: 1 / -1;
+  }
+
+  .find {
+    grid-column: 1;
+  }
+
+  /* The results section is the last child of the article */
+  .catalogue > :last-child {
+    grid-column: 2;
+  }
 }

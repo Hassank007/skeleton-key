@@ -1,4 +1,4 @@
-﻿import { test, expect, type Page } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { scanPage } from './support/axe'
 import { BOOKS, countMatching, countText, messageText } from './support/books'
 import { focusStop } from './support/focus'
@@ -191,5 +191,21 @@ test.describe('Catalogue page', () => {
     const back = await focusStop(page)
     expect(back.tag).not.toBe('BODY')
     expect(back.text).not.toBe('')
+  })
+})
+
+test.describe('Shelf position', () => {
+  const firstCardTop = (page: Page) => page.locator('li:has(h3)').first().evaluate((el) => el.getBoundingClientRect().top)
+
+  test('the first book card starts in the first screen at 1280x720 (above 400px) [SC 1.4.10]', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await ready(page)
+    expect(await firstCardTop(page)).toBeLessThan(400)
+  })
+
+  test('the first book card starts in the first screen at 375x812 (above 812px) [SC 1.4.10]', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await ready(page)
+    expect(await firstCardTop(page)).toBeLessThan(812)
   })
 })

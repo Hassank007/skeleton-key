@@ -12,6 +12,14 @@
 
 html {
   font-size: 100%; /* respect browser default (usually 16px) */
+  color-scheme: light dark;
+}
+
+/* The page fills the screen, so the footer sits at the bottom on short pages */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 body {

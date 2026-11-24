@@ -77,4 +77,12 @@ test.describe('Reflow and text spacing', () => {
     })
     expect(overlaps).toEqual([])
   })
+
+  test('every link in the header nav is at least 24px tall [SC 2.5.8]', async ({ page }) => {
+    await page.goto('/')
+    await expect(h1(page)).toBeVisible()
+    const heights = await page.locator('header nav a').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height))
+    expect(heights.length).toBeGreaterThan(0)
+    for (const height of heights) expect(height).toBeGreaterThanOrEqual(24)
+  })
 })

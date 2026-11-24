@@ -35,6 +35,13 @@
   list-style: none;
 }
 
+/* Header nav links only: a 24px tall box (WCAG 2.5.8); links in sentences stay inline */
+.navList a {
+  display: inline-block;
+  min-height: 1.5rem;
+  line-height: 1.5rem;
+}
+
 .main {
   flex: 1;
   max-width: 60rem;

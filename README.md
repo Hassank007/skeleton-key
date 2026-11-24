@@ -1,6 +1,6 @@
 # Skeleton Key
 
-> Most websites are haunted for blind users. Skeleton Key exorcises them.
+> Same scan score. Different doors. An accessible-by-default React starter, with tools that let Kiro check a page while it runs.
 
 Skeleton Key is a lean Vite + React 19 + TypeScript starter that is built to be accessible from the first commit. It ships a semantic page shell (skip link, landmarks, one `h1` per page), route changes that move focus and announce the page title, a live-region announcer, accessible primitives (Button, Link, Field, Dialog, Toast, Tabs), design tokens with checked contrast in light and dark themes, and axe tests. It also ships an accessibility "brain" for Kiro: a Trusted Tester reviewer agent, hooks, property-based tests, a conformance-report generator and an MCP server that lets Kiro check a running page. Two apps are built from it to show it is flexible: **Grimoire** (a spooky catalogue to browse) and **Seance** (a multi-step booking form). Built for Kiroween 2026, Skeleton Crew category.
 
@@ -92,8 +92,8 @@ npm run acr -- skeleton   # writes skeleton/ACR.md; use grimoire or seance in th
 - **MCP.** `mcp/a11y-mcp` is registered in `.kiro/settings/mcp.json` as `a11y`, so Kiro can audit a running page, walk the keyboard order, check contrast and read the page outline. The tools load a page and press Tab. They do not click or type, so in a multi-step form they only see the first step. Its audit of the skeleton is in `docs/a11y-mcp-skeleton-audit.md`.
 - **Property-based tests.** `fast-check` tests in each `tests/unit/properties/` folder check invariants over generated inputs: token contrast, Field labelling, Dialog focus trapping and Tabs keyboard behaviour in the skeleton, plus app-specific properties in Grimoire (filter, results, search state) and Seance (booking, validation, error summary). They found two real defects in the skeleton (a whitespace-only Field message and a Dialog Shift+Tab leak), both fixed. See `docs/pbt-findings.md`.
 - **ACR generator.** `scripts/acr.mjs` builds `ACR.md`, a WCAG 2.2 A and AA report in the style of the VPAT 2.5 WCAG edition, from Vitest and Playwright results, axe scans and the Trusted Tester review. A test counts as evidence for a criterion only when its title carries an SC tag.
-- **What surprised us.** Kiro's property tests found a Dialog focus leak that the unit tests missed (`docs/pbt-findings.md`). The `trusted-tester` agent, reading only source code, found a dark-theme hover contrast failure of 3.96:1 that the tests at the time did not cover. After the exorcism, Kiro listed the steps it had not been able to run.
-- **Who wrote what.** Kiro wrote the specs, the skeleton, both apps, the MCP server, the ACR generator, the new-app script, the agent, the hooks and their tests. Claude Code wrote the four original steering files (Kiro later added `readme-keeper.md`), the prompts in `scripts/kiro-batches/` and `scripts/exorcise.txt`, the 21 comparison checks in `scripts/compare/`, the website, the deploy script, and small edits: the router `basename` line in each `main.tsx`, the npm packaging of the MCP server, the MCP registration cleanup, and parts of the docs and this README. Hassan Ahmed, a Section 508 Trusted Tester, directed the project.
+- **What surprised us.** Kiro's property tests found a Dialog focus leak that the unit tests missed (`docs/pbt-findings.md`). The `trusted-tester` agent, reading only source code, found a dark-theme hover contrast failure of 3.96:1 that the tests at the time did not cover. After the exorcism, Kiro listed the steps it had not been able to run. And on 2026-11-24 we asked Kiro to fix a test that failed now and then: it found a real bug instead. In Grimoire, fast typing on a slow device could drop letters. Kiro reproduced it, wrote failing tests first, then fixed it (`scripts/kiro-batches/25-e2e-races.txt` and `26-grimoire-typing-bug.txt`).
+- **Who wrote what.** Kiro wrote the specs, the skeleton, both apps, the MCP server, the ACR generator, the new-app script, the agent, the hooks and their tests. Claude Code wrote the four original steering files (Kiro later added `readme-keeper.md`), the prompts in `scripts/kiro-batches/` and `scripts/exorcise.txt`, the 21 comparison checks in `scripts/compare/`, the website, the deploy script, the visual design of both apps as written specs (`22-seance-visual.txt` and `23-grimoire-visual.txt`, 2026-11-24, which Kiro then implemented and tested), and small edits: the router `basename` line in each `main.tsx`, the npm packaging of the MCP server, the MCP registration cleanup, and parts of the docs and this README. Hassan Ahmed, a Section 508 Trusted Tester, directed the project.
 - **Kiro CLI, orchestrated by Claude Code.** The first build was split into 16 prompt files in `scripts/kiro-batches/` (spec, then implementation, per part). `run-batches.ps1` feeds them in order to `kiro-cli chat --no-interactive`, and re-runs an implementation batch while its `tasks.md` still has unchecked tasks. Claude Code orchestrated these Kiro CLI runs.
 
 ## Tests and conformance summary
@@ -102,9 +102,9 @@ Results re-run on 2026-11-24 (lint and `tsc --noEmit` pass in the skeleton and b
 
 | Folder | Unit and property tests (Vitest) | Playwright + axe |
 |---|---|---|
-| `skeleton/` | 184 passed (17 files) | 14 passed |
-| `apps/grimoire/` | 323 passed (33 files) | 50 passed |
-| `apps/seance/` | 428 passed (41 files) | 47 passed |
+| `skeleton/` | 184 passed (17 files) | 15 passed |
+| `apps/grimoire/` | 336 passed (34 files) | 57 passed |
+| `apps/seance/` | 452 passed (42 files) | 48 passed |
 | `mcp/a11y-mcp/` | 113 passed (8 files) | none |
 | root `scripts/` | 200 passed (`npm run test:scripts`) | none |
 
@@ -120,7 +120,7 @@ What this does not show:
 
 - "Not Evaluated" means the automated evidence is not enough and a person must judge it. The reports are not a legal certification, and no app here is claimed to conform to WCAG 2.2 AA.
 - No human keyboard pass, screen reader test or native date-picker test has been done on Seance. Task 9.1 in `.kiro/specs/seance/tasks.md` is still open for that reason; keyboard-only Playwright specs cover the three steps, the dialog and the success view instead.
-- One Seance keyboard test failed once on 2026-11-24 while the machine was busy, then passed alone and in a full re-run. The cause was not found.
+- Intermittent browser tests on 2026-11-24. The Seance keyboard trap test raced the first render; the cause was proven and the test fixed. The Seance keyboard booking test failed once and then passed 12 full runs and 65 repeats; its cause was not found. After the Grimoire typing fix, one typing test timed out once in 160 repeats, then passed 320 of 320; its cause was not found either.
 - The Playwright suites run in Chromium only.
 - The plain build and Seance did not get the same prompt, and we wrote the 21 checks ourselves. See the limits in [docs/baseline-comparison.md](./docs/baseline-comparison.md).
 - No screen reader has been used on any app here.

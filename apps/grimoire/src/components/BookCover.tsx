@@ -1,4 +1,4 @@
-﻿/** Decorative book cover per school; aria-hidden and unnamed, so it carries no meaning (WCAG 1.1.1). */
+/** Decorative book cover per school; aria-hidden and unnamed, so it carries no meaning (WCAG 1.1.1). */
 import type { School } from '../data/books'
 import styles from './BookCover.module.css'
 
@@ -29,19 +29,24 @@ export function BookCover({ school, className }: BookCoverProps) {
       focusable="false"
       className={[styles.cover, className].filter(Boolean).join(' ')}
       viewBox="0 0 48 64"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinejoin="round"
-      strokeLinecap="round"
+      fill="currentColor"
+      stroke="none"
       xmlns="http://www.w3.org/2000/svg"
       data-school={school}
     >
-      <rect x="4" y="2" width="40" height="60" rx="3" fill="currentColor" fillOpacity="0.12" />
-      <path d="M10 2v60" />
-      {GLYPHS[school].map((d) => (
-        <path key={d} d={d} />
-      ))}
+      <rect x="1" y="1" width="46" height="62" rx="2" />
+      <path className={styles.spine} d="M1 3a2 2 0 0 1 2-2h6v62H3a2 2 0 0 1-2-2z" />
+      <path className={styles.foil} d="M45.5 3v58" strokeWidth="1" strokeOpacity="0.5" />
+      <g className={styles.foil}>
+        <path d="M2 12h6M2 15h6M2 49h6M2 52h6" strokeWidth="1" />
+        <rect x="13" y="5" width="30" height="54" rx="1" strokeWidth="0.8" />
+        <path d="M17 11h22M17 53h22" strokeWidth="1.6" />
+        <g transform="translate(4 0)" strokeWidth="1.8">
+          {GLYPHS[school].map((d) => (
+            <path key={d} d={d} />
+          ))}
+        </g>
+      </g>
     </svg>
   )
 }

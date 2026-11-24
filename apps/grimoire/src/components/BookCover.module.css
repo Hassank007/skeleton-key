@@ -1,10 +1,118 @@
-﻿/* BookCover: decorative art, coloured by token only */
+/* BookCover: decorative cloth-bound book. --cloth and --foil are local to the cover (not --color-* tokens). */
 .cover {
+  --cloth: var(--color-accent);
+  --foil: color-mix(in srgb, var(--color-text-on-accent) 72%, var(--color-warning));
   display: block;
   flex-shrink: 0;
   width: 3rem;
   height: 4rem;
-  color: var(--color-accent);
+  color: var(--cloth);
+  filter: drop-shadow(0.2rem 0.15rem 0 color-mix(in srgb, var(--color-text) 30%, transparent));
   pointer-events: none;
   user-select: none;
+}
+
+.spine {
+  fill: var(--color-surface);
+  fill-opacity: 0.28;
+}
+
+.foil {
+  fill: none;
+  stroke: var(--foil);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Light cloth, one per school */
+.cover[data-school='Necromancy'] {
+  --cloth: color-mix(in srgb, var(--color-text) 82%, var(--color-accent));
+}
+
+.cover[data-school='Divination'] {
+  --cloth: color-mix(in srgb, var(--color-focus-ring) 72%, var(--color-text));
+}
+
+.cover[data-school='Illusion'] {
+  --cloth: color-mix(in srgb, var(--color-accent) 80%, var(--color-focus-ring));
+}
+
+.cover[data-school='Herbalism'] {
+  --cloth: color-mix(in srgb, var(--color-success) 80%, var(--color-text));
+}
+
+.cover[data-school='Warding'] {
+  --cloth: color-mix(in srgb, var(--color-border) 62%, var(--color-text));
+}
+
+.cover[data-school='Alchemy'] {
+  --cloth: color-mix(in srgb, var(--color-accent) 85%, var(--color-text));
+}
+
+/* Dark cloth, by OS setting */
+@media (prefers-color-scheme: dark) {
+  .cover {
+    --foil: color-mix(in srgb, var(--color-text) 72%, var(--color-warning));
+  }
+
+  .cover[data-school='Necromancy'] {
+    --cloth: color-mix(in srgb, var(--color-text-muted) 42%, var(--color-surface));
+  }
+
+  .cover[data-school='Divination'] {
+    --cloth: color-mix(in srgb, var(--color-focus-ring) 38%, var(--color-surface));
+  }
+
+  .cover[data-school='Illusion'] {
+    --cloth: color-mix(in srgb, var(--color-error) 42%, var(--color-surface));
+  }
+
+  .cover[data-school='Herbalism'] {
+    --cloth: color-mix(in srgb, var(--color-success) 34%, var(--color-surface));
+  }
+
+  .cover[data-school='Warding'] {
+    --cloth: color-mix(in srgb, var(--color-border) 60%, var(--color-surface));
+  }
+
+  .cover[data-school='Alchemy'] {
+    --cloth: color-mix(in srgb, var(--color-accent) 75%, var(--color-surface));
+  }
+}
+
+/* Dark cloth, by the in-app theme attribute */
+[data-theme='dark'] .cover {
+  --foil: color-mix(in srgb, var(--color-text) 72%, var(--color-warning));
+}
+
+[data-theme='dark'] .cover[data-school='Necromancy'] {
+  --cloth: color-mix(in srgb, var(--color-text-muted) 42%, var(--color-surface));
+}
+
+[data-theme='dark'] .cover[data-school='Divination'] {
+  --cloth: color-mix(in srgb, var(--color-focus-ring) 38%, var(--color-surface));
+}
+
+[data-theme='dark'] .cover[data-school='Illusion'] {
+  --cloth: color-mix(in srgb, var(--color-error) 42%, var(--color-surface));
+}
+
+[data-theme='dark'] .cover[data-school='Herbalism'] {
+  --cloth: color-mix(in srgb, var(--color-success) 34%, var(--color-surface));
+}
+
+[data-theme='dark'] .cover[data-school='Warding'] {
+  --cloth: color-mix(in srgb, var(--color-border) 60%, var(--color-surface));
+}
+
+[data-theme='dark'] .cover[data-school='Alchemy'] {
+  --cloth: color-mix(in srgb, var(--color-accent) 75%, var(--color-surface));
+}
+
+@media (forced-colors: active) {
+  :root .cover[data-school] {
+    --foil: Canvas;
+    color: CanvasText;
+    filter: none;
+  }
 }

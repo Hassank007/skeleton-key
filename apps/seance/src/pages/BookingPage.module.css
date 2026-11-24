@@ -1,20 +1,21 @@
-/* The "ticket": one narrow centred column on a raised surface with a dashed edge. */
+/* The "ticket": one narrow centred column on a raised surface. Keep identical to IntroPage.module.css. */
 .ticket {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  max-width: 36rem;
+  gap: var(--space-5);
+  max-width: 46rem;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-5);
+  padding: 0 var(--space-6) var(--space-6);
   background-color: var(--color-surface-raised);
-  border: 2px dashed var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
+  box-shadow: 0 1.5rem 3rem -1.5rem color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 
 .title {
   font-family: var(--font-heading);
-  font-size: var(--font-size-2xl);
-  line-height: 1.2;
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+  line-height: 1.1;
   scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-4));
 }
 
@@ -31,6 +32,6 @@
 
 @media (max-width: 30rem) {
   .ticket {
-    padding: var(--space-5) var(--space-4);
+    padding: 0 var(--space-4) var(--space-5);
   }
 }

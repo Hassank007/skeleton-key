@@ -1,4 +1,14 @@
-﻿/* BookDetailPage */
+/* BookDetailPage: an open book. The cover is the left page's art, the text the right page; a soft gutter runs between them from 52rem. */
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  background-color: var(--color-surface-raised);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .back {
   margin-bottom: var(--space-4);
 }
@@ -18,16 +28,18 @@
 .title {
   min-width: 0;
   overflow-wrap: anywhere;
+  font-size: clamp(1.75rem, 1.25rem + 2.5vw, 3rem);
+  line-height: 1.1;
 }
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   gap: var(--space-3) var(--space-4);
   margin-bottom: var(--space-5);
   padding: var(--space-4);
-  background-color: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  border: 4px double var(--color-border);
   border-radius: var(--radius-md);
 }
 
@@ -42,8 +54,11 @@
 }
 
 .paragraph {
-  max-width: 40rem;
+  max-width: 38rem;
   margin-bottom: var(--space-4);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  line-height: 1.7;
 }
 
 .tagsHeading {
@@ -63,4 +78,42 @@
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+}
+
+/* Inside the book the grid gap spaces the children, so their own margins go */
+.page > *,
+.page .head,
+.page .facts,
+.page .paragraph,
+.page .tagsHeading {
+  margin: 0;
+}
+
+@media (min-width: 52rem) {
+  .page {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: var(--space-7);
+    padding: var(--space-6) var(--space-7);
+    /* The gutter: 2rem wide, centred in the 3rem column gap (3rem padding + 15rem page + 1.5rem gap - 1rem) */
+    background-image: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-border) 20%, transparent), transparent);
+    background-repeat: no-repeat;
+    background-size: 2rem 100%;
+    background-position: 18.5rem 0;
+  }
+
+  .page > * {
+    grid-column: 2;
+  }
+
+  .head {
+    display: contents;
+  }
+
+  .page .cover {
+    grid-column: 1;
+    grid-row: 1 / span 12;
+    align-self: start;
+    width: 15rem;
+    height: 20rem;
+  }
 }

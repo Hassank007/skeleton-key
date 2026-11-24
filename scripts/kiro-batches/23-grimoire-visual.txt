@@ -1,0 +1,78 @@
+Visual redesign of apps/grimoire only. Follow .kiro/steering (accessibility.md is non-negotiable). The hooks in .kiro/hooks/ are live. The behaviour is finished and tested; this batch changes how it looks. Read first: src/tokens/*.css, src/index.css, every file in src/components and src/pages, tests/unit and tests/e2e (catalogue, responsive, motion, book-detail).
+
+GOAL: today the filters fill the first screen, the books start below the fold, and each book is a brown box with a small icon. Make it a candlelit library: cloth-bound covers standing on real shelves, visible in the first screen, with compact filters beside them, and a book page that looks like an open book. Same palette (parchment and crimson in light, near-black brown and amber in dark), same serif headings. It must not look like Seance (no ticket, no portraits, no rail).
+
+TARGETS I measured on a mock-up of this spec: at 1440x900 and 1280x720 the first shelf starts about 270px from the top, with at least four covers fully visible; at 375x812 the first book starts above 812px.
+
+DO NOT CHANGE
+- Copy, accessible names, roles, ids, DOM order, tab order, focus moves, titles, announcements, routes, data, filtering, hooks, contexts, lib. No new dependency, font, image file or network request.
+- The set of --color-* tokens and their values (theme-identity and token tests). No hex, rgb(), hsl() or named colours in any component CSS (no-hex-in-components test). Where a mix is needed use color-mix(in srgb, var(--color-a) N%, var(--color-b)) on ONE line.
+- Structure the tests pin: one h3 with the card's only link, the link's ::after covers the card and draws a solid ring of at least 3px; covers are aria-hidden svg with no title and no text, and keep data-school; Candle keeps data-testid="candle", its flame is the FIRST path and is the only animated element; the results count is plain text, not a live region; one column of cards at 320px; every main a, button, input and label is at least 24 by 24 px; a checkbox never overlaps its label under text spacing.
+- Do not weaken, skip or delete a test. If one blocks you, stop and say which and why.
+- All art is inline SVG or CSS, decorative, no meaning. School and hazard stay as text.
+
+CONTRAST (computed from the current tokens; 4.5:1 text, 3:1 UI)
+                                  light            dark
+ text on surface / raised         14.40 / 12.56    15.23 / 13.67
+ text-muted on surface / raised    8.52 / 7.43      9.65 / 8.66
+ link on surface / raised          7.77 / 6.77     10.45 / 9.38
+ border on surface / raised (UI)   4.91 / 4.29      6.59 / 5.92
+ focus-ring on surface / raised    7.48 / 6.53     11.57 / 10.38
+ text-on-accent on accent          9.28             5.02
+ Covers (decorative, no minimum required; foil on cloth is listed so the art stays legible): see the table in section 3.
+Reference token hex, light: surface #f4ead5, raised #e9dbbd, text #2b1608, muted #5a3a22, link and accent #8a1c1c, border #8a5a2b, focus #0b4f6c, success #1f5f2e, warning #8a4b00. Dark: surface #130d08, raised #241810, text #f3e3c3, muted #cdb48c, link #f0b45a, accent #b45309, border #c58b4e, focus #7dd3fc, success #9be39b, warning #ffd166, error #ff9d8f.
+
+1. PAGE (index.css, PageShell.module.css)
+- #root: min-height 100dvh, flex column, so the footer sits at the bottom. .headerInner and .main max-width 76rem. .headerInner padding var(--space-2) var(--space-4), gap var(--space-2) var(--space-4); .navList gap var(--space-4); at max-width 30rem gaps var(--space-2) and var(--space-3). .main padding var(--space-4) var(--space-4) var(--space-7). Add color-scheme: light dark on html, as Seance has.
+
+2. CATALOGUE LAYOUT (CataloguePage.module.css; add className={styles.catalogue} to the article, nothing else in the TSX)
+- .catalogue: grid, minmax(0, 1fr), row-gap var(--space-3). From 64rem: columns 15rem minmax(0, 1fr), column-gap var(--space-6); hero and intro span both columns; the find section is the left column and the results section the right one. DOM and tab order stay as they are.
+- .hero align-items flex-end; .title clamp(1.5rem, 1.1rem + 2vw, 2.75rem), line-height 1.15. .intro margin 0, max-width 60rem. .find margin 0, gap var(--space-2). Both h2: var(--font-size-xl), line-height 1.2.
+- Candle: 2.5rem by 5rem, flex-shrink 0, color var(--color-link), filter drop-shadow(0 0 .75rem color-mix(in srgb, var(--color-link) 55%, transparent)) on the svg. Same flicker, same two stop rules.
+- ResultsList .results: grid, auto minmax(0, 1fr), column-gap var(--space-3), row-gap var(--space-2), align-items baseline, align-content start, so "Results" and the count share one line; the list or empty state spans both columns. Use the same rule when there are zero results.
+- SearchFilters: .form gap var(--space-3); .groups one column, gap var(--space-3). .fieldset: no border, no padding, no background. .legend: padding 0, margin-bottom var(--space-1), var(--font-size-base). Below 64rem, .options is a wrapping row (gap var(--space-2)) and each .option is a compact chip: min-height 2.25rem, gap var(--space-2), padding 0 var(--space-3) 0 var(--space-2), border 1px solid var(--color-border), radius var(--radius-sm), raised background; a checked chip adds border-color var(--color-link) and box-shadow inset 0 0 0 1px var(--color-link) (the tick stays the main sign). From 64rem, .options is a one-column list, options have no border or background, min-height 2.25rem. Checkboxes stay 1.5rem with the drawn tick; labels at least 1.5rem high. Keep the forced-colors rules.
+
+3. BookCover: a cloth-bound book, viewBox "0 0 48 64", stroke none on the svg, fill currentColor; keep GLYPHS and data-school.
+  rect x1 y1 w46 h62 rx2 (cloth, currentColor)
+  spine: M1 3a2 2 0 0 1 2-2h6v62H3a2 2 0 0 1-2-2z, class spine: fill var(--color-surface), fill-opacity .28
+  page edge: M45.5 3v58, class foil, stroke-opacity .5
+  foil group (class foil: fill none, stroke var(--foil), round joins and caps): spine bands M2 12h6M2 15h6M2 49h6M2 52h6 width 1; frame rect x13 y5 w30 h54 rx1 width .8; rules M17 11h22M17 53h22 width 1.6; then the school glyph in a <g transform="translate(4 0)"> width 1.8.
+- In BookCover.module.css define --cloth and --foil (these names are not --color-* tokens, so the token list does not change), color: var(--cloth), filter drop-shadow(.2rem .15rem 0 color-mix(in srgb, var(--color-text) 30%, transparent)). Select by .cover[data-school='X']. Light in the base rules; dark twice, once in @media (prefers-color-scheme: dark) and once under [data-theme='dark'].
+  Light: --foil color-mix(in srgb, var(--color-text-on-accent) 72%, var(--color-warning)) = #decdb8
+   Necromancy  text 82% with accent        #3c170c  foil 10.25
+   Divination  focus-ring 72% with text    #143f50  foil 7.29
+   Illusion    accent 80% with focus-ring  #71262c  foil 6.71
+   Herbalism   success 80% with text       #215026  foil 6.04
+   Warding     border 62% with text        #66401e  foil 5.84
+   Alchemy     accent 85% with text        #7c1b19  foil 6.67
+  Dark: --foil color-mix(in srgb, var(--color-text) 72%, var(--color-warning)) = #f6dea9; each mixed with surface
+   Necromancy  text-muted 42%  #61533f  foil 5.66
+   Divination  focus-ring 38%  #3b5865  foil 5.75
+   Illusion    error 42%       #764941  foil 5.69
+   Herbalism   success 34%     #41563a  foil 6.09
+   Warding     border 60%      #7e5932  foil 4.74
+   Alchemy     accent 75%      #8c4209  foil 5.50
+- forced-colors: color CanvasText, --foil Canvas, filter none.
+
+4. SHELVES (ResultsList.module.css, BookCard.module.css)
+- .list: no gap, border 3px solid var(--color-border), radius var(--radius-md), raised background, one column minmax(0, 1fr). From 40rem: repeat(auto-fill, minmax(12.5rem, 1fr)).
+- .card: no own border, radius or background; hover background color-mix(in srgb, var(--color-surface) 45%, var(--color-surface-raised)). Text sits on raised or on that mix, both between surface and raised, so the ratios above hold.
+- Below 40rem: row layout, gap var(--space-4), padding var(--space-4), cover 5.25rem by 7rem, and the shelf is border-bottom .5rem solid color-mix(in srgb, var(--color-border) 70%, var(--color-surface)); none on the last card.
+- From 40rem: flex-direction column, gap 0, padding var(--space-4) var(--space-4) var(--space-5). Cover 7.5rem by 10rem, margin 0 auto. The plank is .card::before: absolute, left 0, right 0, top calc(var(--space-4) + 10rem), height .75rem, same mix as background, border-top 2px solid var(--color-border). Cards touch, so the planks join into one shelf. .body: width 100%, padding-top calc(.75rem + var(--space-3)). Books differ a little but all stand on the plank: 3n+2 is 6.75rem by 9rem with margin-top 1rem; 5n+3 is 7.125rem by 9.5rem with margin-top .5rem; 7n+4 is rotated -2.5deg from its bottom left corner.
+- Title var(--font-size-lg), line-height 1.25; summary var(--font-size-sm), line-height 1.5, margin-top var(--space-1).
+- Focus: .link::after inset var(--space-1), keep outline 3px solid var(--color-focus-ring), offset 2px, so the ring is not hidden by the next card. IMPORTANT: the title now sits under the cover, so from 40rem .card .link needs scroll-margin-top calc(var(--header-height, 4rem) + 14rem), or the top of a focused card hides under the sticky header and catalogue.spec.ts fails. Below 40rem keep the current value.
+- EmptyState keeps its content; give it the same 3px solid border and raised background as the shelf.
+
+5. BOOK PAGE (BookDetailPage.module.css; add className={styles.page} to the article for a found book, nothing else)
+- .page: grid, minmax(0, 1fr), gap var(--space-4), padding var(--space-5) var(--space-4), raised background, border 3px solid var(--color-border), radius var(--radius-md); children margin 0. h1 clamp(1.75rem, 1.25rem + 2.5vw, 3rem), line-height 1.1. Cover 6rem by 8rem below 52rem.
+- From 52rem: columns 15rem minmax(0, 1fr), column-gap var(--space-7), padding var(--space-6) var(--space-7). .head is display contents; the cover is column 1, row 1 / span 12, 15rem by 20rem, align-self start; h1 and everything else in column 2. The book's gutter is a soft vertical gradient in the column gap: color-mix(in srgb, var(--color-border) 20%, transparent) at its centre, transparent 1rem either side. Keep it at 20%: at 35% our contrast checker rated the link 4.35:1 in light.
+- .facts: surface background, border 4px double var(--color-border), repeat(auto-fit, minmax(8rem, 1fr)). .paragraph: heading font, var(--font-size-lg), line-height 1.7, max-width 38rem.
+
+MOTION: the candle flicker stays the only looping animation. Covers do not move on hover. Any transition uses var(--duration-fast) and is removed under @media (prefers-reduced-motion: reduce).
+
+TESTS: extend tests/unit/BookCover.test.tsx if needed (no text, no title, aria-hidden still hold for every school). Add one Playwright test that at 1280x720 the first book card starts above 400px and at 375x812 above 812px. If a hook asks for a test of a component that already has one, extend that file.
+DOCS: add a short "Visual refresh" section to .kiro/specs/grimoire/design.md. Do not edit requirements.md, tasks.md, README.md or docs/.
+
+VERIFY, then report honestly: npm run lint, npx tsc --noEmit, npm test, npm run test:e2e, npm run build in apps/grimoire. Check by hand in a Playwright script (do not commit it): 320, 375, 768, 1280 and 1440 wide, light and dark, forced colors (covers, ticks and the card ring still visible), reduced motion by OS setting and by the in-app button, the text-spacing overrides on the catalogue and a book page, no horizontal scroll, Tab through three shelves with no focused card under the header, the empty state, and one filtered result.
+
+Reply with: files changed, test results with numbers, the first-book positions you measured, which hooks fired and what each one said and what you did, anything you did differently from this prompt and why, and anything not tested.

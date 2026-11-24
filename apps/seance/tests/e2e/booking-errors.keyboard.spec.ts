@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
-import { activeStop, assertive, fixClock, focusStop, h1, polite, tabTo, typeDate, typeTime } from './support/keys'
+import { activeStop, assertive, fixClock, focusStop, h1, openPage, polite, tabTo, typeDate, typeTime } from './support/keys'
 
 /** Keyboard only (REQ-16.1). Invented data, fixed clock. */
 const summary = (page: Page) => page.locator('[aria-labelledby="error-summary-title"]')
@@ -21,7 +21,7 @@ test.describe('Booking: error path with the keyboard only', () => {
 
   test('errors are found, linked, fixed and the booking is finished [SC 2.1.1, 2.4.3, 3.3.1, 3.3.3, 4.1.3]', async ({ page }) => {
     // Step 1: Next with nothing selected.
-    await page.goto('/book/spirit')
+    await openPage(page, '/book/spirit')
     await tabTo(page, 'Next')
     await page.keyboard.press('Enter')
     await expect(summary(page)).toBeFocused()
@@ -157,7 +157,7 @@ test.describe('Keyboard trap check', () => {
       expect((await focusStop(page)).name).toBe('Skip to main content')
       return forward
     }
-    await page.goto('/book/spirit')
+    await openPage(page, '/book/spirit')
     expect((await walk()).length).toBeGreaterThan(4)
     // The browser remembers where focus last was in the radio group, so any radio will do.
     await tabTo(page, /^(field-spirit|spirit-)/, { skipBody: true })

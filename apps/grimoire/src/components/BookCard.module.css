@@ -1,4 +1,5 @@
-﻿/* BookCard: one link per card, stretched with ::after; ring drawn around the whole card */
+/* BookCard: one link per card, stretched with ::after; ring drawn around the whole card.
+   The cover stands on a plank (from 40rem) or on a shelf edge (below 40rem). */
 .card {
   position: relative;
   display: flex;
@@ -6,14 +7,21 @@
   gap: var(--space-4);
   padding: var(--space-4);
   list-style: none;
-  background-color: var(--color-surface-raised);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  transition: border-color var(--duration-fast) var(--easing-default);
+  transition: background-color var(--duration-fast) var(--easing-default);
 }
 
 .card:hover {
-  border-color: var(--color-link);
+  background-color: color-mix(in srgb, var(--color-surface) 45%, var(--color-surface-raised));
+}
+
+/* Below 40rem the shelf is the bottom edge of each row */
+.card:not(:last-child) {
+  border-bottom: 0.5rem solid color-mix(in srgb, var(--color-border) 70%, var(--color-surface));
+}
+
+.card > svg {
+  width: 5.25rem;
+  height: 7rem;
 }
 
 .body {
@@ -23,7 +31,7 @@
 .title {
   font-family: var(--font-heading);
   font-size: var(--font-size-lg);
-  line-height: 1.3;
+  line-height: 1.25;
   overflow-wrap: anywhere;
 }
 
@@ -44,11 +52,11 @@
   scroll-margin-top: calc(var(--header-height, 4rem) + var(--space-6));
 }
 
-/* The link covers the whole card, so the card is one target and one tab stop */
+/* The link covers the whole card, so the card is one target and one tab stop. The inset keeps the ring clear of the next card. */
 .link::after {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: var(--space-1);
   border-radius: var(--radius-md);
 }
 
@@ -69,5 +77,71 @@
 }
 
 .summary {
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+@media (min-width: 40rem) {
+  .card {
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-4) var(--space-4) var(--space-5);
+  }
+
+  .card:not(:last-child) {
+    border-bottom: none;
+  }
+
+  /* Cards touch, so the planks join into one shelf */
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--space-4) + 10rem);
+    height: 0.75rem;
+    background-color: color-mix(in srgb, var(--color-border) 70%, var(--color-surface));
+    border-top: 2px solid var(--color-border);
+  }
+
+  .card > svg {
+    width: 7.5rem;
+    height: 10rem;
+    margin: 0 auto;
+  }
+
+  /* Books differ a little but all stand on the plank */
+  .card:nth-child(3n + 2) > svg {
+    width: 6.75rem;
+    height: 9rem;
+    margin-top: 1rem;
+  }
+
+  .card:nth-child(5n + 3) > svg {
+    width: 7.125rem;
+    height: 9.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .card:nth-child(7n + 4) > svg {
+    transform: rotate(-2.5deg);
+    transform-origin: bottom left;
+  }
+
+  .body {
+    width: 100%;
+    padding-top: calc(0.75rem + var(--space-3));
+  }
+
+  /* The title sits under the cover, so a focused card needs more room above it (WCAG 2.4.11) */
+  .card .link {
+    scroll-margin-top: calc(var(--header-height, 4rem) + 14rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
 }

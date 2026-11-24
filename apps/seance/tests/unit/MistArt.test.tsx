@@ -22,4 +22,33 @@ describe('MistArt', () => {
     const { container } = render(<MistArt />)
     expect(await axe(container)).toHaveNoViolations()
   })
+
+  for (const phase of [0, 1, 2, 3] as const) {
+    describe(`phase ${phase}`, () => {
+      it('has exactly one <g> (the animated one), is aria-hidden and has no text', () => {
+        const { container } = render(<MistArt phase={phase} />)
+        const svg = container.querySelector('svg')!
+        expect(svg).toHaveAttribute('aria-hidden', 'true')
+        expect(svg).toHaveAttribute('focusable', 'false')
+        expect(svg.querySelectorAll('g')).toHaveLength(1)
+        expect(container.querySelector('title, desc')).toBeNull()
+        expect(container.textContent).toBe('')
+      })
+
+      it('has zero axe violations', async () => {
+        const { container } = render(<MistArt phase={phase} />)
+        expect(await axe(container)).toHaveNoViolations()
+      })
+    })
+  }
+
+  it('draws a different moon in each phase', () => {
+    const shapes = ([0, 1, 2, 3] as const).map((phase) => {
+      const { container, unmount } = render(<MistArt phase={phase} />)
+      const d = container.querySelectorAll('path')[0].getAttribute('d')
+      unmount()
+      return d
+    })
+    expect(new Set(shapes).size).toBe(4)
+  })
 })

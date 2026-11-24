@@ -110,7 +110,7 @@ export function BookingPage({ step }: { step: StepId }) {
   if (booked) {
     return (
       <article className={styles.ticket}>
-        <MistArt />
+        <MistArt phase={3} />
         <h1 ref={headingRef} tabIndex={-1} className={styles.title}>
           Your séance is booked
         </h1>
@@ -129,7 +129,7 @@ export function BookingPage({ step }: { step: StepId }) {
 
   return (
     <article className={styles.ticket}>
-      <MistArt />
+      <MistArt phase={index as 0 | 1 | 2} />
       <StepProgress
         current={index}
         heading={

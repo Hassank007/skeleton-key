@@ -31,7 +31,7 @@ Skeleton Key is not just a template. It ships an accessibility "brain" for Kiro,
 3. **Property-based accessibility tests** (fast-check): accessibility invariants proven over thousands of generated inputs, e.g. every generated token pair meets contrast, every Field config produces a labelled input, Dialog keeps focus trapped for any content.
 4. **A custom accessibility MCP server** (`mcp/a11y-mcp`): exposes axe, contrast and keyboard-walk checks to Kiro so it can verify the running app itself.
 
-Pitch line: "Most websites are haunted for blind users. Skeleton Key exorcises them."
+Pitch line: "Same scan score. Different doors." (two pages can both scan clean and still treat a keyboard or screen reader user very differently)
 
 All code in this repo is new, written during the hackathon. Do not copy code from other projects.
 

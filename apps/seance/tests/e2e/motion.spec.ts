@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { openPage } from './support/keys'
 
 /** The drifting mist is the only moving art. Its group carries the animation. */
 const drift = 'main svg[aria-hidden="true"] g'
@@ -29,7 +30,7 @@ test.describe('Mist art and motion', () => {
 
   test('the toggle works from the keyboard [SC 2.1.1, 2.2.2]', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.goto('/')
+    await openPage(page, '/')
     const toggle = page.getByRole('button', { name: 'Reduce motion' })
     for (let i = 0; i < 4; i++) {
       await page.keyboard.press('Tab')

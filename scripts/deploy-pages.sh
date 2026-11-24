@@ -18,6 +18,8 @@ for pair in skeleton:skeleton apps/grimoire:grimoire apps/seance:seance; do
   cp -r "$dir/dist/." "$out/$name/"
 done
 cp site/index.html site/404.html "$out/"
+# Optional screenshots for the home page.
+if [ -d site/img ]; then cp -r site/img "$out/"; fi
 touch "$out/.nojekyll"
 
 cd "$out"

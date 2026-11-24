@@ -44,6 +44,14 @@ test.describe('Home page', () => {
     }
   })
 
+  test('every link in the header nav is at least 24px tall [SC 2.5.8]', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    const heights = await page.locator('header nav a').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height))
+    expect(heights.length).toBeGreaterThan(0)
+    for (const height of heights) expect(height).toBeGreaterThanOrEqual(24)
+  })
+
   test('decorative ghost is aria-hidden and stops animating with OS reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')

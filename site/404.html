@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found — Skeleton Key</title>
+<title>Page not found | Skeleton Key</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23101b33'/%3E%3Cpath d='M20 7a8 8 0 0 0-4.400 14.700L12 34h16l-3.600-12.300A8 8 0 0 0 20 7z' fill='%23ffb454'/%3E%3C/svg%3E">
 <script>
   // GitHub Pages has no SPA fallback. If a deep link inside one of the apps was
   // opened directly (e.g. /skeleton-key/seance/book/spirit), send the visitor to
@@ -13,11 +14,34 @@
     if (m) location.replace('/skeleton-key/' + m[1] + '/');
   })();
 </script>
+<style>
+  :root { color-scheme: light dark; --ink: #e6ebf4; --wall: #d3dcea; --text: #0c1528; --link: #173b8c; --focus: #173b8c; --door: #14223f; --door-2: #0d172c; --edge: #3b5180; --bone: #8094bd; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #070c18; --wall: #0d1730; --text: #f3ecdc; --link: #ffc880; --focus: #ffd9a3; --door: #1b2d58; --door-2: #101c3a; --edge: #4a65a6; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink) linear-gradient(180deg, var(--ink), var(--wall)) fixed; color: var(--text); font: 1.0625rem/1.6 "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+  main { display: flex; flex-wrap: wrap; align-items: center; align-content: center; gap: 2rem 4rem; max-width: 60rem; min-height: 100vh; min-height: 100dvh; margin: 0 auto; padding: 2rem clamp(1rem, 4vw, 3.5rem); }
+  svg { width: min(11rem, 50%); height: auto; }
+  main > div { flex: 1 1 16rem; min-width: 0; }
+  h1 { margin: 0 0 1rem; font: 700 clamp(2.5rem, 1.5rem + 5vw, 5rem)/.95 "Avenir Next Condensed", Bahnschrift, "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui, sans-serif; font-stretch: 75%; }
+  p { margin: .5rem 0 0; }
+  a { display: inline-block; padding: .2rem 0; color: var(--link); font-weight: 600; text-underline-offset: .2em; }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+  @media (forced-colors: active) { svg path { fill: Canvas; stroke: CanvasText; stroke-width: 2; } }
+</style>
 </head>
 <body>
 <main>
-  <h1>Page not found</h1>
-  <p><a href="/skeleton-key/">Go to the Skeleton Key home page</a>.</p>
+  <svg viewBox="0 0 204 330" aria-hidden="true" focusable="false">
+    <path d="M2 328V98C2 50 46 18 102 2c56 16 100 48 100 96v230z" fill="var(--door)" stroke="var(--edge)" stroke-width="3"/>
+    <path d="M52 110v217M102 110v217M152 110v217" stroke="var(--door-2)" stroke-width="2"/>
+    <g transform="translate(68 40) scale(1.550)"><path d="M22 2C10.500 2 3 10 3 20c0 5 2 8.500 5 11 .8.7 1 1.500 1 2.500V36a3 3 0 0 0 3 3h2.500v3.500h3.200V39h2.700v3.500h3.200V39h2.700v3.500h3.200V39H32a3 3 0 0 0 3-3v-2.500c0-1 .2-1.800 1-2.500 3-2.500 5-6 5-11C41 10 33.500 2 22 2z" fill="var(--bone)"/><path d="M14.500 16a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm15 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM22 26l3 5.500h-6z" fill="var(--door-2)"/></g>
+    <path d="M102 176a26 26 0 0 0-13.500 48.300L78 276h48l-10.500-51.700A26 26 0 0 0 102 176z" fill="var(--door-2)" stroke="var(--bone)" stroke-width="3"/>
+  </svg>
+  <div>
+    <h1>Page not found</h1>
+    <p>This door leads nowhere.</p>
+    <p><a href="/skeleton-key/">Go to the Skeleton Key home page</a></p>
+  </div>
 </main>
 </body>
 </html>

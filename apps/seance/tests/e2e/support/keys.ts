@@ -81,3 +81,12 @@ export const assertive = (page: Page): Locator => page.locator('[aria-live="asse
 
 /** The current page h1. */
 export const h1 = (page: Page): Locator => page.getByRole('heading', { level: 1 })
+
+/**
+ * Goes to url and waits until React has rendered the page (its h1 is visible). goto resolves on the load event,
+ * which can fire before React commits; a key pressed in that gap lands on an empty body.
+ */
+export async function openPage(page: Page, url: string): Promise<void> {
+  await page.goto(url)
+  await expect(h1(page)).toBeVisible()
+}

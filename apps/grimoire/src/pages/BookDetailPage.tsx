@@ -35,7 +35,7 @@ export function BookDetailPage() {
   }
 
   return (
-    <article>
+    <article className={styles.page}>
       <div className={styles.head}>
         <BookCover school={book.school} className={styles.cover} />
         <h1 tabIndex={-1} className={styles.title}>

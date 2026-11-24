@@ -1,7 +1,7 @@
 .progress {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .count {
@@ -17,11 +17,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  margin-top: var(--space-3);
 }
 
 .item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
   color: var(--color-text-muted);
 }
@@ -36,11 +37,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 2px solid var(--color-border);
   border-radius: 50%;
-  font-size: var(--font-size-sm);
+  background-color: var(--color-surface);
+  font-size: var(--font-size-base);
   font-weight: 700;
   line-height: 1;
 }
@@ -49,20 +51,48 @@
   background-color: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-text-on-accent);
+  box-shadow: 0 0 0 4px var(--color-surface-raised), 0 0 0 6px var(--color-accent);
 }
 
 .completed .marker {
+  border-width: 3px;
   border-style: solid;
   border-color: var(--color-success);
   color: var(--color-success);
 }
 
-.name {
-  padding-top: 0.1rem;
-}
-
 .state {
   font-weight: 400;
+}
+
+/* A rail: three columns joined by a dashed line, solid once the step is done. The state words stay visible. */
+@media (min-width: 40rem) {
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .item {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding-right: var(--space-4);
+  }
+
+  .item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 3rem;
+    right: 0.5rem;
+    top: calc(1.25rem - 1px);
+    border-top: 2px dashed var(--color-border);
+  }
+
+  .item.completed:not(:last-child)::before {
+    border-top: 3px solid var(--color-success);
+  }
 }
 
 @media (forced-colors: active) {
@@ -71,5 +101,6 @@
     background-color: Highlight;
     color: HighlightText;
     border-color: Highlight;
+    box-shadow: none;
   }
 }

@@ -471,3 +471,18 @@ Rules for the tests:
 | Chromium shows a date input as valid-looking text for a partial date (value is `''`). | The validator treats `''` as "Enter a date." The message covers a partial entry. The hint says to fill the day, month and year. |
 | Personal data in a failed-test trace or evidence file. | Tests use invented values (`Ada Example`, `ada@example.com`, `+44 20 7946 0000`). `scanPage` stores no HTML. Nothing is written to storage. |
 | A shared defect is found while building. | REQ-19: fix in `skeleton/` first, then bring it in. |
+
+
+## 10. Visual refresh
+
+A styling pass. Copy, accessible names, roles, ids, DOM order, focus moves, announcements, routes and the `--color-*` tokens are unchanged, and no dependency, font or image file was added.
+
+- **Scene.** `MistArt` is now a lit seance room at the top of the ticket (moon, ground, table, three candles, drifting mist). It meets the ticket edges through negative margins that match the ticket padding. It has one `<g>`, the drifting one, and the drift still stops under the OS setting and the in-app toggle.
+- **Moon phase.** `MistArt` takes `phase` 0 to 3: crescent on the intro, half and gibbous on steps 1 to 3 (index 0 to 2 maps to phases 0 to 2), full on the booked view. It repeats "Step N of 3" in a picture and does not animate between phases.
+- **Portraits.** `SpiritPortrait` is an inline SVG per spirit, `aria-hidden`, with no title or text, placed first inside each radio label so it is part of the click target. The radio keeps its `aria-labelledby` name. The spirit's name stays real text.
+- **Step rail.** Markers are 2.5rem. From 40rem the list is three columns joined by a dashed line, solid green once a step is done. Below 40rem it stays vertical. State words stay visible. In forced colours the current marker uses `Highlight` and drops its ring.
+- **Selected card.** A tinted background, a ring and the drawn radio dot. In forced colours the ring (removed by the browser) is replaced by a real outline.
+- **Review and success.** The review panel gets an accent top edge and a headline spirit row. The success text sits in a dashed "invitation" with the spirit's portrait above it.
+- **Colour.** Components use tokens only. Mixes use `color-mix(in srgb, ...)`. The selected-card tint was checked against the token matrix: text 12.81 (light) and 14.54 (dark), text-muted 6.50 and 9.11, border 3.92 and 5.87, accent 5.49 and 3.48, focus ring 6.92 and 8.38.
+- **Motion.** The only loop is the mist drift. Hover and selected transitions use `--duration-fast` (0ms under the toggle) and are also removed under `prefers-reduced-motion: reduce`.
+- **Tests added.** `SpiritPortrait.test.tsx` (all four ids: hidden, no title or text, no `<g>`, axe) and phase cases in `MistArt.test.tsx` (one `<g>` per phase, hidden, axe).

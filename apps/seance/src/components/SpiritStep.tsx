@@ -2,6 +2,7 @@
 import { SPIRITS } from '../data/spirits'
 import { FIELD_IDS } from '../lib/validate'
 import type { StepProps } from './stepTypes'
+import { SpiritPortrait } from './SpiritPortrait'
 import styles from './SpiritStep.module.css'
 
 /** Decorative warning icon. The "Error:" text carries the meaning. */
@@ -58,6 +59,9 @@ export function SpiritStep({ values, errors, onChange, onBlur }: StepProps) {
             {/* The label wraps the name and the blurb, so the whole card is the click target (WCAG 2.5.8).
                 aria-labelledby keeps the accessible name to the spirit's name; the blurb is the description. */}
             <label htmlFor={id} className={styles.label}>
+              <span className={styles.portrait}>
+                <SpiritPortrait id={spirit.id} />
+              </span>
               <span id={`${id}-name`} className={styles.name}>
                 {spirit.name}
               </span>

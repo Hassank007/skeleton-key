@@ -1,16 +1,16 @@
+/* The lit scene at the top of the ticket. It meets the ticket's edges and holds no text. */
 .mist {
   display: block;
-  width: 100%;
-  max-width: 15rem;
+  width: calc(100% + 2 * var(--space-6));
+  max-width: none;
   height: auto;
-  color: var(--color-accent);
+  margin: 0 calc(-1 * var(--space-6));
+  border-radius: calc(var(--radius-md) - 2px) calc(var(--radius-md) - 2px) 0 0;
+  background-color: var(--color-surface);
+  color: var(--color-link);
+  border-bottom: 2px dashed var(--color-border);
   pointer-events: none;
   user-select: none;
-}
-
-/* Cuts the crescent out of the moon with the surface colour. */
-.bite {
-  fill: var(--color-surface-raised);
 }
 
 .drift {
@@ -31,5 +31,12 @@
 @media (prefers-reduced-motion: reduce) {
   .drift {
     animation: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .mist {
+    width: calc(100% + 2 * var(--space-4));
+    margin: 0 calc(-1 * var(--space-4));
   }
 }

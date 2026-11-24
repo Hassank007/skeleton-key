@@ -10,8 +10,13 @@
   flex-wrap: wrap;
   column-gap: var(--space-3);
   row-gap: var(--space-1);
-  padding-bottom: var(--space-2);
-  border-bottom: 1px dashed var(--color-border);
+}
+
+/* The spirit is the headline of the invitation. */
+.row:first-child {
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
+  border-bottom: 2px dashed var(--color-border);
 }
 
 .term {
@@ -24,6 +29,13 @@
   flex: 1 1 10rem;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.row:first-child .value {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .actions {

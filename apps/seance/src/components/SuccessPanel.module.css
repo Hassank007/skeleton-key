@@ -5,8 +5,29 @@
   gap: var(--space-4);
 }
 
+/* Decorative portrait of the booked spirit. */
+.portrait {
+  width: 6rem;
+  height: 7.5rem;
+  padding: 0.5rem 0.5rem 0;
+  border: 2px solid var(--color-border);
+  border-radius: 3rem 3rem var(--radius-sm) var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-link);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The invitation. */
 .meeting {
-  font-size: var(--font-size-lg);
+  width: 100%;
+  padding: var(--space-5);
+  border: 2px dashed var(--color-success);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  line-height: 1.35;
 }
 
 .notice {
@@ -15,4 +36,12 @@
 
 .button {
   min-height: 2.75rem;
+}
+
+@media (forced-colors: active) {
+  .portrait {
+    border-color: CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
 }

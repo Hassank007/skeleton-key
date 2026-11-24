@@ -1,28 +1,43 @@
-﻿/* ResultsList: single column at 320px, two columns when there is room */
+/* ResultsList: the heading and the count share one line; the shelf (or the empty state) spans the full width below */
 .results {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-3);
+  row-gap: var(--space-2);
+  align-items: baseline;
+  align-content: start;
 }
 
 .heading {
   font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  line-height: 1.2;
 }
 
 .count {
   color: var(--color-text-muted);
 }
 
+/* The third child is the list, or the empty state when there are no results */
+.results > :nth-child(3) {
+  grid-column: 1 / -1;
+  align-self: start;
+}
+
+/* The shelves: one column below 40rem, then as many 12.5rem books as fit */
 .list {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   padding: 0;
   list-style: none;
+  background-color: var(--color-surface-raised);
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 @media (min-width: 40rem) {
   .list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
   }
 }

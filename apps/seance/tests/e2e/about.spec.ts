@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { scanPage } from './support/axe'
-import { focusStop, tabTo } from './support/keys'
+import { focusStop, openPage, tabTo } from './support/keys'
 
 test.describe('About page', () => {
   test('zero axe violations (WCAG 2.2 AA)', async ({ page }, testInfo) => {
@@ -30,7 +30,7 @@ test.describe('Introduction page and shell', () => {
   })
 
   test('first Tab press focuses the skip link, and Enter moves focus to main [SC 2.4.1]', async ({ page }) => {
-    await page.goto('/')
+    await openPage(page, '/')
     await page.keyboard.press('Tab')
     await expect(page.getByRole('link', { name: /skip to main content/i })).toBeFocused()
     await page.keyboard.press('Enter')
@@ -39,7 +39,7 @@ test.describe('Introduction page and shell', () => {
   })
 
   test('keyboard walk: logical Tab order and a visible focus ring on every stop [SC 2.4.3, 2.4.7]', async ({ page }) => {
-    await page.goto('/')
+    await openPage(page, '/')
     await page.keyboard.press('Tab')
     expect((await focusStop(page)).name).toBe('Skip to main content')
     for (const name of ['Book a séance', 'About', 'Reduce motion', 'Start booking']) {

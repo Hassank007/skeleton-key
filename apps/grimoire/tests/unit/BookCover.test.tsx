@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render } from '@testing-library/react'
 import { axe } from 'vitest-axe'
 import { SCHOOLS } from '../../src/data/books'
@@ -14,6 +14,10 @@ describe('BookCover', () => {
       expect(svg.querySelector('title')).toBeNull()
       expect(svg.hasAttribute('aria-label')).toBe(false)
       expect(svg.textContent).toBe('')
+      expect(svg.getAttribute('data-school')).toBe(school)
+      expect(svg.getAttribute('fill')).toBe('currentColor')
+      expect(svg.getAttribute('stroke')).toBe('none')
+      expect(svg.querySelectorAll('text, tspan, title, desc')).toHaveLength(0)
       expect(await axe(container)).toHaveNoViolations()
     })
   }
