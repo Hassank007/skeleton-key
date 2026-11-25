@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skeleton Key: an accessible-by-default starter for Kiro</title>
+<meta name="description" content="An accessible-by-default Vite and React starter, an MCP server that lets Kiro check a running page, and two apps built from it.">
+<meta name="theme-color" content="#070c18" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e6ebf4" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23101b33'/%3E%3Cpath d='M20 7a8 8 0 0 0-4.400 14.700L12 34h16l-3.600-12.300A8 8 0 0 0 20 7z' fill='%23ffb454'/%3E%3C/svg%3E">
+<style>
+  /* Light: cold fog. Dark: layered midnight blues. One warm accent: lamplight. */
+  :root {
+    color-scheme: light dark;
+    --ink: #e6ebf4; --wall: #d3dcea; --floor: #c3cfe2;
+    --text: #0c1528; --muted: #37455f; --line: #5d6f90;
+    --lamp: #933a05; --lamp-hover: #6f2b02; --on-lamp: #ffffff; --link: #173b8c; --focus: #173b8c;
+    --sea: #dce9ed; --sea-2: #c2dae1; --sea-text: #0d1f26; --sea-link: #0b5566; --sea-line: #4f7280;
+    --book: #e9dbbd; --book-2: #dcc89d; --book-text: #2b1608; --book-link: #8a1c1c; --book-line: #8a5a2b;
+    --code: #d3dcea;
+    /* The doors are the same dark objects in both themes. */
+    --door: #14223f; --door-2: #0d172c; --door-edge: #3b5180; --door-text: #f3ecdc; --lit: #ffb454; --unlit: #8094bd;
+    --display: "Avenir Next Condensed", Bahnschrift, "Roboto Condensed", "Arial Narrow", "Helvetica Neue", system-ui, sans-serif;
+    --body: "Avenir Next", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --r: 4px;
+    --stone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='96'%3E%3Cpath d='M0 .5h180M0 48.500h180M40.500 0v48M130.500 48v48' fill='none' stroke='%230c1528' stroke-opacity='.07'/%3E%3C/svg%3E");
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #070c18; --wall: #0d1730; --floor: #111f42;
+      --text: #f3ecdc; --muted: #b9c4dc; --line: #6b81b3;
+      --lamp: #ffb454; --lamp-hover: #ffcb88; --on-lamp: #14100a; --link: #ffc880; --focus: #ffd9a3;
+      --sea: #14242b; --sea-2: #0a1418; --sea-text: #e3f2f5; --sea-link: #6ee7e0; --sea-line: #5fa3b3;
+      --book: #241810; --book-2: #130d08; --book-text: #f3e3c3; --book-link: #f0b45a; --book-line: #c58b4e;
+      --code: #0d1730;
+      --stone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='96'%3E%3Cpath d='M0 .5h180M0 48.500h180M40.500 0v48M130.500 48v48' fill='none' stroke='%2395aee6' stroke-opacity='.075'/%3E%3C/svg%3E");
+      --door: #1b2d58; --door-2: #101c3a; --door-edge: #4a65a6;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--ink); color: var(--text); font: 1.0625rem/1.6 var(--body); overflow-wrap: break-word; }
+  h1, h2, h3, p, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  h1, h2, .num { font-family: var(--display); font-stretch: 75%; font-weight: 700; line-height: 1.02; letter-spacing: -.01em; }
+  h1, h2, h3 { text-wrap: balance; }
+  h2 { font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); }
+  h3 { font-size: 1.125rem; line-height: 1.3; }
+  a { color: var(--link); text-underline-offset: .2em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 3px; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+  main:focus:not(:focus-visible) { outline: none; }
+  .wrap { width: 100%; max-width: 84rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3.5rem); }
+  .vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .skip { position: absolute; left: -9999px; top: 0; z-index: 10; padding: .6rem 1rem; background: var(--text); color: var(--ink); border-radius: var(--r); }
+  .skip:focus { left: 1rem; top: 1rem; }
+
+  /* Header */
+  .top { border-bottom: 1px solid color-mix(in srgb, var(--line) 45%, transparent); }
+  .top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .1rem 1.5rem; padding-top: .6rem; padding-bottom: .6rem; }
+  .key { display: block; width: 5.5rem; height: auto; margin-bottom: 1rem; color: var(--lamp); }
+  .top ul { display: flex; flex-wrap: wrap; gap: 0 clamp(.9rem, 2vw, 1.75rem); }
+  .top a { display: inline-block; padding: .35rem 0; color: var(--text); font-size: 1rem; font-weight: 600; }
+
+  /* Hero: words on the left, the corridor on the right */
+  .hero { background: var(--stone), linear-gradient(180deg, var(--ink), var(--wall) 65%, var(--floor)); }
+  .hero .wrap { display: grid; gap: 2rem; padding-top: 1.75rem; padding-bottom: 2.25rem; }
+  .hero .wrap > * { min-width: 0; }
+  h1 { font-size: clamp(2rem, 16vw, 5.5rem); line-height: .86; text-transform: uppercase; letter-spacing: -.02em; }
+  .lead { margin-top: 1.25rem; max-width: 30ch; font-size: clamp(1.125rem, 1rem + .6vw, 1.5rem); line-height: 1.4; }
+  .cta { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+  .btn { display: inline-flex; align-items: center; min-height: 3rem; padding: .6rem 1.25rem; border: 2px solid var(--lamp); border-radius: var(--r); font-weight: 700; text-decoration: none; color: var(--text); }
+  .btn:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .btn:active { transform: translateY(1px); }
+  .btn.main { background: var(--lamp); color: var(--on-lamp); }
+  .btn.main:hover { background: var(--lamp-hover); border-color: var(--lamp-hover); }
+
+  .corridor h2 { font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem); }
+  .view { display: none; min-width: 0; margin: .5rem 0 0; padding: 0; border: 0; }
+  @supports selector(:has(a)) { .view { display: block; } }
+  .opts { display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; }
+  .opts label { display: inline-flex; align-items: center; gap: .55rem; min-height: 2.25rem; font-weight: 600; cursor: pointer; }
+  .opts input { appearance: none; flex: none; width: 1.5rem; height: 1.5rem; margin: 0; border: 2px solid var(--line); border-radius: 50%; background: var(--ink); cursor: pointer; }
+  .opts input:focus-visible { border-radius: 50%; }
+  .opts input:checked { border-color: var(--lamp); background: radial-gradient(circle, var(--lamp) 0 45%, var(--ink) 52%); }
+
+  .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.4rem), 1fr)); gap: 1rem clamp(.5rem, 1.6vw, 1.75rem); margin-top: .75rem; }
+  .doors > li { display: flex; flex-direction: column; min-width: 0; }
+  /* A door: a pointed arch with a skull for a keystone, then the planks */
+  .arch { display: block; width: 100%; height: auto; padding: 0 1px; color: var(--door); overflow: visible; }
+  .arch .edge { stroke: var(--door-edge); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .arch .eyes { fill: var(--door-2); }
+  .arch .bone { fill: var(--unlit); }
+  .leaf { display: flex; flex-direction: column; align-items: center; gap: .85rem; padding: 0 .4rem 1rem; color: var(--door-text); border: 2px solid var(--door-edge); border-top: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--door-2) calc(25% - 1px) 25%),
+      linear-gradient(180deg, var(--door), var(--door-2)); }
+  .corridor:not(:has(#see-axe:checked)) .open { --door-edge: var(--lit); }
+  .open .arch .eyes { fill: var(--lit); }
+  .corridor:not(:has(#see-axe:checked)) .open .leaf { box-shadow: 0 1.5rem 3rem -1rem color-mix(in srgb, var(--lit) 35%, transparent); }
+  .plaque { max-width: 100%; padding: .3rem .6rem .4rem; background: var(--door-2); border: 1px solid var(--unlit); border-radius: var(--r); text-align: center; font-size: .8125rem; line-height: 1.25; }
+  .plaque b { display: block; font: 700 1.75rem/1 var(--display); }
+  .locks { display: block; width: 100%; max-width: 10rem; height: auto; overflow: visible; }
+  .locks, .mini { color: var(--unlit); }
+  .locks .on, .on > .mini { color: var(--lit); }
+  .locks .on { filter: drop-shadow(0 0 5px color-mix(in srgb, var(--lit) 65%, transparent)); }
+  /* Light on the floor under a door whose keyholes are all lit */
+  .sill { height: 1.75rem; }
+  .open .sill { background: linear-gradient(180deg, var(--lit), transparent); clip-path: polygon(0 0, 100% 0, 108% 100%, -8% 100%); }
+  .cap { padding-top: .4rem; }
+  .cap .num { display: block; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem); color: var(--text); }
+  .num { font-variant-numeric: tabular-nums; }
+  .cap h3 { margin-top: .2rem; font-size: 1rem; }
+  .cap p { font-size: .9375rem; line-height: 1.4; color: var(--muted); }
+  .cap .by-axe, .corridor:has(#see-axe:checked) .cap .by-checks { display: none; }
+  /* "The axe scan": every door looks the same */
+  .corridor:has(#see-axe:checked) .cap .by-axe { display: block; }
+  .corridor:has(#see-axe:checked) .locks { visibility: hidden; }
+  .corridor:has(#see-axe:checked) .sill { background: none; }
+  .corridor:has(#see-axe:checked) .open .eyes { fill: var(--door-2); }
+  .tap { display: inline-block; padding: .15rem 0; }
+  .small { margin-top: .9rem; max-width: 74ch; font-size: .9375rem; line-height: 1.5; color: var(--muted); }
+
+  /* Lights come on once, in under three seconds, then stay still. */
+  @media (prefers-reduced-motion: no-preference) {
+    .locks .on { animation: light .35s ease-out both; animation-delay: calc(.5s + var(--i) * 70ms); }
+    .open .sill { animation: light .8s ease-out 1.9s both; }
+    @keyframes light { from { opacity: 0; } }
+    .btn { transition: background-color .15s, border-color .15s; }
+  }
+
+  @media (min-width: 62rem) {
+    .hero .wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); padding-top: clamp(1rem, 2.5vh, 2.5rem); padding-bottom: clamp(1rem, 2.5vh, 2.5rem); }
+    .locks { width: auto; max-width: 100%; height: clamp(10.5rem, calc(62vh - 16.5rem), 20rem); }
+    h1 { font-size: clamp(3.25rem, 6.6vw, 7.25rem); }
+    .key { width: min(100%, 24rem); margin-bottom: 1.75rem; }
+    .top .wrap { justify-content: flex-end; }
+  }
+
+  .band { padding: clamp(3rem, 8vw, 6rem) 0; }
+  .band > .wrap > p { margin-top: 1rem; max-width: 64ch; }
+
+  /* The 21 checks: the three columns of a door, in words */
+  .cols { display: grid; gap: 2rem clamp(1.5rem, 4vw, 4rem); margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+  .cols h3 { margin-bottom: .75rem; }
+  .cols li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .75rem; align-items: start; padding: .4rem 0; line-height: 1.45; }
+  .mini { width: 1.6rem; height: auto; padding: .1rem; background: var(--door-2); border-radius: var(--r); }
+  
+  /* The apps, each in its own colours */
+  .apps { background: var(--wall); }
+  .rooms { display: grid; gap: 1.25rem; margin-top: 2rem; }
+  .room { display: flex; flex-direction: column; border: 2px solid var(--b); border-radius: var(--r); background: var(--s); color: var(--t); overflow: hidden; }
+  .sea { --s: var(--sea); --s2: var(--sea-2); --t: var(--sea-text); --l: var(--sea-link); --b: var(--sea-line); }
+  .book { --s: var(--book); --s2: var(--book-2); --t: var(--book-text); --l: var(--book-link); --b: var(--book-line); }
+  .room .art { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; background: var(--s2); color: var(--l); border-bottom: 2px solid var(--b); }
+  .book img.art { object-position: left top; }
+  .room:has(img.art) svg.art { display: none; }
+  .room div { padding: clamp(1rem, 2.5vw, 1.75rem); }
+  .room h3, .bones h3 { font: 700 clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem)/1.1 var(--display); font-stretch: 75%; }
+  .room a { color: var(--l); outline-color: var(--l); }
+  .room p { margin-top: .5rem; max-width: 48ch; }
+  .bones { display: grid; gap: .5rem 3rem; margin-top: 2rem; }
+  .bones p { max-width: 64ch; }
+  @media (min-width: 48rem) {
+    .rooms { grid-template-columns: 7fr 5fr; }
+    .book .art { aspect-ratio: auto; flex: 1; min-height: 0; }
+    .bones { grid-template-columns: auto 1fr; align-items: baseline; }
+  }
+
+  .use { display: grid; gap: 2rem clamp(2rem, 6vw, 6rem); }
+  .use > * { min-width: 0; }
+  pre { margin: 1rem 0 0; padding: 1rem 1.25rem; background: var(--code); border-left: 4px solid var(--lamp); white-space: pre-wrap; overflow-wrap: anywhere; font: .9375rem/1.6 ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; }
+  code { font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; font-size: .95em; }
+  .use p { margin-top: 1rem; max-width: 56ch; }
+  @media (min-width: 62rem) { .use { grid-template-columns: 1fr 1fr; } }
+  footer { border-top: 1px solid color-mix(in srgb, var(--line) 45%, transparent); }
+  footer .wrap { padding-top: 2rem; padding-bottom: 2.5rem; font-size: .9375rem; color: var(--muted); }
+  footer p { max-width: 80ch; }
+  footer p + p { margin-top: .5rem; }
+
+  @media (forced-colors: active) {
+    .hero, .leaf, .apps { background: Canvas; }
+    .btn.main { forced-color-adjust: none; background: LinkText; color: Canvas; border-color: LinkText; }
+    .opts input:checked { forced-color-adjust: none; background: radial-gradient(circle, Highlight 0 45%, Canvas 52%); border-color: Highlight; }
+    .key, .locks, .mini, .locks .on, .on > .mini, .room .art { color: CanvasText; }
+    .locks .on { filter: none; }
+    .arch .edge, .arch .bone { fill: Canvas; stroke: CanvasText; stroke-width: 2; }
+    .arch .eyes, .open .arch .eyes { fill: CanvasText; }
+    .sill, .open .sill { display: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- passed: a solid, lit keyhole. failed: an empty outline. could not run: a dashed outline. -->
+    <symbol id="lit" viewBox="0 0 40 46" width="40" height="46"><path d="M20 4a9.500 9.500 0 0 0-5.200 17.400L11 40h18l-3.800-18.600A9.500 9.500 0 0 0 20 4z" fill="currentColor"/></symbol>
+    <symbol id="dark" viewBox="0 0 40 46" width="40" height="46"><path d="M20 5a8.500 8.500 0 0 0-4.300 15.800L12.200 39h15.600l-3.500-18.200A8.500 8.500 0 0 0 20 5z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="none" viewBox="0 0 40 46" width="40" height="46"><path d="M20 5a8.500 8.500 0 0 0-4.300 15.800L12.200 39h15.600l-3.500-18.200A8.500 8.500 0 0 0 20 5z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2.500 4"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#checks">The 21 checks</a></li>
+        <li><a href="#apps">The apps</a></li>
+        <li><a href="#use">Use it</a></li>
+        <li><a href="https://github.com/Hassank007/skeleton-key">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <!-- A skeleton key with a skull for a bow. Decorative: the h1 carries the name. -->
+        <svg class="key" viewBox="2 0 126 44" aria-hidden="true" focusable="false">
+          <path fill="currentColor" fill-rule="evenodd" d="M22 2C10.500 2 3 10 3 20c0 5 2 8.500 5 11 .8.7 1 1.500 1 2.500V36a3 3 0 0 0 3 3h2.500v3.500h3.200V39h2.700v3.500h3.200V39h2.700v3.500h3.200V39H32a3 3 0 0 0 3-3v-2.500c0-1 .2-1.800 1-2.500 3-2.500 5-6 5-11C41 10 33.500 2 22 2zM14.500 16a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm15 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM22 26l3 5.500h-6z"/>
+          <path fill="currentColor" d="M39 18.500h84a3.500 3.500 0 0 1 0 7H40zM46 14h4v16h-4zM53 16h3v12h-3zM98 25h6v10h-6zM107 25h4v7h-4zM114 25h8v13h-8z"/>
+        </svg>
+        <h1>Skeleton Key</h1>
+        <p class="lead">An accessible-by-default React starter, with tools that let Kiro check a page while it runs.</p>
+        <p class="cta">
+          <a class="btn main" href="./seance/">Open Seance</a>
+          <a class="btn" href="https://youtu.be/MmYFhbXXNHQ">Watch the video (2:49)</a>
+        </p>
+      </div>
+
+      <section class="corridor" aria-labelledby="same">
+        <h2 id="same">Same scan score. Different doors.</h2>
+        <fieldset class="view">
+          <legend class="vh">What the doors show</legend>
+          <div class="opts">
+            <label><input type="radio" name="see" id="see-checks" checked> Our 21 checks</label>
+            <label><input type="radio" name="see" id="see-axe"> The axe scan</label>
+          </div>
+        </fieldset>
+        <p class="vh" id="said" role="status"></p>
+        <ul class="doors">
+          <li>
+            <svg class="arch" viewBox="0 0 200 96" aria-hidden="true" focusable="false"><path class="edge" d="M0 96C0 50 44 17 100 1c56 16 100 49 100 95" fill="currentColor"/><g transform="translate(73 33) scale(1.230)"><path class="bone" d="M22 2C10.500 2 3 10 3 20c0 5 2 8.500 5 11 .8.7 1 1.500 1 2.500V36a3 3 0 0 0 3 3h2.500v3.500h3.200V39h2.700v3.500h3.200V39h2.700v3.500h3.200V39H32a3 3 0 0 0 3-3v-2.500c0-1 .2-1.800 1-2.500 3-2.500 5-6 5-11C41 10 33.500 2 22 2z"/><path class="eyes" d="M14.500 16a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm15 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM22 26l3 5.500h-6z"/></g></svg>
+            <div class="leaf">
+              <p class="plaque"><b>0</b> axe violations</p>
+              <svg class="locks" viewBox="0 0 152 322" aria-hidden="true" focusable="false"><use href="#dark" x="0" y="0" class="off" style="--i:0"/><use href="#lit" x="0" y="46" class="on" style="--i:3"/><use href="#dark" x="0" y="92" class="off" style="--i:6"/><use href="#dark" x="0" y="138" class="off" style="--i:9"/><use href="#dark" x="0" y="184" class="off" style="--i:12"/><use href="#dark" x="0" y="230" class="off" style="--i:15"/><use href="#dark" x="0" y="276" class="off" style="--i:18"/><use href="#dark" x="56" y="0" class="off" style="--i:1"/><use href="#dark" x="56" y="46" class="off" style="--i:4"/><use href="#dark" x="56" y="92" class="off" style="--i:7"/><use href="#lit" x="56" y="138" class="on" style="--i:10"/><use href="#dark" x="56" y="184" class="off" style="--i:13"/><use href="#dark" x="56" y="230" class="off" style="--i:16"/><use href="#none" x="56" y="276" class="na" style="--i:19"/><use href="#dark" x="112" y="0" class="off" style="--i:2"/><use href="#dark" x="112" y="46" class="off" style="--i:5"/><use href="#dark" x="112" y="92" class="off" style="--i:8"/><use href="#dark" x="112" y="138" class="off" style="--i:11"/><use href="#dark" x="112" y="184" class="off" style="--i:14"/><use href="#dark" x="112" y="230" class="off" style="--i:17"/><use href="#dark" x="112" y="276" class="off" style="--i:20"/></svg>
+            </div>
+            <div class="sill"></div>
+            <div class="cap">
+              <p><span class="num by-checks">2 of 20</span><span class="num by-axe">0 found</span></p>
+              <h3>Plain Kiro build</h3>
+              <p class="by-checks">1 check could not run</p>
+            </div>
+          </li>
+          <li class="open">
+            <svg class="arch" viewBox="0 0 200 96" aria-hidden="true" focusable="false"><path class="edge" d="M0 96C0 50 44 17 100 1c56 16 100 49 100 95" fill="currentColor"/><g transform="translate(73 33) scale(1.230)"><path class="bone" d="M22 2C10.500 2 3 10 3 20c0 5 2 8.500 5 11 .8.7 1 1.500 1 2.500V36a3 3 0 0 0 3 3h2.500v3.500h3.200V39h2.700v3.500h3.200V39h2.700v3.500h3.200V39H32a3 3 0 0 0 3-3v-2.500c0-1 .2-1.800 1-2.500 3-2.500 5-6 5-11C41 10 33.500 2 22 2z"/><path class="eyes" d="M14.500 16a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm15 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM22 26l3 5.500h-6z"/></g></svg>
+            <div class="leaf">
+              <p class="plaque"><b>0</b> axe violations</p>
+              <svg class="locks" viewBox="0 0 152 322" aria-hidden="true" focusable="false"><use href="#lit" x="0" y="0" class="on" style="--i:0"/><use href="#lit" x="0" y="46" class="on" style="--i:3"/><use href="#lit" x="0" y="92" class="on" style="--i:6"/><use href="#lit" x="0" y="138" class="on" style="--i:9"/><use href="#lit" x="0" y="184" class="on" style="--i:12"/><use href="#lit" x="0" y="230" class="on" style="--i:15"/><use href="#lit" x="0" y="276" class="on" style="--i:18"/><use href="#lit" x="56" y="0" class="on" style="--i:1"/><use href="#lit" x="56" y="46" class="on" style="--i:4"/><use href="#lit" x="56" y="92" class="on" style="--i:7"/><use href="#lit" x="56" y="138" class="on" style="--i:10"/><use href="#lit" x="56" y="184" class="on" style="--i:13"/><use href="#lit" x="56" y="230" class="on" style="--i:16"/><use href="#lit" x="56" y="276" class="on" style="--i:19"/><use href="#lit" x="112" y="0" class="on" style="--i:2"/><use href="#lit" x="112" y="46" class="on" style="--i:5"/><use href="#lit" x="112" y="92" class="on" style="--i:8"/><use href="#lit" x="112" y="138" class="on" style="--i:11"/><use href="#lit" x="112" y="184" class="on" style="--i:14"/><use href="#lit" x="112" y="230" class="on" style="--i:17"/><use href="#lit" x="112" y="276" class="on" style="--i:20"/></svg>
+            </div>
+            <div class="sill"></div>
+            <div class="cap">
+              <p><span class="num by-checks">21 of 21</span><span class="num by-axe">0 found</span></p>
+              <h3>The same build, fixed</h3>
+              <p class="by-checks">by Kiro with our tools</p>
+            </div>
+          </li>
+          <li class="open">
+            <svg class="arch" viewBox="0 0 200 96" aria-hidden="true" focusable="false"><path class="edge" d="M0 96C0 50 44 17 100 1c56 16 100 49 100 95" fill="currentColor"/><g transform="translate(73 33) scale(1.230)"><path class="bone" d="M22 2C10.500 2 3 10 3 20c0 5 2 8.500 5 11 .8.7 1 1.500 1 2.500V36a3 3 0 0 0 3 3h2.500v3.500h3.200V39h2.700v3.500h3.200V39h2.700v3.500h3.200V39H32a3 3 0 0 0 3-3v-2.500c0-1 .2-1.800 1-2.500 3-2.500 5-6 5-11C41 10 33.500 2 22 2z"/><path class="eyes" d="M14.500 16a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm15 0a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM22 26l3 5.500h-6z"/></g></svg>
+            <div class="leaf">
+              <p class="plaque"><b>0</b> axe violations</p>
+              <svg class="locks" viewBox="0 0 152 322" aria-hidden="true" focusable="false"><use href="#lit" x="0" y="0" class="on" style="--i:0"/><use href="#lit" x="0" y="46" class="on" style="--i:3"/><use href="#lit" x="0" y="92" class="on" style="--i:6"/><use href="#lit" x="0" y="138" class="on" style="--i:9"/><use href="#lit" x="0" y="184" class="on" style="--i:12"/><use href="#lit" x="0" y="230" class="on" style="--i:15"/><use href="#lit" x="0" y="276" class="on" style="--i:18"/><use href="#lit" x="56" y="0" class="on" style="--i:1"/><use href="#lit" x="56" y="46" class="on" style="--i:4"/><use href="#lit" x="56" y="92" class="on" style="--i:7"/><use href="#lit" x="56" y="138" class="on" style="--i:10"/><use href="#lit" x="56" y="184" class="on" style="--i:13"/><use href="#lit" x="56" y="230" class="on" style="--i:16"/><use href="#lit" x="56" y="276" class="on" style="--i:19"/><use href="#lit" x="112" y="0" class="on" style="--i:2"/><use href="#lit" x="112" y="46" class="on" style="--i:5"/><use href="#lit" x="112" y="92" class="on" style="--i:8"/><use href="#lit" x="112" y="138" class="on" style="--i:11"/><use href="#lit" x="112" y="184" class="on" style="--i:14"/><use href="#lit" x="112" y="230" class="on" style="--i:17"/><use href="#lit" x="112" y="276" class="on" style="--i:20"/></svg>
+            </div>
+            <div class="sill"></div>
+            <div class="cap">
+              <p><span class="num by-checks">21 of 21</span><span class="num by-axe">0 found</span></p>
+              <h3>Seance</h3>
+              <p class="by-checks">built from the skeleton</p>
+            </div>
+          </li>
+        </ul>
+        <p class="small">A lit keyhole is a check that passed. We wrote the checks. They are scripted in Chromium, with no real screen reader, and the plain build and Seance got different prompts. <a class="tap" href="https://github.com/Hassank007/skeleton-key/blob/main/docs/baseline-comparison.md">Full results and limits</a></p>
+      </section>
+    </div>
+  </div>
+
+  <section class="band" id="checks" aria-labelledby="checks-h">
+    <div class="wrap">
+      <h2 id="checks-h">The 21 checks, keyhole by keyhole</h2>
+      <p>Two séance booking forms, both made with Kiro. axe reported 0 violations on each, in five states. These checks look at where focus goes, what is announced, and what can be seen or stopped. The result shown is for the plain build. After the fix, and in Seance, all 21 passed.</p>
+      <div class="cols">
+        <div>
+          <h3>Screen reader</h3>
+          <ul>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Decorative emoji are hidden <b>(failed)</b></span></li>
+            <li class="on"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#lit" width="40" height="46"/></svg><span>Errors are announced once <b>(passed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The choice group is linked to its error <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The page title names the step <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Each step has its own heading <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>A successful booking is announced <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The page title changes on success <b>(failed)</b></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Keyboard and focus</h3>
+          <ul>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The first Tab stop is a skip link <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>An empty submit moves focus to the errors <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>A step change moves focus to its heading <b>(failed)</b></span></li>
+            <li class="on"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#lit" width="40" height="46"/></svg><span>The dialog takes focus when it opens <b>(passed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Tab stays out of the page behind the dialog <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Escape closes the dialog <b>(failed)</b></span></li>
+            <li class="na"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#none" width="40" height="46"/></svg><span>Focus returns to the button that opened it <b>(could not run)</b></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Vision, wording and motion</h3>
+          <ul>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>All text meets contrast, gradients included <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Input borders are visible <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The chosen option is not shown by colour alone <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>Text fields show a real focus outline <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The past-date error says how to fix it <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The reduced-motion setting is respected <b>(failed)</b></span></li>
+            <li class="off"><svg class="mini" viewBox="0 0 40 46" aria-hidden="true" focusable="false"><use href="#dark" width="40" height="46"/></svg><span>The page has a control to stop motion <b>(failed)</b></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band apps" id="apps" aria-labelledby="apps-h">
+    <div class="wrap">
+      <h2 id="apps-h">Two apps from one skeleton</h2>
+      <div class="rooms">
+        <article class="room sea">
+          <img class="art" src="img/seance.webp" width="1200" height="800" loading="lazy" alt="Seance, step 1: four spirit cards and a three-step progress list.">
+          <svg class="art" viewBox="0 0 480 270" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+            <g fill="currentColor">
+              <circle cx="240" cy="104" r="86" opacity=".1"/><circle cx="240" cy="104" r="62" opacity=".14"/>
+              <path d="M262 58a50 50 0 1 0 22 74 42 42 0 0 1-22-74z"/>
+              <path d="M0 150c60-18 96 12 150 2s70-20 112-8 90 14 130 0 60-8 88-2v20c-40-8-70 10-120 6s-90-16-140-4-80 12-130 6-60-4-90 2z" opacity=".16"/>
+              <ellipse cx="240" cy="266" rx="220" ry="46" opacity=".24"/><ellipse cx="240" cy="254" rx="220" ry="46" opacity=".3"/>
+              <path d="M66 196h14v44H66zM152 210h14v44h-14zM314 210h14v44h-14zM400 196h14v44h-14z" opacity=".75"/>
+              <path d="M73 166c7 10 9 14 9 18a9 9 0 0 1-18 0c0-4 2-8 9-18zM159 180c7 10 9 14 9 18a9 9 0 0 1-18 0c0-4 2-8 9-18zM321 180c7 10 9 14 9 18a9 9 0 0 1-18 0c0-4 2-8 9-18zM407 166c7 10 9 14 9 18a9 9 0 0 1-18 0c0-4 2-8 9-18z"/>
+            </g>
+          </svg>
+          <div>
+            <h3><a href="./seance/">Seance</a></h3>
+            <p>A three-step booking form for meeting a spirit, with an error summary, a confirmation dialog and an announced result.</p>
+          </div>
+        </article>
+        <article class="room book">
+          <img class="art" src="img/grimoire.webp" width="1200" height="800" loading="lazy" alt="Grimoire: spellbook covers on a shelf, with search and filters.">
+          <svg class="art" viewBox="0 0 360 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <g fill="currentColor">
+              <path d="M-200 108h760v8h-760zM-200 226h760v14h-760z" opacity=".75"/>
+              <path d="M18 22h26v86H18zM48 34h18v74H48zM70 14h32v94H70zM106 30h20v78h-20zM214 26h24v82h-24zM242 12h30v96h-30zM276 36h18v72h-18zM298 20h28v88h-28z" opacity=".32"/>
+              <path d="M130 108l26-84 18 6-24 78z" opacity=".5"/>
+              <path d="M18 34h26v4H18zM70 28h32v5H70zM70 40h32v3H70zM242 28h30v5h-30zM298 36h28v4h-28zM298 44h28v3h-28zM214 42h24v4h-24z"/>
+              <path d="M30 138h30v88H30zM64 150h20v76H64zM88 132h34v94H88zM126 146h22v80h-22zM152 136h28v90h-28zM262 206h84v20h-84zM270 186h70v20h-70z" opacity=".32"/>
+              <path d="M30 150h30v5H30zM88 148h34v5H88zM88 158h34v3H88zM152 154h28v4h-28zM270 192h8v8h-8zM262 212h8v8h-8z"/>
+              <circle cx="221" cy="164" r="46" opacity=".12"/>
+              <path d="M210 182h22v44h-22z" opacity=".7"/><path d="M221 138c10 14 13 20 13 26a13 13 0 0 1-26 0c0-6 3-12 13-26z"/>
+            </g>
+          </svg>
+          <div>
+            <h3><a href="./grimoire/">Grimoire</a></h3>
+            <p>A catalogue of 24 invented spellbooks to search, filter and read.</p>
+          </div>
+        </article>
+      </div>
+      <div class="bones">
+        <h3><a href="./skeleton/">The skeleton</a></h3>
+        <p>The starter both apps came from: skip link, landmarks, focus on route change, tested components, and checked contrast in light and dark.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="use" aria-labelledby="use-h">
+    <div class="wrap use">
+      <div>
+        <h2 id="use-h">Put it in your own project</h2>
+        <p>The repo has the starter, accessibility rules and hooks for Kiro, a Trusted Tester review agent, property-based tests and a conformance-report generator.</p>
+        <p><a class="tap" href="https://github.com/Hassank007/skeleton-key">Source code on GitHub</a> (MIT licence)</p>
+      </div>
+      <div>
+        <h3>Add the MCP server to .kiro/settings/mcp.json</h3>
+<pre><code>{
+  "mcpServers": {
+    "a11y": {
+      "command": "npx",
+      "args": ["-y", "skeleton-key-a11y-mcp"]
+    }
+  }
+}</code></pre>
+        <p>Then run <code>npx playwright install chromium</code> once. Four tools: audit_page, keyboard_walk, check_contrast and page_outline. They load a page and press Tab. They do not click or type.</p>
+        <p><a class="tap" href="https://www.npmjs.com/package/skeleton-key-a11y-mcp">skeleton-key-a11y-mcp on npm</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Made for Kiroween 2026. Kiro wrote the specs, the skeleton, both apps and the MCP server. Claude Code wrote this page. <a class="tap" href="https://github.com/Hassank007/skeleton-key#how-kiro-built-this">Who wrote what</a></p>
+    <p>No app here is claimed to conform to WCAG 2.2 AA, and no screen reader has been used on them.</p>
+  </div>
+</footer>
+
+<script>
+  // Progressive: the doors switch with CSS alone. This only speaks the change.
+  (function () {
+    var said = document.getElementById('said');
+    document.getElementById('see-axe').addEventListener('change', function () {
+      said.textContent = 'The axe scan: 0 violations on all three.';
+    });
+    document.getElementById('see-checks').addEventListener('change', function () {
+      said.textContent = 'Our checks: 2 of 20 for the plain build, 21 of 21 after the fix, 21 of 21 for Seance.';
+    });
+  })();
+</script>
+</body>
+</html>
